@@ -1,5 +1,7 @@
 html, body{
   height: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .full-height{
@@ -53,6 +55,11 @@ html, body{
   border-radius: 0;
 }
 
+.no-padd{
+  padding: 0;
+  margin: 0;
+}
+
 .transparent{
   background-color: transparent;
   border: transparent;
@@ -82,15 +89,30 @@ html, body{
   margin-top: 0;
 }
 
+.table-container {
+  display: table;
+
+  .table-row {
+    height: 100%;
+    display: table-row;
+
+    .table-col {
+      display: table-cell;
+      float: none;
+      vertical-align: top;
+    }
+  }
+}
+
 .list-group.basic{
   border: none;
   box-shadow: none;
-}
 
-.list-group.basic .list-group-item{
-  background: transparent;
-  border: none;
-  padding-left: 0;
+  .list-group-item{
+    background: transparent;
+    border: none;
+    padding-left: 0;
+  }
 }
 
 body{
@@ -133,73 +155,109 @@ body{
 
 .result-url{
   margin-bottom: 8px;
-}
 
-.result-url a{
-  color: #0b5816;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 95%;
-  display: inline-block;
+  a{
+    color: #0b5816;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 95%;
+    display: inline-block;
+  }
 }
 
 .list-group-item-heading{
   font-size: 17px;
 }
 
+.grass{
+  background-color: #A0D468;
+  color: #ffffff;
+}
+
 
 //infobox-jumbotron style
 
 .jumbotron.info-box{
+
   padding: 0;
+
+  .title-cont{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: left;
+    padding: 5px 15px;
+    line-height: 1.4em;
+  }
+
+  .title{
+    text-shadow: 0 2px 2px rgba(0,0,0,0.15);
+    color: #ffffff;
+    font-size: 35px;
+    line-height: 1.2em;
+  }
+
+  .jumbotron-photo{
+    text-align: center;
+    background: #e4e4e4;
+    position: relative;
+    overflow: hidden;
+    min-height: 200px;
+    width: 100%;
+    border-radius: 6px 6px 0 0;
+    max-height: 350px;
+
+    img{
+      border-radius: 0;
+    }
+  }
+
+  .jumbotron-contents{
+    padding: 0;
+    font-size: 11.5px;
+
+    ul{padding-left: 10px}
+
+    .panel{
+      box-shadow: none;
+      margin-bottom: 0;
+    }
+
+    .panel-success > .panel-heading{
+      color: #3c763d;
+      background-color: #dff0d8;
+      border-color: #d6e9c6;
+      border-radius: 0;
+      cursor: pointer;
+      padding-top: 0;
+      padding-bottom: 0;
+
+      .panel-title a,
+      .panel-title a .btn-link{
+        color: #3c763d;
+        font-weight: bold;
+      }
+
+      .panel-title a .btn-link{
+        padding-left: 0;
+      }
+    }
+
+    .panel-success .panel-body > .row{
+      margin-top: 6px;
+      margin-bottom: 6px;
+      line-height: 1.7rem;
+    }
+
+    .panel-success .img-thumbnail{
+      margin-bottom: 10px;
+    }
+
+  }
+
 }
 
-.jumbotron.info-box .jumbotron-photo{
-  text-align: center;
-  background: #e4e4e4;
-  position: relative;
-  overflow: hidden;
-  min-height: 200px;
-  max-height: 250px;
-}
-
-.jumbotron.info-box .jumbotron-photo img{
-  max-height: 350px;
-  width: auto;
-}
-
-.jumbotron.info-box .jumbotron-contents{
-  padding: 0;
-  font-size: 11.5px;
-}
-
-.jumbotron.info-box .jumbotron-contents ul{padding-left: 10px}
-
-.jumbotron.info-box .jumbotron-contents .list-group, .jumbotron.info-box .jumbotron-contents .panel{
-  box-shadow: none;
-  margin-bottom: 0;
-}
-
-.jumbotron.info-box .title{
-  background: -moz-linear-gradient(top,  rgba(125,185,232,0) 0%, rgba(122,176,63,1) 100%);
-  background: -webkit-linear-gradient(top,  rgba(125,185,232,0) 0%,rgba(122,176,63,1) 100%);
-  background: linear-gradient(to bottom,  rgba(125,185,232,0) 0%,rgba(122,176,63,1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007db9e8', endColorstr='#7ab03f',GradientType=0 );
-  text-shadow: 0 2px 2px rgba(0,0,0,0.15);
-  position: absolute;
-  color: #ffffff;
-  font-size: 35px;
-  bottom: 0;
-  width: 100%;
-  text-align: right;
-  padding: 5px 15px;
-}
-
-.jumbotron.info-box .jumbotron-contents .panel-success > .panel-heading{
-  color: #3c763d;
-  background-color: #dff0d8;
-  border-color: #d6e9c6;
-  border-radius: 0px;
-  font-weight: bold;
+.panel.no-top-margin .panel-body{
+  padding-top: 0;
 }

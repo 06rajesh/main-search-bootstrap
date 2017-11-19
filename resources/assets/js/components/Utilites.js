@@ -51,73 +51,46 @@ Container.propTypes = {
   fluid: PropTypes.bool
 };
 
-export class PanelHeaderToggle extends Component{
-
-    toggleExpand(e) {
-        e.preventDefault();
-        this.props.toggleExpand();
-    }
-
-    renderButton() {
-
-        let icon = this.props.expanded ? 'chevron-down' : 'chevron-right';
-        return (
-            <Button
-                className={this.props.expanded ? '' : 'collapsed'}
-                bsStyle="link"
-                onClick={this.toggleExpand}>
-                <Glyphicon glyph={icon} /> {' '}
-                {this.props.header}
-            </Button>
-        );
-    }
-
-    render() {
-        let HTag = this.props.headerElement;
-        return (
-            <div>
-                <HTag className="panel-title">
-                    {this.renderButton()}
-                </HTag>
-            </div>
-        );
-    }
-}
-
-PanelHeaderToggle.propTypes = {
-    toggleExpand: React.PropTypes.func.isRequired,
-    header: React.PropTypes.node.isRequired,
-    expanded: React.PropTypes.bool.isRequired,
-    headerElement: React.PropTypes.string
-};
-
-
 export class CollapsablePanel extends Component{
 
+
+    constructor(props){
+        super(props);
+
+        this.state = {
+          expanded: this.props.expanded
+        };
+    }
+
     toggleExpand() {
-        let isExpanded = !this.isExpanded();
+        let isExpanded = !this.state.expanded;
         this.setState({expanded:isExpanded});
         if(this.props.toggleExpand) {
             this.props.toggleExpand();
         }
     }
 
-    isExpanded() {
-        return this.props.expanded != null
-            ? this.props.expanded
-            : this.state.expanded;
+    renderButton() {
+
+        let icon = this.state.expanded ? 'chevron-down' : 'chevron-right';
+        return (
+            <Button
+                className={this.state.expanded ? '' : 'collapsed'}
+                bsStyle="link">
+                <Glyphicon glyph={icon} />
+            </Button>
+        );
+    }
+
+    getPanelHeader(){
+        if(this.props.header)
+            return (<div onClick={this.toggleExpand.bind(this)}>{this.renderButton()}{this.props.header}</div>);
     }
 
     render() {
-        let isExpanded = this.isExpanded();
-        let header = (
-            <PanelHeaderToggle
-                header={this.props.header}
-                headerElement={this.props.headerElement}
-                expanded={isExpanded}
-                toggleExpand={this.toggleExpand} />);
+        let isExpanded = this.state.expanded;
         return (
-            <Panel {...this.props} header={header} collapsable expanded={isExpanded}>
+            <Panel {...this.props} header={this.getPanelHeader()} collapsible expanded={isExpanded}>
                 {this.props.children}
             </Panel>
         );
@@ -125,9 +98,12 @@ export class CollapsablePanel extends Component{
 }
 
 CollapsablePanel.propTypes = {
-    header: React.PropTypes.node.isRequired,
+    header: React.PropTypes.node,
     children: React.PropTypes.node.isRequired,
     expanded: React.PropTypes.bool,
-    toggleExpand: React.PropTypes.func,
-    headerElement: React.PropTypes.string
+    toggleExpand: React.PropTypes.func
+};
+
+CollapsablePanel.defaultProps = {
+    expanded: true
 };

@@ -13,6 +13,11 @@ export function arrayFy(collection) {
     return Array.prototype.slice.call(collection);
 }
 
+function checkIfHasElementByTag(element, tag){
+    let checkElem = element.getElementsByTagName(tag);
+    return (checkElem.length > 0);
+}
+
 function removeElementByTag(element, tag) {
 
     let removeAbles = element.getElementsByTagName(tag);
@@ -24,9 +29,20 @@ function removeElementByTag(element, tag) {
     return element;
 }
 
-function getProcessedText(cells){
+function addClassByTag(element, tag, classNames) {
+    let targetElements = element.getElementsByTagName(tag);
+    if(targetElements.length > 0){
+        for (let index = targetElements.length - 1; index >= 0; index--) {
+            targetElements[index].className += ' ' + classNames;
+        }
+    }
+    return element;
+}
+
+function getProcessedText(cells, formatImage = false){
     //Removing SUP elements from the cell Content
     let modifiedCells = removeElementByTag(cells, 'sup');
+    if(formatImage) modifiedCells = addClassByTag(modifiedCells, 'img', 'img-thumbnail');
     return encode(modifiedCells.innerHTML);
 }
 
@@ -41,6 +57,7 @@ export function ParseHtmlTable(encodedHtml) {
     let data = {};
     let attributes = [];
     let main = {};
+    let others = [];
 
     let htmlString = decode(encodedHtml);
     let trimmed = htmlString.replace(/(\r\n|\n|\r)/gm,"");
@@ -72,16 +89,28 @@ export function ParseHtmlTable(encodedHtml) {
                 let image = {};
                 image['src'] = imageObject.src;
                 image['alt'] = imageObject.alt;
+                image['caption'] = row.cells[0].innerText;
                 data['image'] = image;
             }else if(row.cells[0].tagName.toUpperCase() == 'TH'){
-                console.log(row.cells[0].innerText);
                 attributes.push(temp);
                 temp = {};
                 temp['title'] = row.cells[0].innerText;
+            }else if(row.cells[0].innerText || checkIfHasElementByTag(row.cells[0], 'img')){
+                if(Object.keys(temp).length < 2){
+                    temp[0] = getProcessedText(row.cells[0], true);
+                }else{
+                    others.push(getProcessedText(row.cells[0], true));
+                }
             }
         }
     });
     attributes.push(temp);
+
+    if(others.length > 0){
+        others['title'] = ' অন্যান্য';
+        attributes.push(others);
+    }
+
     attributes.unshift(main);
     data['attributes'] = attributes;
     return data;

@@ -7,17 +7,17 @@ import React, { Component } from 'react';
 import {decode} from 'html-encoder-decoder';
 import jquery from 'jquery';
 window.$ = window.jQuery = jquery;
-import {Jumbotron, Col, Row, Panel} from 'react-bootstrap';
+import {Jumbotron, Col, Row} from 'react-bootstrap';
 import {CollapsablePanel} from './Utilites';
 
 import {ParseHtmlTable} from '../libs/common';
-import {banglaInfo} from './infoHtml';
+import {robindroInfo} from './infoHtml';
 
 class Infobox extends Component{
 
     constructor(props){
         super(props);
-        this.tempString = banglaInfo;
+        this.tempString = robindroInfo;
         this.state = {
             info :''
         };
@@ -31,9 +31,18 @@ class Infobox extends Component{
     renderImage(info){
         if(info.image){
             return(
-                <div className="jumbotron-photo">
-                    <img src={info.image.src} alt={info.image.alt}/>
-                    <div className="title">{info.title}</div>
+                <div className="jumbotron-photo table-container" >
+                    <Row className = 'table-row'>
+                        <Col xs={7} className="no-padd table-col" style={{'verticalAlign': 'middle'}}>
+                            <img src={info.image.src} alt={info.image.alt}/>
+                        </Col>
+                        <Col xs={5} className="no-padd table-col grass">
+                            <div className="title-cont">
+                                <div className="title">{info.title}</div>
+                                <div className="caption">{info.image.caption}</div>
+                            </div>
+                        </Col>
+                    </Row>
                 </div>
             );
         }else if(info.title){
@@ -45,18 +54,13 @@ class Infobox extends Component{
         }
     }
 
-    getPanelHeader(attribute){
-        if(attribute['title'])
-            return (<div>{attribute['title']}<span className="badge badge-danger">33</span></div>);
-    }
-
     renderAttributes(info){
         if(info.attributes){
             return info.attributes.map((attr, index) => {
                 return(
-                    <Panel key = {index} header={this.getPanelHeader(attr)} bsStyle="success" collapsible expanded={false}>
+                    <CollapsablePanel key = {index} header={attr['title'] ? attr['title'] : ''} className={(attr['title'] || index == 0)? '' : 'no-top-margin'} bsStyle="success" expanded={true}>
                         {this.renderPrimary(attr)}
-                    </Panel>
+                    </CollapsablePanel>
                 );
             });
         }
@@ -69,6 +73,13 @@ class Infobox extends Component{
                     if(item !== 'title') return item;
                 })
                 .map((item, index) => {
+                    if(Number(item) || item == '0'){
+                        return(
+                            <Row key={index} style={{'textAlign' : 'center'}}>
+                                <Col xs={12} dangerouslySetInnerHTML={{__html: decode(attribute[item])}}/>
+                            </Row>
+                        );
+                    }
                     return(
                         <Row key={index}>
                             <Col xs={3} style={{'fontWeight':'bold'}}>{item}:</Col>
