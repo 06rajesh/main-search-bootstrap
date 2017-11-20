@@ -20,15 +20,15 @@ class Search extends Component{
         return(
             <div className="result-page">
                 <Segment basic>
-                    <Row className="flexify">
-                        <Col md={12} style={{ 'flex': '0 0 150px'}}/>
-                        <Col xs={12} style={{ 'flex': '1'}}>
-                            <Row className="flexify">
-                                <Col xs={6} style={{ 'flex': '0 0 750px'}}>
-                                    <Results error={this.props.error} fetched={this.props.fetched} results={this.props.results} />
-                                </Col>
-                                <Col xs={6} style={{ 'flex': '1', 'maxWidth' : '450px'}}>
+                    <Row className="flexify remove-flex-sm">
+                        <Col md={12} xsHidden smHidden style={{ 'flex': '0 0 150px'}}/>
+                        <Col md={12} style={{ 'flex': '1'}}>
+                            <Row style={{ 'maxWidth': '1150px'}}>
+                                <Col sm={12} mdPush={8} md={4}>
                                     <InfoBox/>
+                                </Col>
+                                <Col sm={12} mdPull={4} md={8}>
+                                    <Results error={this.props.error} fetched={this.props.fetched} results={this.props.results} />
                                 </Col>
                             </Row>
                         </Col>

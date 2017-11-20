@@ -5,28 +5,47 @@
 //noinspection JSUnresolvedVariable
 import React, { Component } from 'react';
 import {decode} from 'html-encoder-decoder';
+import { connect } from 'react-redux';
 import jquery from 'jquery';
 window.$ = window.jQuery = jquery;
-import {Jumbotron, Col, Row} from 'react-bootstrap';
+import {Jumbotron, Col, Row, Panel, ListGroup, ListGroupItem} from 'react-bootstrap';
 import {CollapsablePanel} from './Utilites';
 
 import {ParseHtmlTable} from '../libs/common';
-import {robindroInfo} from './infoHtml';
+import {nazrulInfo} from './infoHtml';
 
 class Infobox extends Component{
 
     constructor(props){
         super(props);
-        this.tempString = robindroInfo;
+        this.tempString = nazrulInfo;
         this.state = {
-            info :''
+            info :'',
+            fontSize: 35
         };
     }
 
     componentDidMount(){
         let data = ParseHtmlTable(this.tempString);
-        this.setState({ info: data}, () => console.log(this.state.info));
+        this.setState({info: data}, ()=>console.log(this.state.info));
     }
+
+    decreaseFontSize(){
+        let newFontSize = parseInt(this.state.fontSize) - 1;
+        this.setState({fontSize: newFontSize});
+    }
+
+    shouldUpdateFontSize(){
+        let padding = 15;
+        return (document.getElementById('title').scrollWidth > document.getElementById('title-container').clientWidth - 2*padding);
+    }
+
+    componentDidUpdate() {
+        if(this.shouldUpdateFontSize()){
+            this.decreaseFontSize();
+        }
+    }
+
 
     renderImage(info){
         if(info.image){
@@ -37,8 +56,8 @@ class Infobox extends Component{
                             <img src={info.image.src} alt={info.image.alt}/>
                         </Col>
                         <Col xs={5} className="no-padd table-col grass">
-                            <div className="title-cont">
-                                <div className="title">{info.title}</div>
+                            <div className="title-cont" id="title-container">
+                                <div className="title" id="title" style={{'fontSize' : this.state.fontSize + 'px'}}>{info.title}</div>
                                 <div className="caption">{info.image.caption}</div>
                             </div>
                         </Col>
@@ -48,21 +67,32 @@ class Infobox extends Component{
         }else if(info.title){
             return(
                 <div className="jumbotron-photo">
-                    <div className="title">{info.title}</div>
+                    <div className="title-cont" id="title-container">
+                        <div className="title" id="title" style={{'fontSize' : this.state.fontSize + 'px'}}>{info.title}</div>
+                    </div>
                 </div>
             );
         }
     }
 
-    renderAttributes(info){
-        if(info.attributes){
-            return info.attributes.map((attr, index) => {
-                return(
-                    <CollapsablePanel key = {index} header={attr['title'] ? attr['title'] : ''} className={(attr['title'] || index == 0)? '' : 'no-top-margin'} bsStyle="success" expanded={true}>
-                        {this.renderPrimary(attr)}
-                    </CollapsablePanel>
-                );
-            });
+    renderSecondary(info){
+
+        let iterSecondaryItem = (secondary) => {
+            return secondary.map((item, index) => {
+                if(item){
+                    return(
+                        <ListGroupItem key={index}><div className="panel-title">{item}</div></ListGroupItem>
+                    );
+                }
+            })
+        };
+
+        if(info.secondary && info.secondary.length > 0){
+            return(
+                <ListGroup>
+                    {iterSecondaryItem(info.secondary)}
+                </ListGroup>
+            );
         }
     }
 
@@ -90,11 +120,39 @@ class Infobox extends Component{
         }
     }
 
+    renderAttributes(info){
+        let expandOnRes = !this.props.browser.lessThan.large;
+
+        let getTitle = (attr) => {
+            if(attr['title']) return attr['title'];
+            else if(!expandOnRes && Object.keys(attr).length > 0) return ' আরও দেখুন';
+            return '';
+        };
+
+        if(info.attributes){
+            return info.attributes.map((attr, index) => {
+                if(index == 0){
+                    return(
+                        <Panel key = {index} bsStyle="success">
+                            {this.renderPrimary(attr)}
+                        </Panel>
+                    );
+                }
+                return(
+                    <CollapsablePanel key = {index} header={getTitle(attr)} className={(attr['title'])? '' : 'no-top-margin'} bsStyle="success" expanded={expandOnRes}>
+                        {this.renderPrimary(attr)}
+                    </CollapsablePanel>
+                );
+            });
+        }
+    }
+
     render(){
         return(
             <Jumbotron className="info-box">
                 {this.renderImage(this.state.info)}
                 <div className="jumbotron-contents">
+                    {this.renderSecondary(this.state.info)}
                     {this.renderAttributes(this.state.info)}
                 </div>
             </Jumbotron>
@@ -102,4 +160,10 @@ class Infobox extends Component{
     }
 }
 
-export default Infobox;
+function mapStateToProps(store) {
+    return {
+        browser: store.browser
+    };
+}
+
+export default connect(mapStateToProps)(Infobox);

@@ -46,13 +46,13 @@ class Topbar extends Component{
         return(
             <Segment secondary className="no-border-radius">
                 <Row className="flexify">
-                    <Col md={12} style={{ 'flex': '0 0 150px'}}>
+                    <Col md={12} className="hidden-sm hidden-xs" style={{ 'flex': '0 0 150px'}}>
                         <Image src="http://a2i.pipilika.com/img/logo.png" responsive style = {styles.imageClass}/>
                     </Col>
                     <Col xs={12} style={{ 'flex': '1', 'paddingTop': '5px'}}>
                         <SearchInput size='large'/>
                     </Col>
-                    <Col xs={12} style={{ 'flex': '0 0 30px'}}>
+                    <Col xs={12} style={{ 'flex': '0 0 30px', 'paddingLeft': '0'}}>
                         <TopDropdown/>
                     </Col>
                 </Row>

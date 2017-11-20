@@ -57,6 +57,7 @@ export function ParseHtmlTable(encodedHtml) {
     let data = {};
     let attributes = [];
     let main = {};
+    let secondary = [];
     let others = [];
 
     let htmlString = decode(encodedHtml);
@@ -92,23 +93,38 @@ export function ParseHtmlTable(encodedHtml) {
                 image['caption'] = row.cells[0].innerText;
                 data['image'] = image;
             }else if(row.cells[0].tagName.toUpperCase() == 'TH'){
-                attributes.push(temp);
+                if(Object.keys(temp).length > 1){
+                    attributes.push(temp);
+                }else{
+                    secondary.push(temp['title']);
+                }
                 temp = {};
                 temp['title'] = row.cells[0].innerText;
             }else if(row.cells[0].innerText || checkIfHasElementByTag(row.cells[0], 'img')){
-                if(Object.keys(temp).length < 2){
+
+                if(Object.keys(main).length < 4){
+                    secondary.push(row.cells[0].innerText);
+                }else if(Object.keys(temp).length < 2){
                     temp[0] = getProcessedText(row.cells[0], true);
                 }else{
                     others.push(getProcessedText(row.cells[0], true));
                 }
+
             }
         }
     });
-    attributes.push(temp);
+
+    if(Object.keys(temp).length > 0){
+        attributes.push(temp);
+    }
 
     if(others.length > 0){
         others['title'] = ' অন্যান্য';
         attributes.push(others);
+    }
+
+    if(secondary.length > 0){
+        data['secondary'] = secondary;
     }
 
     attributes.unshift(main);

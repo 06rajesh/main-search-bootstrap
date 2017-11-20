@@ -56,10 +56,13 @@ export class CollapsablePanel extends Component{
 
     constructor(props){
         super(props);
-
         this.state = {
           expanded: this.props.expanded
         };
+    }
+
+    componentWillReceiveProps(nextProps){
+        this.setState({expanded: nextProps.expanded});
     }
 
     toggleExpand() {

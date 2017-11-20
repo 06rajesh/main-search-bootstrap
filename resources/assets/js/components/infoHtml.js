@@ -97,67 +97,129 @@ export const robindroInfo = `<table class="infobox vcard" style="width:22em">
 </tbody></table>`;
 
 
-export const nazrulInfo = `<table class="infobox vcard" style="width:22em">
-<caption style="font-style:italic;padding-bottom:0.2em;">গডফাদার</caption>
-<tbody><tr>
-<td colspan="2" style="text-align:center"><a href="/wiki/%E0%A6%9A%E0%A6%BF%E0%A6%A4%E0%A7%8D%E0%A6%B0:%E0%A6%97%E0%A6%A1%E0%A6%AB%E0%A6%BE%E0%A6%A6%E0%A6%BE%E0%A6%B0_%E0%A6%89%E0%A6%AA%E0%A6%A8%E0%A7%8D%E0%A6%AF%E0%A6%BE%E0%A6%B8_%E0%A6%AA%E0%A7%8D%E0%A6%B0%E0%A6%9A%E0%A7%8D%E0%A6%9B%E0%A6%A6.png" class="image"><img alt="গডফাদার উপন্যাস প্রচ্ছদ.png" src="//upload.wikimedia.org/wikipedia/bn/7/7a/%E0%A6%97%E0%A6%A1%E0%A6%AB%E0%A6%BE%E0%A6%A6%E0%A6%BE%E0%A6%B0_%E0%A6%89%E0%A6%AA%E0%A6%A8%E0%A7%8D%E0%A6%AF%E0%A6%BE%E0%A6%B8_%E0%A6%AA%E0%A7%8D%E0%A6%B0%E0%A6%9A%E0%A7%8D%E0%A6%9B%E0%A6%A6.png" width="176" height="268" data-file-width="176" data-file-height="268"></a></td>
-</tr>
-<tr>
-<th scope="row">লেখক</th>
-<td><a href="/wiki/%E0%A6%AE%E0%A6%BE%E0%A6%B0%E0%A6%BF%E0%A6%93_%E0%A6%AA%E0%A7%81%E0%A6%9C%E0%A7%8B" title="মারিও পুজো">মারিও পুজো</a></td>
-</tr>
-<tr>
-<th scope="row">মূল&nbsp;শিরোনাম</th>
-<td><span lang="" xml:lang=""><i>দ্য গডফাদার</i></span></td>
-</tr>
-<tr>
-<th scope="row">অনুবাদক</th>
-<td>মোহাম্মদ নাজিম উদ্দিন</td>
-</tr>
-<tr>
-<th scope="row">প্রচ্ছদ&nbsp;শিল্পী</th>
-<td>এস নেইল ফুজিতা (মূল)</td>
-</tr>
-<tr>
-<th scope="row">দেশ</th>
-<td>যুক্তরাষ্ট্র (মূল)<br>
-বাংলাদেশ (অনূদিত)</td>
-</tr>
-<tr>
-<th scope="row">ভাষা</th>
-<td>ইংরেজি (মূল)<br>
-বাংলা (অনূদিত)</td>
-</tr>
-<tr>
-<th scope="row">ধারাবাহিক</th>
-<td>দ্য গডফাদার</td>
-</tr>
-<tr>
-<th scope="row">ধরণ</th>
-<td><a href="/wiki/%E0%A6%85%E0%A6%AA%E0%A6%B0%E0%A6%BE%E0%A6%A7_%E0%A6%89%E0%A6%AA%E0%A6%A8%E0%A7%8D%E0%A6%AF%E0%A6%BE%E0%A6%B8" class="mw-redirect" title="অপরাধ উপন্যাস">অপরাধ উপন্যাস</a></td>
-</tr>
-<tr>
-<th scope="row">প্রকাশক</th>
-<td>জি পি পটনাম সানস (মূল), বাতিঘর প্রকাশনী (বাংলা)</td>
-</tr>
-<tr>
-<th scope="row">
-<div style="padding:0.1em 0;line-height:1.2em;">প্রকাশনার তারিখ</div>
-</th>
-<td>১০ মার্চ ১৯৬৯</td>
-</tr>
-<tr>
-<th scope="row">
-<div style="padding:0.1em 0;line-height:1.2em;">বাংলায়&nbsp;প্রকাশিত</div>
-</th>
-<td>ফেব্রুয়ারি ২০০৪</td>
-</tr>
-<tr>
-<th scope="row">পূর্ববর্তী&nbsp;বই</th>
-<td><i><a href="/w/index.php?title=%E0%A6%A6%E0%A7%8D%E0%A6%AF_%E0%A6%AB%E0%A7%8D%E0%A6%AF%E0%A6%AE%E0%A6%BF%E0%A6%B2%E0%A6%BF_%E0%A6%95%E0%A6%B0%E0%A7%8D%E0%A6%B2%E0%A6%BF%E0%A6%AF%E0%A6%BC%E0%A6%A8%E0%A6%BF&amp;action=edit&amp;redlink=1" class="new" title="দ্য ফ্যমিলি কর্লিয়নি (পাতার অস্তিত্ব নেই)">দ্য ফ্যমিলি কর্লিয়নি</a></i></td>
-</tr>
-<tr>
-<th scope="row">পরবর্তী&nbsp;বই</th>
-<td><i><a href="/w/index.php?title=%E0%A6%A6%E0%A7%8D%E0%A6%AF_%E0%A6%B8%E0%A6%BF%E0%A6%B8%E0%A6%BF%E0%A6%B2%E0%A6%BF%E0%A6%AF%E0%A6%BC%E0%A6%BE%E0%A6%A8&amp;action=edit&amp;redlink=1" class="new" title="দ্য সিসিলিয়ান (পাতার অস্তিত্ব নেই)">দ্য সিসিলিয়ান</a></i></td>
-</tr>
-</tbody></table>`;
+export const nazrulInfo = `&#x3C;table class=&#x22;infobox vcard&#x22; style=&#x22;width:22em;line-height: 1.2em&#x22;&#x3E;
+&#x3C;caption class=&#x22;fn&#x22; style=&#x22;line-height: 1.5em; text-align: center;&#x22;&#x3E;Platini&#x3C;/caption&#x3E;
+&#x3C;tbody&#x3E;&#x3C;tr&#x3E;
+&#x3C;td colspan=&#x22;4&#x22; style=&#x22;text-align:center&#x22;&#x3E;&#x3C;a href=&#x22;/wiki/File:Luis_Soares_Platini_2013_Catalonia.jpg&#x22; class=&#x22;image&#x22;&#x3E;&#x3C;img alt=&#x22;Luis Soares Platini 2013 Catalonia.jpg&#x22; src=&#x22;//upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Luis_Soares_Platini_2013_Catalonia.jpg/280px-Luis_Soares_Platini_2013_Catalonia.jpg&#x22; width=&#x22;280&#x22; height=&#x22;339&#x22; srcset=&#x22;//upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Luis_Soares_Platini_2013_Catalonia.jpg/420px-Luis_Soares_Platini_2013_Catalonia.jpg 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Luis_Soares_Platini_2013_Catalonia.jpg/560px-Luis_Soares_Platini_2013_Catalonia.jpg 2x&#x22; data-file-width=&#x22;1108&#x22; data-file-height=&#x22;1342&#x22;&#x3E;&#x3C;/a&#x3E;
+&#x3C;div&#x3E;Platini in action for &#x3C;a href=&#x22;/wiki/Cape_Verde_national_football_team&#x22; title=&#x22;Cape Verde national football team&#x22;&#x3E;Cape Verde&#x3C;/a&#x3E; in 2013&#x3C;/div&#x3E;
+&#x3C;/td&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th colspan=&#x22;4&#x22; style=&#x22;text-align:center;background-color: #b0c4de; line-height: 1.5em&#x22;&#x3E;Personal information&#x3C;/th&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th scope=&#x22;row&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: left&#x22;&#x3E;Full name&#x3C;/th&#x3E;
+&#x3C;td colspan=&#x22;3&#x22; class=&#x22;nickname&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline&#x22;&#x3E;&#x3C;span style=&#x22;white-space:normal;&#x22;&#x3E;Lu&#xED;s Carlos Almada Soares&#x3C;/span&#x3E;&#x3C;/td&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th scope=&#x22;row&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: left&#x22;&#x3E;Date of birth&#x3C;/th&#x3E;
+&#x3C;td colspan=&#x22;3&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline&#x22;&#x3E;&#x3C;span style=&#x22;display:none&#x22;&#x3E;(&#x3C;span class=&#x22;bday&#x22;&#x3E;1986-04-16&#x3C;/span&#x3E;)&#x3C;/span&#x3E; 16 April 1986 &#x3C;span class=&#x22;noprint ForceAgeToShow&#x22;&#x3E;(age&#x26;nbsp;31)&#x3C;/span&#x3E;&#x3C;/td&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th scope=&#x22;row&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: left&#x22;&#x3E;Place of birth&#x3C;/th&#x3E;
+&#x3C;td colspan=&#x22;3&#x22; class=&#x22;birthplace&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline&#x22;&#x3E;&#x3C;a href=&#x22;/wiki/Praia&#x22; title=&#x22;Praia&#x22;&#x3E;Praia&#x3C;/a&#x3E;, Cape Verde&#x3C;/td&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th scope=&#x22;row&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: left&#x22;&#x3E;Height&#x3C;/th&#x3E;
+&#x3C;td colspan=&#x22;3&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline&#x22;&#x3E;1.73&#x26;nbsp;m (5&#x26;nbsp;ft 8&#x26;nbsp;in)&#x3C;/td&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th scope=&#x22;row&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: left&#x22;&#x3E;Playing position&#x3C;/th&#x3E;
+&#x3C;td colspan=&#x22;3&#x22; class=&#x22;role&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline&#x22;&#x3E;&#x3C;a href=&#x22;/wiki/Midfielder#Winger&#x22; title=&#x22;Midfielder&#x22;&#x3E;Winger&#x3C;/a&#x3E;&#x3C;/td&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th colspan=&#x22;4&#x22; style=&#x22;text-align:center;background-color: #b0c4de; line-height: 1.5em&#x22;&#x3E;Club information&#x3C;/th&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th scope=&#x22;row&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: left&#x22;&#x3E;
+&#x3C;div style=&#x22;padding:0.1em 0;line-height:1.2em;&#x22;&#x3E;Current team&#x3C;/div&#x3E;
+&#x3C;/th&#x3E;
+&#x3C;td colspan=&#x22;3&#x22; class=&#x22;org&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline&#x22;&#x3E;&#x3C;a href=&#x22;/wiki/CSM_Politehnica_Ia%C8%99i&#x22; title=&#x22;CSM Politehnica Ia&#x219;i&#x22;&#x3E;CSM Politehnica Ia&#x219;i&#x3C;/a&#x3E;&#x3C;/td&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th scope=&#x22;row&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: left&#x22;&#x3E;Number&#x3C;/th&#x3E;
+&#x3C;td colspan=&#x22;3&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline&#x22;&#x3E;7&#x3C;/td&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th colspan=&#x22;4&#x22; style=&#x22;text-align:center;background-color: #b0c4de; line-height: 1.5em&#x22;&#x3E;Senior career*&#x3C;/th&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th scope=&#x22;row&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: left&#x22;&#x3E;Years&#x3C;/th&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline&#x22;&#x3E;&#x3C;b&#x3E;Team&#x3C;/b&#x3E;&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline;text-align: right&#x22;&#x3E;&#x3C;b&#x3E;&#x3C;abbr title=&#x22;League appearances&#x22;&#x3E;Apps&#x3C;/abbr&#x3E;&#x3C;/b&#x3E;&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: right&#x22;&#x3E;&#x3C;b&#x3E;(&#x3C;abbr title=&#x22;League goals&#x22;&#x3E;Gls&#x3C;/abbr&#x3E;)&#x3C;/b&#x3E;&#x3C;/td&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th scope=&#x22;row&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: left&#x22;&#x3E;&#x3C;span style=&#x22;font-weight:normal&#x22;&#x3E;2006&#x2013;2008&#x3C;/span&#x3E;&#x3C;/th&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline&#x22;&#x3E;&#x3C;a href=&#x22;/wiki/Sporting_Clube_da_Praia&#x22; title=&#x22;Sporting Clube da Praia&#x22;&#x3E;Sporting Praia&#x3C;/a&#x3E;&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline;text-align: right&#x22;&#x3E;&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: right&#x22;&#x3E;&#x3C;/td&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th scope=&#x22;row&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: left&#x22;&#x3E;&#x3C;span style=&#x22;font-weight:normal&#x22;&#x3E;2008&#x2013;2010&#x3C;/span&#x3E;&#x3C;/th&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline&#x22;&#x3E;&#x3C;a href=&#x22;/wiki/Associa%C3%A7%C3%A3o_Acad%C3%A9mica_de_Coimbra_%E2%80%93_O.A.F.&#x22; title=&#x22;Associa&#xE7;&#xE3;o Acad&#xE9;mica de Coimbra &#x2013; O.A.F.&#x22;&#x3E;Acad&#xE9;mica&#x3C;/a&#x3E;&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline;text-align: right&#x22;&#x3E;0&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: right&#x22;&#x3E;(0)&#x3C;/td&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th scope=&#x22;row&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: left&#x22;&#x3E;&#x3C;span style=&#x22;font-weight:normal&#x22;&#x3E;2008&#x2013;2009&#x3C;/span&#x3E;&#x3C;/th&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline&#x22;&#x3E;&#x2192; &#x3C;a href=&#x22;/wiki/G.D._Tourizense&#x22; title=&#x22;G.D. Tourizense&#x22;&#x3E;Tourizense&#x3C;/a&#x3E; (loan)&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline;text-align: right&#x22;&#x3E;6&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: right&#x22;&#x3E;(0)&#x3C;/td&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th scope=&#x22;row&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: left&#x22;&#x3E;&#x3C;span style=&#x22;font-weight:normal&#x22;&#x3E;2009&#x2013;2010&#x3C;/span&#x3E;&#x3C;/th&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline&#x22;&#x3E;&#x2192; &#x3C;a href=&#x22;/wiki/Sertanense_F.C.&#x22; title=&#x22;Sertanense F.C.&#x22;&#x3E;Sertanense&#x3C;/a&#x3E; (loan)&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline;text-align: right&#x22;&#x3E;28&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: right&#x22;&#x3E;(2)&#x3C;/td&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th scope=&#x22;row&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: left&#x22;&#x3E;&#x3C;span style=&#x22;font-weight:normal&#x22;&#x3E;2010&#x2013;2013&#x3C;/span&#x3E;&#x3C;/th&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline&#x22;&#x3E;&#x3C;a href=&#x22;/wiki/C.D._Santa_Clara&#x22; title=&#x22;C.D. Santa Clara&#x22;&#x3E;Santa Clara&#x3C;/a&#x3E;&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline;text-align: right&#x22;&#x3E;80&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: right&#x22;&#x3E;(10)&#x3C;/td&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th scope=&#x22;row&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: left&#x22;&#x3E;&#x3C;span style=&#x22;font-weight:normal&#x22;&#x3E;2013&#x2013;2014&#x3C;/span&#x3E;&#x3C;/th&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline&#x22;&#x3E;&#x3C;a href=&#x22;/wiki/AC_Omonia&#x22; title=&#x22;AC Omonia&#x22;&#x3E;Omonia&#x3C;/a&#x3E;&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline;text-align: right&#x22;&#x3E;29&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: right&#x22;&#x3E;(3)&#x3C;/td&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th scope=&#x22;row&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: left&#x22;&#x3E;&#x3C;span style=&#x22;font-weight:normal&#x22;&#x3E;2014&#x2013;2015&#x3C;/span&#x3E;&#x3C;/th&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline&#x22;&#x3E;&#x3C;a href=&#x22;/wiki/PFC_CSKA_Sofia&#x22; title=&#x22;PFC CSKA Sofia&#x22;&#x3E;CSKA Sofia&#x3C;/a&#x3E;&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline;text-align: right&#x22;&#x3E;24&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: right&#x22;&#x3E;(1)&#x3C;/td&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th scope=&#x22;row&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: left&#x22;&#x3E;&#x3C;span style=&#x22;font-weight:normal&#x22;&#x3E;2015&#x2013;2016&#x3C;/span&#x3E;&#x3C;/th&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline&#x22;&#x3E;&#x3C;a href=&#x22;/wiki/Al_Ittihad_Alexandria_Club&#x22; title=&#x22;Al Ittihad Alexandria Club&#x22;&#x3E;Al Ittihad&#x3C;/a&#x3E;&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline;text-align: right&#x22;&#x3E;5&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: right&#x22;&#x3E;(1)&#x3C;/td&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th scope=&#x22;row&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: left&#x22;&#x3E;&#x3C;span style=&#x22;font-weight:normal&#x22;&#x3E;2016&#x2013;2017&#x3C;/span&#x3E;&#x3C;/th&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline&#x22;&#x3E;&#x3C;a href=&#x22;/wiki/Dibba_Al-Hisn_Sports_Club&#x22; title=&#x22;Dibba Al-Hisn Sports Club&#x22;&#x3E;Dibba Al-Hisn&#x3C;/a&#x3E;&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline;text-align: right&#x22;&#x3E;&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: right&#x22;&#x3E;&#x3C;/td&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th scope=&#x22;row&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: left&#x22;&#x3E;&#x3C;span style=&#x22;font-weight:normal&#x22;&#x3E;2017&#x2013;&#x3C;/span&#x3E;&#x3C;/th&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline&#x22;&#x3E;&#x3C;a href=&#x22;/wiki/CSM_Politehnica_Ia%C8%99i&#x22; title=&#x22;CSM Politehnica Ia&#x219;i&#x22;&#x3E;CSM Politehnica Ia&#x219;i&#x3C;/a&#x3E;&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline;text-align: right&#x22;&#x3E;14&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: right&#x22;&#x3E;(4)&#x3C;/td&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th colspan=&#x22;4&#x22; style=&#x22;text-align:center;background-color: #b0c4de; line-height: 1.5em&#x22;&#x3E;National team&#x3C;sup&#x3E;&#x2021;&#x3C;/sup&#x3E;&#x3C;/th&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;th scope=&#x22;row&#x22; style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: left&#x22;&#x3E;&#x3C;span style=&#x22;font-weight:normal&#x22;&#x3E;2012&#x2013;&#x3C;/span&#x3E;&#x3C;/th&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline&#x22;&#x3E;&#x3C;a href=&#x22;/wiki/Cape_Verde_national_football_team&#x22; title=&#x22;Cape Verde national football team&#x22;&#x3E;Cape Verde&#x3C;/a&#x3E;&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline;text-align: right&#x22;&#x3E;18&#x3C;/td&#x3E;
+&#x3C;td style=&#x22;white-space: nowrap; vertical-align: baseline; text-align: right&#x22;&#x3E;(2)&#x3C;/td&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;tr&#x3E;
+&#x3C;td colspan=&#x22;4&#x22; style=&#x22;text-align:center;color:darkslategray; font-size:95%&#x22;&#x3E;* Senior club appearances and goals counted for the domestic league only and correct as of 3 November 2017.&#x3C;br&#x3E;
+&#x2021; National team caps and goals correct as of 13 August 2017&#x3C;/td&#x3E;
+&#x3C;/tr&#x3E;
+&#x3C;/tbody&#x3E;&#x3C;/table&#x3E;`;
