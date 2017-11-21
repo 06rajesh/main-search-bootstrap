@@ -79,9 +79,17 @@ class Infobox extends Component{
 
         let iterSecondaryItem = (secondary) => {
             return secondary.map((item, index) => {
-                if(item){
+                if(item && typeof item === 'string'){
+                    let htmlCode;
+
+                    try{
+                        htmlCode = decode(item);
+                    }catch(e){
+                        htmlCode = item;
+                    }
+
                     return(
-                        <ListGroupItem key={index}><div className="panel-title">{item}</div></ListGroupItem>
+                        <ListGroupItem key={index}><div className="panel-title" dangerouslySetInnerHTML={{__html: htmlCode}}/></ListGroupItem>
                     );
                 }
             })

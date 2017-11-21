@@ -224,10 +224,12 @@ body{
     ul.list-group{
       padding-left: 0;
       box-shadow: none;
+      border-radius: 0;
     }
 
     ul.list-group li{
       background-color: #f3f3f3;
+      border-radius: 0;
     }
 
     ul.list-group li .panel-title{
@@ -269,6 +271,13 @@ body{
     .panel-success .img-thumbnail{
       margin-bottom: 10px;
     }
+
+    //Wiki InfoBox Custom Class Styles
+
+    #coordinates{
+      display: none;
+    }
+
 
   }
 }

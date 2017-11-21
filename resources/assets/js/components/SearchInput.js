@@ -3,6 +3,7 @@
  */
 
 import React, { Component } from 'react';
+import axios from "axios";
 import {ImeInput} from './Widgets';
 import {FormGroup} from 'react-bootstrap';
 
@@ -15,7 +16,8 @@ class SearchInput extends Component {
         super(props);
 
         this.state = {
-            value: ''
+            value       : '',
+            suggestions : []
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,13 +29,26 @@ class SearchInput extends Component {
         }
     }
 
+    fetchSuggestions(query){
+        axios.get(`https://jsonplaceholder.typicode.com/users?q=${query}`)
+            .then((response) => {
+                this.setState({
+                    suggestions: response.data
+                });
+            })
+            .catch((err) => {
+                console.log("Error On Fetching");
+            })
+    }
+
     handleChange(eventValue) {
         this.setState({value: eventValue});
+        this.fetchSuggestions(eventValue);
     }
 
     handleSubmit(event){
-
         event.preventDefault();
+        this.setState({suggestions: []});
         history.push("/search?q=" + this.state.value);
     }
 
@@ -49,6 +64,7 @@ class SearchInput extends Component {
                         value = {this.props.query}
                         onChange={this.handleChange}
                         className="home-search"
+                        suggestions = {this.state.suggestions}
                     />
                 </FormGroup>
             </form>

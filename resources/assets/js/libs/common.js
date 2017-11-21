@@ -21,6 +21,7 @@ function checkIfHasElementByTag(element, tag){
 function removeElementByTag(element, tag) {
 
     let removeAbles = element.getElementsByTagName(tag);
+
     if(removeAbles.length > 0){
          for (let index = removeAbles.length - 1; index >= 0; index--) {
              removeAbles[index].parentNode.removeChild(removeAbles[index]);
@@ -42,6 +43,7 @@ function addClassByTag(element, tag, classNames) {
 function getProcessedText(cells, formatImage = false){
     //Removing SUP elements from the cell Content
     let modifiedCells = removeElementByTag(cells, 'sup');
+
     if(formatImage) modifiedCells = addClassByTag(modifiedCells, 'img', 'img-thumbnail');
     return encode(modifiedCells.innerHTML);
 }
@@ -76,13 +78,13 @@ export function ParseHtmlTable(encodedHtml) {
     arrayFy(table.rows).map((row) => {
         if(row.cells[1]) {
             if(Object.keys(main).length < 4){
-                main[row.cells[0].innerText.trim()] = getProcessedText(row.cells[1]);
+                main[row.cells[0].innerText.trim().replace(/[&\/\\#,•$~%'":*?<>|]/g, '')] = getProcessedText(row.cells[1]);
             }else{
-                temp[row.cells[0].innerText.trim()] = getProcessedText(row.cells[1]);
+                temp[row.cells[0].innerText.trim().replace(/[&\/\\#,•$~%'":*?<>|]/g, '')] = getProcessedText(row.cells[1]);
             }
 
         }else{
-            if(row.cells[0].tagName.toUpperCase() == 'TH' && !data['title']){
+            if(row.cells[0].tagName.toUpperCase() == 'TH' && !data['title'] && Object.keys(main).length < 3){
                 data['title'] = row.cells[0].innerText;
             }else if(row.cells[0].getElementsByTagName('img').length > 0 && !data['image']){
                 let imageObject = row.cells[0].getElementsByTagName('img')[0];
@@ -101,9 +103,14 @@ export function ParseHtmlTable(encodedHtml) {
                 temp = {};
                 temp['title'] = row.cells[0].innerText;
             }else if(row.cells[0].innerText || checkIfHasElementByTag(row.cells[0], 'img')){
-
-                if(Object.keys(main).length < 4){
-                    secondary.push(row.cells[0].innerText);
+                if(!data['title']){
+                    data['title'] = row.cells[0].innerText;
+                }else if(Object.keys(main).length < 4){
+                    if(checkIfHasElementByTag(row.cells[0], 'img')){
+                        secondary.push(getProcessedText(row.cells[0]), true);
+                    } else{
+                        secondary.push(row.cells[0].innerText);
+                    }
                 }else if(Object.keys(temp).length < 2){
                     temp[0] = getProcessedText(row.cells[0], true);
                 }else{

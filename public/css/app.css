@@ -11707,10 +11707,12 @@ body {
   padding-left: 0;
   -webkit-box-shadow: none;
           box-shadow: none;
+  border-radius: 0;
 }
 
 .jumbotron.info-box .jumbotron-contents ul.list-group li {
   background-color: #f3f3f3;
+  border-radius: 0;
 }
 
 .jumbotron.info-box .jumbotron-contents ul.list-group li .panel-title {
@@ -11752,6 +11754,10 @@ body {
 
 .jumbotron.info-box .jumbotron-contents .panel-success .img-thumbnail {
   margin-bottom: 10px;
+}
+
+.jumbotron.info-box .jumbotron-contents #coordinates {
+  display: none;
 }
 
 .panel.no-top-margin .panel-body {
