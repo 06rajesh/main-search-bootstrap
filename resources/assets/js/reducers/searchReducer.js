@@ -29,11 +29,11 @@ export default function reducer(state = initialState, action) {
             );
             break;
         case "SET_QUERY":
-            state = Object.assign(...state, {fetching: false, query: action.payload});
+            state = Object.assign(...state, {query: action.payload});
             return state;
             break;
         case "REMOVE_ERROR":
-            state = Object.assign(...state, {fetching: false, error: null});
+            state = Object.assign(...state, {error: null});
             return state;
             break;
     }

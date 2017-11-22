@@ -12,8 +12,7 @@ export function fetchResults(query){
         if(d.length > 0 && query == q)
             return d;
 
-        console.log("Sending New Request......");
-
+        dispatch({type: "FETCH_RESULTS", payload: query});
         axios.get(`/api/search?query=${query}`)
             .then((response) => {
                 d = response.data;

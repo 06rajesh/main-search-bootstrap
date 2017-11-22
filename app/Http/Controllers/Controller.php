@@ -24,6 +24,8 @@ class Controller extends BaseController
         $base_uri = 'http://pipilika.com:7001/PipilikaA2ISearchAPI/';
         $client = new Client(['base_uri' => $base_uri]);
 
+        if(!isset($params['doc_type'])) $params['doc_type'] = 'html';
+
         $res = $client->request('GET', $api_substring, [
             'query' => $params,
             'http_errors' => false
@@ -35,4 +37,22 @@ class Controller extends BaseController
             'statusCode' => $res->getStatusCode()
         ];
     }
+
+    public function getSuggestion(){
+
+        $client = new Client(['base_uri' => 'http://pipilika.com:7001/PipilikaA2ISearchAPI/']);
+
+        $res = $client->get('QuerySuggestion', [
+            'query' => [
+                'query'    => request('query'),
+                'type'     => (request('type') != null) ? request('type'): 'all'
+            ],
+            'http_errors' => false
+        ]);
+
+        $obj = $res->getBody()->getContents();
+        return (array)json_decode($obj);
+    }
+
+
 }

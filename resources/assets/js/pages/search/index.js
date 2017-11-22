@@ -28,7 +28,7 @@ class Search extends Component{
                                     <InfoBox/>
                                 </Col>
                                 <Col sm={12} mdPull={4} md={8}>
-                                    <Results error={this.props.error} fetched={this.props.fetched} results={this.props.results} />
+                                    <Results error={this.props.error} fetching = {this.props.fetching} fetched={this.props.fetched} results={this.props.results} />
                                 </Col>
                             </Row>
                         </Col>
@@ -44,6 +44,7 @@ function mapStateToProps(store) {
         query: store.results.query,
         results: store.results.results,
         fetched: store.results.fetched,
+        fetching: store.results.fetching,
         error: store.results.error
     };
 }

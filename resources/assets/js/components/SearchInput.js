@@ -17,7 +17,9 @@ class SearchInput extends Component {
 
         this.state = {
             value       : '',
-            suggestions : []
+            suggestions : [],
+            fetchedSuggestion: false,
+            fetchingSuggestions: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,24 +32,29 @@ class SearchInput extends Component {
     }
 
     fetchSuggestions(query){
-        axios.get(`https://jsonplaceholder.typicode.com/users?q=${query}`)
+        this.setState({fetchingSuggestions: true});
+
+        axios.get(`/api/suggestions?query=${query}`)
             .then((response) => {
                 this.setState({
-                    suggestions: response.data
-                });
+                    suggestions: response.data.query_suggestion
+                }, () => this.setState({fetchingSuggestions: false}));
             })
             .catch((err) => {
                 console.log("Error On Fetching");
+                this.setState({fetchingSuggestions: false});
             })
     }
 
     handleChange(eventValue) {
         this.setState({value: eventValue});
-        this.fetchSuggestions(eventValue);
+        if(!this.state.fetchingSuggestions && eventValue.length > 1){
+            this.fetchSuggestions(eventValue);
+        }
     }
 
     handleSubmit(event){
-        event.preventDefault();
+        if(event)  event.preventDefault();
         this.setState({suggestions: []});
         history.push("/search?q=" + this.state.value);
     }
@@ -63,8 +70,10 @@ class SearchInput extends Component {
                         placeholder='Jquery IME ...'
                         value = {this.props.query}
                         onChange={this.handleChange}
+                        onSubmit={this.handleSubmit}
                         className="home-search"
                         suggestions = {this.state.suggestions}
+                        fetching = {this.state.fetchingSuggestions}
                     />
                 </FormGroup>
             </form>

@@ -18,3 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/search', 'Controller@queryTOAPI');
+Route::get('/suggestions', 'Controller@getSuggestion');

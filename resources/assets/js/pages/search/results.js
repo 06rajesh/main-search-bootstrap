@@ -36,7 +36,7 @@ class Results extends Component{
         if(this.props.error != null){
             return(<p>{this.props.error}</p>);
         }
-        else if(!this.props.fetched){
+        else if(this.props.fetching || !this.props.fetched){
             return(
                 <ListGroup style={styles.resultListStyle}>
                         <h4>Loading</h4>

@@ -6,11 +6,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {InputGroup, Glyphicon, Button, ListGroupItem, ListGroup} from 'react-bootstrap';
+import ToggleButton from 'react-toggle-button';
 
 import jquery from 'jquery';
 window.$ = window.jQuery = jquery;
 
-import '../libs/ime/jquery.ime.css';
+//import '../libs/ime/jquery.ime.css';
 require('../libs/ime/jquery.ime');
 require('../libs/ime/jquery.ime.selector.js');
 require('../libs/ime/jquery.ime.inputmethods');
@@ -24,10 +25,14 @@ export class ImeInput extends Component{
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.changeOnBlur = this.changeOnBlur.bind(this);
+        this.changeOnFocus = this.changeOnFocus.bind(this);
         this.state = {
+            toggle: true,
             value: '',
             cursor: 0,
-            suggestions: []
+            suggestions: [],
+            onFocus: false
         }
     }
 
@@ -49,8 +54,6 @@ export class ImeInput extends Component{
                 suggestions: this.props.suggestions
             });
         }, 500);
-
-        //console.log(this.input.$node[0]);
     }
 
     componentWillReceiveProps(nextProps){
@@ -67,18 +70,33 @@ export class ImeInput extends Component{
     handleChange(event){
         this.setState({value: event.target.value});
         this.props.onChange(event.target.value);
-        this.setState({
-            suggestions: []
-        });
     }
 
-    handleSelect(selectedVal){
+    handleSelect(event, selectedVal){
         this.setState({value: selectedVal});
         this.refs.imeInput.value = selectedVal;
         this.props.onChange(selectedVal);
+        setTimeout(() => {
+            this.setState({
+                onFocus: false
+            });
+            this.props.onSubmit(event);
+        },500);
+    }
+
+    changeOnFocus(){
         this.setState({
-            suggestions: []
+            onFocus: true,
+            cursor: -1
         });
+    }
+
+    changeOnBlur(){
+        setTimeout(() => {
+            this.setState({
+                onFocus: false
+            });
+        }, 250);
     }
 
     handleKeyDown(e) {
@@ -108,8 +126,12 @@ export class ImeInput extends Component{
             }
 
         }else if(e.keyCode == 13){
-            if(this.state.suggestions.length > 0){
-                this.handleSelect(this.state.suggestions[cursor].name);
+            if(suggestions.length > 0 && cursor < suggestions.length && cursor > -1){
+                this.handleSelect(e, this.state.suggestions[cursor].query);
+            }else{
+                this.setState({
+                    onFocus: false
+                });
             }
         }
     }
@@ -120,22 +142,28 @@ export class ImeInput extends Component{
 
     renderQuerySuggestion(){
         let suggestions = this.state.suggestions;
-        if(suggestions){
+
+        if(suggestions && this.state.onFocus){
+
             let iterThroughSuggestion = () => {
+                if(this.props.fetching){
+                    return(
+                        <ListGroupItem>Fetching <Glyphicon glyph="refresh" /></ListGroupItem>
+                    );
+                }
                 return suggestions.map((data, index) => {
                     return(
-                        <ListGroupItem key={index} onClick={() => this.handleSelect(data.name)} active={index == this.state.cursor}>{data.name}</ListGroupItem>
+                        <ListGroupItem key={index} onClick={this.handleSelect.bind(this, event, data.query)} active={index == this.state.cursor}>{data.query}</ListGroupItem>
                     );
                 });
             };
 
-            if(suggestions.length > 0){
-                return(
-                    <ListGroup style={styles.suggestionGroup}>
-                        {iterThroughSuggestion()}
-                    </ListGroup>
-                );
-            }
+
+            return(
+                <ListGroup style={styles.suggestionGroup}>
+                    {iterThroughSuggestion()}
+                </ListGroup>
+            );
         }
     }
 
@@ -150,9 +178,20 @@ export class ImeInput extends Component{
                            defaultValue={_props.value}
                            onKeyDown={ this.handleKeyDown }
                            onChange={this.handleChange}
+                           onFocus={this.changeOnFocus}
+                           onBlur={this.changeOnBlur}
                            className="ime-input form-control" autoComplete="off" name="ime" ref="imeInput"/>
+                    <div style={styles.toggleButtonStyle}>
+                        <ToggleButton
+                            value={ this.state.toggle || false }
+                            onToggle={(value) => {
+                                this.setState({
+                                    toggle: !value,
+                                })
+                            }} />
+                    </div>
                     <InputGroup.Button>
-                        <Button><Glyphicon glyph="search" /></Button>
+                        <Button onClick={this.props.onSubmit}><Glyphicon glyph="search" /></Button>
                     </InputGroup.Button>
                 </InputGroup>
                 {this.renderQuerySuggestion()}
@@ -162,7 +201,7 @@ export class ImeInput extends Component{
 
 }
 
-ImeInput.defaultProps = { icon: 'search', size: 'lg', placeholder: 'search', value: '', className: ''};
+ImeInput.defaultProps = { icon: 'search', size: 'lg', placeholder: 'search', value: '', className: '', suggestions: [], fetching: false};
 
 ImeInput.propTypes = {
     icon: PropTypes.string,
@@ -171,7 +210,9 @@ ImeInput.propTypes = {
     value: PropTypes.string,
     className: PropTypes.string,
     onChange: PropTypes.func.isRequired,
-    suggestions: PropTypes.array
+    onSubmit: PropTypes.func.isRequired,
+    suggestions: PropTypes.array,
+    fetching: PropTypes.bool
 };
 
 const styles = {
@@ -182,5 +223,11 @@ const styles = {
         position: 'absolute',
         width: '100%',
         zIndex: '100'
+    },
+    toggleButtonStyle: {
+        position: 'absolute',
+        top: '30%',
+        zIndex: '100',
+        right: '58px'
     }
 };

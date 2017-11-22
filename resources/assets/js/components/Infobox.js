@@ -27,7 +27,7 @@ class Infobox extends Component{
 
     componentDidMount(){
         let data = ParseHtmlTable(this.tempString);
-        this.setState({info: data}, ()=>console.log(this.state.info));
+        this.setState({info: data});
     }
 
     decreaseFontSize(){
