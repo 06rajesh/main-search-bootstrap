@@ -5,21 +5,55 @@
 //noinspection JSUnresolvedVariable
 import React, { Component } from 'react';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
+import {Fade} from '../../components/Animations';
+import {Loader} from '../../components/Utilites';
+
+class ResultItem extends Component{
+
+    constructor(props){
+        super(props);
+        this.state = {
+            mounted: false
+        }
+    }
+
+    componentDidMount(){
+        this.setState({
+            mounted: true
+        });
+    }
+
+    componentWillUnmount(){
+        this.setState({
+           mounted: false
+        });
+    }
+
+    render(){
+        let {result} = this.props;
+        return (
+            <Fade in={this.state.mounted} delay={this.props.delay * 20}>
+                <ListGroupItem key={result.id} style={styles.resultItem} listItem>
+                    <h4>{result.title}</h4>
+                    <p className="result-url"><a href="#"><span className="glyphicon glyphicon-globe"/> {decodeURIComponent(result.url)}</a></p>
+                    <p dangerouslySetInnerHTML={{__html: result.content}} style={styles.resultDescription}/>
+                </ListGroupItem>
+            </Fade>
+        );
+    }
+}
 
 class Results extends Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
     }
 
     renderPostList(results){
         if(results.length > 0){
-            return results.map((result) => {
+            return results.map((result, index) => {
                 if(result.doc_type == 'html') {
                     return (
-                        <ListGroupItem key={result.id} style={styles.resultItem} header={result.title}>
-                            <p className="result-url"><a href="#">{decodeURIComponent(result.url)}</a></p>
-                            <p dangerouslySetInnerHTML={{__html: result.content}} style={styles.resultDescription}/>
-                        </ListGroupItem>
+                        <ResultItem result={result} key={result.id} delay={index}/>
                     );
                 }
             });
@@ -38,13 +72,13 @@ class Results extends Component{
         }
         else if(this.props.fetching || !this.props.fetched){
             return(
-                <ListGroup style={styles.resultListStyle}>
-                        <h4>Loading</h4>
+                <ListGroup style={styles.resultListStyle} className="basic">
+                        <Loader/>
                 </ListGroup>
             );
         }else{
             return(
-                <ListGroup style={styles.resultListStyle} className="basic">
+                <ListGroup style={styles.resultListStyle} className="basic" componentClass="ul">
                     {this.renderPostList(this.props.results)}
                 </ListGroup>
             );
@@ -58,9 +92,6 @@ const styles = {
         display: 'block',
         maxWidth: '700px',
         width: '100%'
-    },
-    resultItem: {
-        paddingBottom: '0px'
     },
     resultHeader:{
         overflow: 'hidden',

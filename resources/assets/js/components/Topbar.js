@@ -6,6 +6,7 @@
 import React, { Component } from 'react';
 //import {Link} from 'react-router';
 import {Row, Col, MenuItem, Glyphicon, Dropdown, Image} from 'react-bootstrap';
+import {history} from '../store';
 import {Segment} from './Utilites';
 import SearchInput from './SearchInput';
 
@@ -47,7 +48,7 @@ class Topbar extends Component{
             <Segment secondary className="no-border-radius">
                 <Row className="flexify">
                     <Col md={12} className="hidden-sm hidden-xs" style={{ 'flex': '0 0 150px'}}>
-                        <Image src="http://a2i.pipilika.com/img/logo.png" responsive style = {styles.imageClass}/>
+                        <Image src="http://a2i.pipilika.com/img/logo.png" responsive style = {styles.imageClass} onClick={() => history.push('/')}/>
                     </Col>
                     <Col xs={12} style={{ 'flex': '1', 'paddingTop': '5px'}}>
                         <SearchInput size='large'/>

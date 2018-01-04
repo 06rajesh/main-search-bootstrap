@@ -6,8 +6,24 @@ import React, { Component } from 'react';
 import {Row, Col, Image} from 'react-bootstrap';
 import SearchInput from '../../components/SearchInput';
 import {Container} from '../../components/Utilites';
+import IconList from '../../components/IconList';
+import {Fade} from '../../components/Animations';
 
 export default class Home extends Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            mounted: false,
+            logoLoaded: false
+        };
+    }
+
+    componentDidMount(){
+        this.setState({
+            mounted: true
+        });
+    }
 
 
     render() {
@@ -16,8 +32,13 @@ export default class Home extends Component {
                 <Container>
                     <Row className="vertical-center">
                         <Col md={8} mdOffset={2} className="center-align">
-                            <Image src="http://a2i.pipilika.com/img/logo.png" style={styles.centerLogo}/>
-                            <SearchInput size='large'/>
+                            <Fade in={this.state.logoLoaded}>
+                                <Image src="http://a2i.pipilika.com/img/logo.png" style={styles.centerLogo} height="82.5" onLoad={() => this.setState({logoLoaded: true})}/>
+                            </Fade>
+                            <Fade in={this.state.mounted}>
+                                <SearchInput size='large'/>
+                            </Fade>
+                            <IconList/>
                         </Col>
                     </Row>
                 </Container>

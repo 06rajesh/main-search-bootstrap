@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import {Panel, Button, Glyphicon} from 'react-bootstrap';
+import {Fade} from './Animations';
 
 export class Segment extends Component{
 
@@ -109,4 +110,38 @@ CollapsablePanel.propTypes = {
 
 CollapsablePanel.defaultProps = {
     expanded: true
+};
+
+export class Loader extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            mounted: false
+        }
+    }
+
+    componentDidMount(){
+        this.setState({mounted: true});
+    }
+
+    render(){
+        let CustomElement = this.props.elementType;
+        return(
+            <Fade in={this.state.mounted} duration={200}>
+                <CustomElement style={{textAlign: 'center'}}>
+                    {this.props.caption} <span className="glyphicon glyphicon-repeat normal-right-spinner"/>
+                </CustomElement>
+            </Fade>
+        );
+    }s
+}
+
+Loader.propTypes = {
+    caption: React.PropTypes.string,
+    elementType: React.PropTypes.oneOf(['h4', 'h5', 'p', 'div'])
+};
+
+Loader.defaultProps = {
+    elementType: `h4`,
+    caption: 'ফলাফল খোঁজা হচ্ছে'
 };

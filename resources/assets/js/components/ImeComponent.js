@@ -7,6 +7,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {InputGroup, Glyphicon, Button, ListGroupItem, ListGroup} from 'react-bootstrap';
 import ToggleButton from 'react-toggle-button';
+import {Loader} from './Utilites';
 
 import jquery from 'jquery';
 window.$ = window.jQuery = jquery;
@@ -27,6 +28,7 @@ export class ImeInput extends Component{
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.changeOnBlur = this.changeOnBlur.bind(this);
         this.changeOnFocus = this.changeOnFocus.bind(this);
+        this.toggleInputLanguage = this.toggleInputLanguage.bind(this);
         this.state = {
             toggle: true,
             value: '',
@@ -39,15 +41,16 @@ export class ImeInput extends Component{
     componentDidMount() {
         this.$node = $(this.refs.imeInput);
         this.$node.ime({
-            languages: ['bn']
+            languages: ['bn', 'en'],
+            showSelector: false
         });
 
         this.ime = this.$node.data('ime');
 
-        this.ime.setLanguage('bn');
         this.ime.load('bn-avro');
 
         setTimeout(() => {
+            this.ime.setLanguage('bn');
             this.ime.setIM( 'bn-avro' );
             this.ime.enable();
             this.setState({
@@ -140,6 +143,21 @@ export class ImeInput extends Component{
         this.ime.destroy();
     }
 
+    toggleInputLanguage(value){
+        this.setState({
+            toggle: !value,
+        });
+        if(value){
+            this.ime.setLanguage('en');
+            this.ime.setIM( 'en' );
+            this.ime.enable();
+        }else{
+            this.ime.setLanguage('bn');
+            this.ime.setIM( 'bn-avro' );
+            this.ime.enable();
+        }
+    }
+
     renderQuerySuggestion(){
         let suggestions = this.state.suggestions;
 
@@ -148,7 +166,7 @@ export class ImeInput extends Component{
             let iterThroughSuggestion = () => {
                 if(this.props.fetching){
                     return(
-                        <ListGroupItem>Fetching <Glyphicon glyph="refresh" /></ListGroupItem>
+                        <ListGroupItem><Loader elementType="p"/></ListGroupItem>
                     );
                 }
                 return suggestions.map((data, index) => {
@@ -183,15 +201,13 @@ export class ImeInput extends Component{
                            className="ime-input form-control" autoComplete="off" name="ime" ref="imeInput"/>
                     <div style={styles.toggleButtonStyle}>
                         <ToggleButton
+                            inactiveLabel={'EN'}
+                            activeLabel={'BN'}
                             value={ this.state.toggle || false }
-                            onToggle={(value) => {
-                                this.setState({
-                                    toggle: !value,
-                                })
-                            }} />
+                            onToggle={(value) => this.toggleInputLanguage(value)}/>
                     </div>
                     <InputGroup.Button>
-                        <Button onClick={this.props.onSubmit}><Glyphicon glyph="search" /></Button>
+                        <Button onClick={this.props.onSubmit} bsStyle="success"><Glyphicon glyph="search" /></Button>
                     </InputGroup.Button>
                 </InputGroup>
                 {this.renderQuerySuggestion()}

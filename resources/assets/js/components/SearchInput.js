@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react';
 import axios from "axios";
-import {ImeInput} from './Widgets';
+import {ImeInput} from './ImeComponent';
 import {FormGroup} from 'react-bootstrap';
 
 import { connect } from 'react-redux';
@@ -94,7 +94,7 @@ const styles = {
         maxWidth: '700px'
     },
     homeSearchInput : {
-        maxWidth: '700px',
+        maxWidth: '750px',
         marginBottom: '15px'
     }
 };
