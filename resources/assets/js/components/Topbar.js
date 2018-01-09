@@ -4,38 +4,41 @@
 
 //noinspection JSUnresolvedVariable
 import React, { Component } from 'react';
-//import {Link} from 'react-router';
+import {Link} from 'react-router';
 import {Row, Col, MenuItem, Glyphicon, Dropdown, Image} from 'react-bootstrap';
 import {history} from '../store';
 import {Segment} from './Utilites';
 import SearchInput from './SearchInput';
 
-const TopDropdown = () => {
-  return(
-      <Dropdown id = "top-dropdown-menu" pullRight style={styles.dropDownStyle}>
-          <Dropdown.Toggle bsStyle="success" noCaret style={styles.dropDownButton}>
-              <Glyphicon glyph="align-justify" />
-          </Dropdown.Toggle>
-          <Dropdown.Menu className="super-colors">
-              <MenuItem eventKey="1">Action</MenuItem>
-              <MenuItem eventKey="2">Another action</MenuItem>
-              <MenuItem eventKey="3" active>Active Item</MenuItem>
-              <MenuItem divider />
-              <MenuItem eventKey="4">Separated link</MenuItem>
-          </Dropdown.Menu>
-      </Dropdown>
-  );
-};
+class TopDropdown extends Component{
+
+    render(){
+        return(
+            <Dropdown id = "top-dropdown-menu" pullRight style={styles.dropDownStyle} onSelect={() => null}>
+                <Dropdown.Toggle bsStyle="success" noCaret style={styles.dropDownButton}>
+                    <Glyphicon glyph="align-justify" />
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="super-colors">
+                    <li><Link to="/about" activeClassName="active">পিপীলিকা সম্পর্কে</Link></li>
+                    <li><Link to="/what" activeClassName="active">পিপীলিকা কি?</Link></li>
+                    <li><Link to="/feedback" activeClassName="active">মতামত</Link></li>
+                    <MenuItem divider />
+                    <li><Link to="/404" activeClassName="active">404</Link></li>
+                </Dropdown.Menu>
+            </Dropdown>
+        );
+    }
+}
 
 class Topbar extends Component{
 
-    componentDidMount(){
-
+    goToLink(link){
+        history.push(link);
     }
 
     renderHomeHeader(){
         return(
-            <Segment basic className="no-border-radius transparent">
+            <Segment basic className="no-border-radius transparent top-bar">
                 <div className="pull-right">
                     <TopDropdown/>
                 </div>
@@ -45,10 +48,10 @@ class Topbar extends Component{
 
     renderSearchHeader(){
         return(
-            <Segment secondary className="no-border-radius">
+            <Segment secondary className="no-border-radius top-bar">
                 <Row className="flexify">
                     <Col md={12} className="hidden-sm hidden-xs" style={{ 'flex': '0 0 150px'}}>
-                        <Image src="http://a2i.pipilika.com/img/logo.png" responsive style = {styles.imageClass} onClick={() => history.push('/')}/>
+                        <Image src="http://a2i.pipilika.com/img/logo.png" responsive style = {styles.imageClass} onClick={this.goToLink.bind(this, '/')}/>
                     </Col>
                     <Col xs={12} style={{ 'flex': '1', 'paddingTop': '5px'}}>
                         <SearchInput size='large'/>
@@ -64,7 +67,7 @@ class Topbar extends Component{
     render(){
         let currentPath = this.props.currentPath;
 
-        if(currentPath == '/') {
+        if(currentPath == '/' || currentPath == '/home') {
             return(
                 this.renderHomeHeader()
             );
@@ -78,8 +81,8 @@ class Topbar extends Component{
 
 const styles = {
     topBar: {
-        minHeight: '90px',
-        marginBottom: '0px'
+        height: '90px',
+        marginBottom: '10px'
     },
     imageClass: {
         position: 'relative',

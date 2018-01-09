@@ -13,7 +13,7 @@ export class Segment extends Component{
     render(){
         let _props = this.props;
         return(
-            <div className={`segment ${_props.basic ? 'basic' : '' } ${_props.secondary ? 'secondary' : '' }`}>
+            <div className={`segment ${_props.basic ? 'basic' : '' } ${_props.secondary ? 'secondary' : '' } ${_props.className}`} style={_props.style}>
                 <Container fluid={_props.fluid}>
                     {this.props.children}
                 </Container>
@@ -33,11 +33,11 @@ export class Container extends Component{
     render(){
         if(this.props.fluid){
             return(
-                <div className="container-fluid">{this.props.children}</div>
+                <div className={`container-fluid ${this.props.center ? 'text-center' : ''}`}>{this.props.children}</div>
             );
         }else{
             return(
-                <div className="container">{this.props.children}</div>
+                <div className={`container ${this.props.text ? 'text' : ''} ${this.props.center ? 'text-center' : ''}`}>{this.props.children}</div>
             );
         }
 
@@ -45,11 +45,38 @@ export class Container extends Component{
 }
 
 Container.defaultProps = {
-    fluid: false
+    fluid: false,
+    text: false,
+    center: false
 };
 
 Container.propTypes = {
-  fluid: PropTypes.bool
+    fluid: PropTypes.bool,
+    text: PropTypes.bool,
+    center: PropTypes.bool
+};
+
+export class PageHeader extends Component{
+    render(){
+        return(
+            <div className="page-header" style={{backgroundImage: 'url(' + this.props.image + ')'}}>
+                <Container center>
+                    <h2>{this.props.title}</h2>
+                    <h5>{this.props.subtitle}</h5>
+                </Container>
+            </div>
+        );
+    }
+}
+
+PageHeader.propTypes = {
+    title: PropTypes.string.isRequired,
+    subtitle: PropTypes.string.isRequired,
+    image: PropTypes.string
+};
+
+PageHeader.defaultProps = {
+    image: '/images/bg/page-bg.jpg'
 };
 
 export class CollapsablePanel extends Component{

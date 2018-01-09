@@ -13,13 +13,13 @@ import {Jumbotron, Col, Row, Panel, ListGroup, ListGroupItem} from 'react-bootst
 import {CollapsablePanel} from './Utilites';
 
 import {ParseHtmlTable} from '../libs/common';
-import {robindroInfo} from './infoHtml';
+import {nazrulInfo, banglaInfo} from './infoHtml';
 
 class Infobox extends Component{
 
     constructor(props){
         super(props);
-        this.tempString = robindroInfo;
+        this.tempString = banglaInfo;
         this.state = {
             info :''
         };
@@ -120,6 +120,7 @@ class Infobox extends Component{
                     {this.renderAttributes(this.state.info)}
                 </div>
             </Jumbotron>
+            // <Jumbotron className="info-box" dangerouslySetInnerHTML={{__html: decode(banglaInfo)}}/>
         );
     }
 }

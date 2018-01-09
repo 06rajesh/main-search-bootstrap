@@ -17,7 +17,11 @@ import store, {history} from './store';
 import Layout from './layout';
 import Home from './pages/home';
 import Search from './pages/search';
+import Single from './pages/single';
+import Feedback from './pages/feedback';
 import {fetchResults} from './actions/searchActions';
+
+let pageData = store.getState().pages.items;
 
 history.listen(location => {
     if(Object.keys(location.query).length > 0){
@@ -25,13 +29,34 @@ history.listen(location => {
     }
 });
 
+checkIfReloaded();
+
+function checkIfReloaded() {
+    let HugeObj = store.getState();
+    if(HugeObj.results.query.length == 0){
+        let location = HugeObj.routing.locationBeforeTransitions;
+        if(location.query.q != HugeObj.results.query){
+            store.dispatch(fetchResults(location.query.q));
+        }
+    }
+}
+
 render(
     <Provider store = {store}>
         <Router history={history}>
             <Route path="/" component={Layout} >
                 <IndexRoute component={Home}/>
-                <Route path={"home"} component={Home}/>
-                <Route path={"search"} component={Search}/>
+                <Route path='home' component={Home}/>
+                <Route path='search' component={Search}/>
+                {
+                    pageData.map((item, index) => {
+                        return(
+                            <Route key ={index} path={item.url} component={() => <Single title={item.title} subtitle={item.subtitle} image={item.image} content={item.content}/>}/>
+                        );
+                    })
+                }
+                <Route path='feedback' component={Feedback}/>
+                <Route path='*' exact={true} component={() => <Single title="404 Error" subtitle="Sorry, The page you requested, Not Found" content="<h5 class='text-center'>Thanks For Using Pipilika</h5>"/>} />
             </Route>
         </Router>
     </Provider>,

@@ -9,6 +9,7 @@ import {Row, Col} from 'react-bootstrap';
 
 import {Segment} from '../../components/Utilites';
 import InfoBox from '../../components/Infobox';
+import Footer from '../../components/Footer';
 import Results from './results';
 
 class Search extends Component{
@@ -18,7 +19,7 @@ class Search extends Component{
 
     render(){
         return(
-            <div className="result-page">
+            <div className="result-page page">
                 <Segment basic>
                     <Row className="flexify remove-flex-sm">
                         <Col md={12} xsHidden smHidden style={{ 'flex': '0 0 150px'}}/>
@@ -34,6 +35,7 @@ class Search extends Component{
                         </Col>
                     </Row>
                 </Segment>
+                <Footer/>
             </div>
         );
     }

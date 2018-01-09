@@ -90,7 +90,7 @@ class Results extends Component{
 const styles = {
     resultListStyle:{
         display: 'block',
-        maxWidth: '700px',
+        maxWidth: '750px',
         width: '100%'
     },
     resultHeader:{
@@ -103,7 +103,7 @@ const styles = {
         color: 'rgba(0,0,0,0.75)'
     },
     resultDescription: {
-        fontSize: '14px',
+        fontSize: '12px',
         lineHeight: '1.5em',
         color: 'rgba(0,0,0,0.6)',
         textAlign: 'justify'

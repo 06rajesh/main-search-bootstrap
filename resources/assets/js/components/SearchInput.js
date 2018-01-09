@@ -21,12 +21,23 @@ class SearchInput extends Component {
             fetchedSuggestion: false,
             fetchingSuggestions: false
         };
+
+        this.mounted = false;
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentDidMount(){
+        this.mounted = true;
+    }
+
+    componentWillUnmount(){
+        this.mounted = false;
+    }
+
     componentWillReceiveProps(nextProps){
-        if(typeof nextProps.query !== 'undefined'){
+        if(typeof nextProps.query !== 'undefined' && this.mounted){
             this.setState({ value: nextProps.query });
         }
     }
@@ -36,26 +47,32 @@ class SearchInput extends Component {
 
         axios.get(`/api/suggestions?query=${query}`)
             .then((response) => {
-                this.setState({
-                    suggestions: response.data.query_suggestion
-                }, () => this.setState({fetchingSuggestions: false}));
+                if(this.mounted){
+                    this.setState({
+                        suggestions: response.data.query_suggestion
+                    }, () => {
+                        this.setState({fetchingSuggestions: false});
+                    });
+                }
             })
             .catch((err) => {
                 console.log("Error On Fetching");
-                this.setState({fetchingSuggestions: false});
+                if(this.mounted){
+                    this.setState({fetchingSuggestions: false});
+                }
             })
     }
 
     handleChange(eventValue) {
-        this.setState({value: eventValue});
+        if(this.mounted) this.setState({value: eventValue});
         if(!this.state.fetchingSuggestions && eventValue.length > 1){
             this.fetchSuggestions(eventValue);
         }
     }
 
-    handleSubmit(event){
+    handleSubmit(event = null){
         if(event)  event.preventDefault();
-        this.setState({suggestions: []});
+        if(this.mounted) this.setState({suggestions: []});
         history.push("/search?q=" + this.state.value);
     }
 
@@ -67,7 +84,7 @@ class SearchInput extends Component {
                     <ImeInput
                         icon='search'
                         size={this.props.size}
-                        placeholder='Jquery IME ...'
+                        placeholder='সার্চ করুন...'
                         value = {this.props.query}
                         onChange={this.handleChange}
                         onSubmit={this.handleSubmit}

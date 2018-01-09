@@ -36,6 +36,7 @@ export class ImeInput extends Component{
             suggestions: [],
             onFocus: false
         }
+        this.mounted = false;
     }
 
     componentDidMount() {
@@ -46,6 +47,7 @@ export class ImeInput extends Component{
         });
 
         this.ime = this.$node.data('ime');
+        this.mounted = true;
 
         this.ime.load('bn-avro');
 
@@ -76,14 +78,21 @@ export class ImeInput extends Component{
     }
 
     handleSelect(event, selectedVal){
+
+        if(event) {
+            event.preventDefault();
+        }
+
         this.setState({value: selectedVal});
         this.refs.imeInput.value = selectedVal;
         this.props.onChange(selectedVal);
         setTimeout(() => {
-            this.setState({
-                onFocus: false
-            });
-            this.props.onSubmit(event);
+            if(this.mounted){
+                this.setState({
+                    onFocus: false
+                });
+                this.props.onSubmit();
+            }
         },500);
     }
 
@@ -105,42 +114,45 @@ export class ImeInput extends Component{
     handleKeyDown(e) {
         const { cursor, suggestions } = this.state;
 
-        // arrow up/down button should select next/previous list element
-        if (e.keyCode == 38) {
-            if(cursor > 0){
-                this.setState({
-                    cursor: this.state.cursor - 1
-                });
-            }else{
-                this.setState({
-                    cursor: suggestions.length
-                });
-            }
+        if(this.mounted){
+            // arrow up/down button should select next/previous list element
+            if (e.keyCode == 38) {
+                if(cursor > 0){
+                    this.setState({
+                        cursor: this.state.cursor - 1
+                    });
+                }else{
+                    this.setState({
+                        cursor: suggestions.length
+                    });
+                }
 
-        } else if (e.keyCode == 40) {
-            if(cursor < suggestions.length){
-                this.setState({
-                    cursor: this.state.cursor + 1
-                });
-            }else {
-                this.setState({
-                    cursor: 0
-                });
-            }
+            } else if (e.keyCode == 40) {
+                if(cursor < suggestions.length){
+                    this.setState({
+                        cursor: this.state.cursor + 1
+                    });
+                }else {
+                    this.setState({
+                        cursor: 0
+                    });
+                }
 
-        }else if(e.keyCode == 13){
-            if(suggestions.length > 0 && cursor < suggestions.length && cursor > -1){
-                this.handleSelect(e, this.state.suggestions[cursor].query);
-            }else{
-                this.setState({
-                    onFocus: false
-                });
+            }else if(e.keyCode == 13){
+                if(suggestions.length > 0 && cursor < suggestions.length && cursor > -1){
+                    this.handleSelect(e, this.state.suggestions[cursor].query);
+                }else{
+                    this.setState({
+                        onFocus: false
+                    });
+                }
             }
         }
     }
 
     componentWillUnmount() {
         this.ime.destroy();
+        this.mounted = false;
     }
 
     toggleInputLanguage(value){
@@ -171,7 +183,7 @@ export class ImeInput extends Component{
                 }
                 return suggestions.map((data, index) => {
                     return(
-                        <ListGroupItem key={index} onClick={this.handleSelect.bind(this, event, data.query)} active={index == this.state.cursor}>{data.query}</ListGroupItem>
+                        <ListGroupItem key={index} onClick={this.handleSelect.bind(this, null, data.query)} active={index == this.state.cursor}>{data.query}</ListGroupItem>
                     );
                 });
             };
@@ -198,7 +210,7 @@ export class ImeInput extends Component{
                            onChange={this.handleChange}
                            onFocus={this.changeOnFocus}
                            onBlur={this.changeOnBlur}
-                           className="ime-input form-control" autoComplete="off" name="ime" ref="imeInput"/>
+                           className="ime-input form-control" autoComplete="off" name="q" ref="imeInput"/>
                     <div style={styles.toggleButtonStyle}>
                         <ToggleButton
                             inactiveLabel={'EN'}
