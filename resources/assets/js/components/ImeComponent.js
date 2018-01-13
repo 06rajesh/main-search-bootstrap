@@ -116,6 +116,8 @@ export class ImeInput extends Component{
 
         if(this.mounted){
             // arrow up/down button should select next/previous list element
+            console.log(this.state.cursor);
+
             if (e.keyCode == 38) {
                 if(cursor > 0){
                     this.setState({
