@@ -53,19 +53,24 @@ class InfoBoxImage extends Component{
     }
 
     render(){
-        let info = this.props.info;
+        let {info} = this.props;
+        let title = this.props.title ? this.props.title : info.title;
 
         if(info.image){
             return(
                 <div className="jumbotron-photo table-container" >
                     <Row className = 'table-row'>
                         <Col xs={7} className="no-padd table-col" style={{'verticalAlign': 'middle'}}>
-                            <img src={info.image.src} alt={info.image.alt}/>
+                            <a href={this.props.url} target="_blank">
+                                <img src={info.image.src} alt={info.image.alt}/>
+                            </a>
                         </Col>
                         <Col xs={5} className="no-padd table-col grass">
                             <div className="title-cont" id="title-container" ref="titleContainer">
-                                <div className="title" id="title" ref="titleText" style={{'fontSize' : this.state.fontSize + 'px'}}>{info.title}</div>
-                                <div className="caption">{info.image.caption}</div>
+                                <a href={this.props.url} target="_blank">
+                                    <div className="title" id="title" ref="titleText" style={{'fontSize' : this.state.fontSize + 'px'}}>{title}</div>
+                                </a>
+                                {/*<div className="caption">{info.image.caption}</div>*/}
                             </div>
                         </Col>
                     </Row>
@@ -73,17 +78,11 @@ class InfoBoxImage extends Component{
             );
         }else if(info.title){
             return(
-                <div className="jumbotron-photo">
+                <div className="jumbotron-photo" style={{minHeight: '70px'}}>
                     <div className="title-cont" id="title-container">
-                        <div className="title" id="title" ref="imeInput" style={{'fontSize' : this.state.fontSize + 'px'}}>{info.title}</div>
-                    </div>
-                </div>
-            );
-        }else{
-            return(
-                <div className="jumbotron-photo">
-                    <div className="title-cont" id="title-container">
-                        <div className="title" id="title" ref="imeInput" style={{'fontSize' : '35px'}}>Loading</div>
+                        <a href={this.props.url} target="_blank">
+                            <div className="title" id="title" ref="imeInput" style={{'fontSize' : this.state.fontSize + 'px'}}>{title}</div>
+                        </a>
                     </div>
                 </div>
             );
@@ -222,7 +221,7 @@ class Infobox extends Component{
             return(
                 <Fade in={this.state.infoReady}>
                     <Jumbotron className="info-box">
-                        <InfoBoxImage info={this.state.info}/>
+                        <InfoBoxImage info={this.state.info} title={this.props.infoBox.title} url={this.props.infoBox.url}/>
                         <div className="jumbotron-contents">
                             {this.renderSecondary(this.state.info)}
                             {this.renderAttributes(this.state.info)}

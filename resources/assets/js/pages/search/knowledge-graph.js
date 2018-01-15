@@ -10,6 +10,9 @@ import axios from "axios";
 import {Row, Col} from 'react-bootstrap';
 import {KnowledgeThumb, Loader} from '../../components/Utilites';
 import {Fade} from '../../components/Animations';
+import {resetInfoBox} from '../../actions/infoboxActions';
+
+import {history} from '../../store';
 
 class KnowledgeGraph extends Component{
 
@@ -24,6 +27,7 @@ class KnowledgeGraph extends Component{
 
         this.fetchItems = this.fetchItems.bind(this);
         this.renderKnowledgeItems = this.renderKnowledgeItems.bind(this);
+        this.itemClick = this.itemClick.bind(this);
     }
 
     componentWillReceiveProps(nextProps){
@@ -31,6 +35,11 @@ class KnowledgeGraph extends Component{
             this.setState({query: nextProps.query, fetched: false});
             this.fetchItems(nextProps.query);
         }
+    }
+
+    itemClick(title){
+        this.props.resetInfoBox();
+        history.push("/search?q=" + encodeURIComponent(title));
     }
 
     fetchItems(query){
@@ -56,7 +65,7 @@ class KnowledgeGraph extends Component{
                 if(index < 8){
                     return(
                         <Col sm={3} xs={4} style={{paddingRight: '0'}} key={index}>
-                            <KnowledgeThumb src={item.image} alt="No Image Found">
+                            <KnowledgeThumb src={item.image} alt="No Image Found" onClick={this.itemClick} title={item.title}>
                                 <p style={{marginBottom: '0px'}}>{item.title}</p>
                             </KnowledgeThumb>
                         </Col>
@@ -95,4 +104,12 @@ function mapStateToProps(store) {
     };
 }
 
-export default connect(mapStateToProps)(KnowledgeGraph);
+function mapDispatchToProps(dispatch){
+    return{
+        resetInfoBox: () => {
+            dispatch(resetInfoBox());
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(KnowledgeGraph);

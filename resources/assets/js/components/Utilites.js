@@ -142,7 +142,7 @@ CollapsablePanel.defaultProps = {
 export class KnowledgeThumb extends Component{
     render(){
         return(
-            <div className="thumbnail knowledge-thumb dark-gray">
+            <div className="thumbnail knowledge-thumb dark-gray" onClick={() => this.props.onClick(this.props.title)}>
                 <div className="img-container">
                     <span className="helper"/>
                     <img src={this.props.src} alt={this.props.alt}/>

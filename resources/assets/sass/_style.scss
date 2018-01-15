@@ -193,6 +193,14 @@ body{
       white-space: nowrap;
       text-overflow: ellipsis;
       line-height: 1.5em;
+
+      a{
+        color: #636b6f;
+        &:hover{
+          text-decoration: underline;
+        }
+      }
+
     }
   }
 }
@@ -387,6 +395,7 @@ body{
 .knowledge-thumb {
   overflow: hidden;
   padding: 0;
+  cursor: pointer;
 
   .img-container {
     width: 100%;
@@ -419,12 +428,13 @@ body{
 
 .pagination-group{
   .btn{
-    border-color: $brand-info!important;
-    color: $brand-info;
+    border-color: #0b5816!important;
+    color: #0b5816;
     padding: 6px 18px;
   }
   .btn.active, .btn:hover{
-    background: $brand-info;
+    background: #009688;
+    color: #fff;
   }
 }
 

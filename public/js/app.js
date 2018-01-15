@@ -2519,9 +2519,13 @@ var KnowledgeThumb = function (_Component5) {
     _createClass(KnowledgeThumb, [{
         key: 'render',
         value: function render() {
+            var _this6 = this;
+
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
-                { className: 'thumbnail knowledge-thumb dark-gray' },
+                { className: 'thumbnail knowledge-thumb dark-gray', onClick: function onClick() {
+                        return _this6.props.onClick(_this6.props.title);
+                    } },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'img-container' },
@@ -2546,12 +2550,12 @@ var Loader = function (_Component6) {
     function Loader(props) {
         _classCallCheck(this, Loader);
 
-        var _this6 = _possibleConstructorReturn(this, (Loader.__proto__ || Object.getPrototypeOf(Loader)).call(this, props));
+        var _this7 = _possibleConstructorReturn(this, (Loader.__proto__ || Object.getPrototypeOf(Loader)).call(this, props));
 
-        _this6.state = {
+        _this7.state = {
             mounted: false
         };
-        return _this6;
+        return _this7;
     }
 
     _createClass(Loader, [{
@@ -30434,13 +30438,6 @@ var SearchInput = function (_Component) {
             this.mounted = false;
         }
     }, {
-        key: 'componentWillReceiveProps',
-        value: function componentWillReceiveProps(nextProps) {
-            if (typeof nextProps.query !== 'undefined' && this.mounted) {
-                this.setState({ value: nextProps.query });
-            }
-        }
-    }, {
         key: 'fetchSuggestions',
         value: function fetchSuggestions(query) {
             var _this2 = this;
@@ -30466,9 +30463,6 @@ var SearchInput = function (_Component) {
         key: 'handleChange',
         value: function handleChange(eventValue) {
             if (this.mounted) this.setState({ value: eventValue });
-            // if(!this.state.fetchingSuggestions && eventValue.length > 1){
-            //     this.fetchSuggestions(eventValue);
-            // }
         }
     }, {
         key: 'handleSubmit',
@@ -30477,7 +30471,7 @@ var SearchInput = function (_Component) {
 
             if (event) event.preventDefault();
             if (this.mounted) this.setState({ suggestions: [] });
-            __WEBPACK_IMPORTED_MODULE_5__store__["b" /* history */].push("/search?q=" + this.state.value);
+            __WEBPACK_IMPORTED_MODULE_5__store__["b" /* history */].push("/search?q=" + encodeURIComponent(this.state.value));
             this.props.resetInfoBox();
         }
     }, {
@@ -30494,7 +30488,7 @@ var SearchInput = function (_Component) {
                         icon: 'search',
                         size: this.props.size,
                         placeholder: '\u09B8\u09BE\u09B0\u09CD\u099A \u0995\u09B0\u09C1\u09A8...',
-                        value: this.props.query,
+                        query: this.props.query,
                         onChange: this.handleChange,
                         onSubmit: this.handleSubmit,
                         className: 'home-search',
@@ -30703,7 +30697,10 @@ function fetchInfobox(query) {
             var results = d.results[0];
 
             dispatch({ type: "REMOVE_INFO_ERROR" });
-            dispatch({ type: "FETCH_INFOBOX_FULFILLED", payload: { query: query, has_infobox: results.has_infobox, results: results.infobox } });
+            dispatch({
+                type: "FETCH_INFOBOX_FULFILLED",
+                payload: { query: query, has_infobox: results.has_infobox, title: results.title, url: results.url, results: results.infobox }
+            });
         }).catch(function (err) {
             dispatch({ type: "FETCH_INFOBOX_REJECTED", payload: err });
         });
@@ -64747,6 +64744,8 @@ var initialState = {
     results: null,
     has_knowledge_graph: false,
     query: '',
+    title: '',
+    url: null,
     fetching: false,
     fetched: false,
     error: null
@@ -64777,6 +64776,8 @@ function reducer() {
                 results: action.payload.results,
                 has_knowledge_graph: action.payload.has_infobox,
                 query: action.payload.query,
+                title: action.payload.title,
+                url: action.payload.url,
                 fetching: false,
                 fetched: true
             });
@@ -64791,6 +64792,8 @@ function reducer() {
                 results: null,
                 has_knowledge_graph: false,
                 query: '',
+                title: '',
+                url: null,
                 fetching: false,
                 fetched: false
             });
@@ -68847,16 +68850,30 @@ var ImeInput = function (_Component) {
                 _this2.ime.setIM('bn-avro');
                 _this2.ime.enable();
                 _this2.setState({
+                    value: _this2.props.query,
                     suggestions: _this2.props.suggestions
+                }, function () {
+                    _this2.props.onChange(_this2.state.value);
                 });
             }, 500);
         }
     }, {
         key: 'componentWillReceiveProps',
         value: function componentWillReceiveProps(nextProps) {
-            if (this.props.value == '' && nextProps.value != '') {
-                this.$node.get(0).value = nextProps.value;
+
+            /*if(this.props.initValue != this.state.initValue) {
+                this.setState({
+                    value: nextProps.initValue,
+                    initValue: nextProps.initValue
+                });
+            }*/
+
+            if (nextProps.query !== this.props.query) {
+                this.setState({
+                    value: nextProps.query
+                });
             }
+
             if (nextProps.suggestions.length > 1) {
                 this.setState({
                     suggestions: nextProps.suggestions
@@ -68892,8 +68909,9 @@ var ImeInput = function (_Component) {
         }
     }, {
         key: 'changeOnFocus',
-        value: function changeOnFocus() {
+        value: function changeOnFocus(e) {
             this.setState({
+                value: event.target.value,
                 onFocus: true,
                 cursor: -1
             });
@@ -68949,8 +68967,10 @@ var ImeInput = function (_Component) {
                         });
                     } else {
                         this.setState({
-                            onFocus: false
+                            onFocus: false,
+                            value: ''
                         });
+                        this.props.onSubmit(e);
                     }
                 }
             }
@@ -68959,6 +68979,9 @@ var ImeInput = function (_Component) {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
             this.ime.destroy();
+            this.setState({
+                value: ''
+            });
             this.mounted = false;
         }
     }, {
@@ -69023,12 +69046,8 @@ var ImeInput = function (_Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     __WEBPACK_IMPORTED_MODULE_2_react_bootstrap_lib_InputGroup___default.a,
                     { className: _props.className, bsSize: this.props.size },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', placeholder: _props.placeholder,
-                        defaultValue: _props.value,
-                        onKeyDown: this.handleKeyDown,
-                        onChange: this.handleChange,
-                        onFocus: this.changeOnFocus,
-                        onBlur: this.changeOnBlur,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', placeholder: _props.placeholder, value: this.state.value,
+                        onKeyDown: this.handleKeyDown, onChange: this.handleChange,
                         className: 'ime-input form-control', autoComplete: 'off', name: 'q', ref: 'imeInput' }),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
@@ -69059,14 +69078,14 @@ var ImeInput = function (_Component) {
     return ImeInput;
 }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
-ImeInput.defaultProps = { icon: 'search', size: 'lg', placeholder: 'search', value: '', className: '', autoSuggestion: false, suggestions: [], fetching: false };
+ImeInput.defaultProps = { icon: 'search', size: 'lg', placeholder: 'search', query: '', className: '', autoSuggestion: false, suggestions: [], fetching: false };
 
 ImeInput.propTypes = {
     icon: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
     size: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
     autoSuggestion: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool,
     placeholder: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
-    value: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
+    query: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
     className: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
     onChange: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired,
     onSubmit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired,
@@ -74373,7 +74392,19 @@ var Search = function (_Component) {
                         { style: { color: '#949494', marginBottom: '25px' } },
                         ' \u09B8\u09B0\u09CD\u09AC\u09AE\u09CB\u099F ',
                         Object(__WEBPACK_IMPORTED_MODULE_4__libs_common__["b" /* convertNumberToBengali */])(this.props.total),
-                        ' \u099F\u09BF \u09AB\u09B2\u09BE\u09AB\u09B2 \u09AA\u09BE\u0993\u09DF\u09BE \u0997\u09BF\u09DF\u09C7\u099B\u09C7( \u09B8\u09AE\u09DF: ',
+                        ' \u099F\u09BF \u09AB\u09B2\u09BE\u09AB\u09B2 \u09AA\u09BE\u0993\u09DF\u09BE \u0997\u09BF\u09DF\u09C7\u099B\u09C7 (\u09B8\u09AE\u09DF: ',
+                        Object(__WEBPACK_IMPORTED_MODULE_4__libs_common__["b" /* convertNumberToBengali */])(queryTime / 1000),
+                        ' \u09B8\u09C7\u0995\u09C7\u09A8\u09CD\u09A1)'
+                    )
+                );
+            } else {
+                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    __WEBPACK_IMPORTED_MODULE_3_react_bootstrap_lib_Col___default.a,
+                    { sm: 12 },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'p',
+                        { style: { color: '#949494', marginBottom: '25px' } },
+                        ' \u0995\u09CB\u09A8 \u09AB\u09B2\u09BE\u09AB\u09B2 \u09AA\u09BE\u0993\u09DF\u09BE \u09AF\u09BE\u09DF\u09A8\u09BF\u0964 (\u09B8\u09AE\u09DF: ',
                         Object(__WEBPACK_IMPORTED_MODULE_4__libs_common__["b" /* convertNumberToBengali */])(queryTime / 1000),
                         ' \u09B8\u09C7\u0995\u09C7\u09A8\u09CD\u09A1)'
                     )
@@ -74394,7 +74425,7 @@ var Search = function (_Component) {
                 fetched = _props2.fetched;
 
 
-            if (fetched && total > 0) {
+            if (fetched && total > 20) {
                 return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9__pagination__["a" /* default */], { total: total, page: Number(page), onClick: this.updatePagination });
             }
         }
@@ -74428,7 +74459,7 @@ var Search = function (_Component) {
                                     __WEBPACK_IMPORTED_MODULE_3_react_bootstrap_lib_Col___default.a,
                                     { sm: 12, mdPull: 5, md: 7 },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10__results__["a" /* default */], { error: this.props.error, fetching: this.props.fetching, fetched: this.props.fetched,
-                                        total: this.props.total, results: this.props.results }),
+                                        query: this.props.query, total: this.props.total, results: this.props.results }),
                                     this.renderPagination()
                                 )
                             )
@@ -74567,6 +74598,8 @@ var InfoBoxImage = function (_Component) {
         value: function render() {
             var info = this.props.info;
 
+            var title = this.props.title ? this.props.title : info.title;
+
             if (info.image) {
                 return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
@@ -74577,7 +74610,11 @@ var InfoBoxImage = function (_Component) {
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             __WEBPACK_IMPORTED_MODULE_5_react_bootstrap_lib_Col___default.a,
                             { xs: 7, className: 'no-padd table-col', style: { 'verticalAlign': 'middle' } },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: info.image.src, alt: info.image.alt })
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'a',
+                                { href: this.props.url, target: '_blank' },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: info.image.src, alt: info.image.alt })
+                            )
                         ),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             __WEBPACK_IMPORTED_MODULE_5_react_bootstrap_lib_Col___default.a,
@@ -74586,14 +74623,13 @@ var InfoBoxImage = function (_Component) {
                                 'div',
                                 { className: 'title-cont', id: 'title-container', ref: 'titleContainer' },
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'title', id: 'title', ref: 'titleText', style: { 'fontSize': this.state.fontSize + 'px' } },
-                                    info.title
-                                ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'caption' },
-                                    info.image.caption
+                                    'a',
+                                    { href: this.props.url, target: '_blank' },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'div',
+                                        { className: 'title', id: 'title', ref: 'titleText', style: { 'fontSize': this.state.fontSize + 'px' } },
+                                        title
+                                    )
                                 )
                             )
                         )
@@ -74602,28 +74638,18 @@ var InfoBoxImage = function (_Component) {
             } else if (info.title) {
                 return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
-                    { className: 'jumbotron-photo' },
+                    { className: 'jumbotron-photo', style: { minHeight: '70px' } },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
                         { className: 'title-cont', id: 'title-container' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'title', id: 'title', ref: 'imeInput', style: { 'fontSize': this.state.fontSize + 'px' } },
-                            info.title
-                        )
-                    )
-                );
-            } else {
-                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'div',
-                    { className: 'jumbotron-photo' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'div',
-                        { className: 'title-cont', id: 'title-container' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'title', id: 'title', ref: 'imeInput', style: { 'fontSize': '35px' } },
-                            'Loading'
+                            'a',
+                            { href: this.props.url, target: '_blank' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                { className: 'title', id: 'title', ref: 'imeInput', style: { 'fontSize': this.state.fontSize + 'px' } },
+                                title
+                            )
                         )
                     )
                 );
@@ -74788,7 +74814,7 @@ var Infobox = function (_Component2) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         __WEBPACK_IMPORTED_MODULE_4_react_bootstrap_lib_Jumbotron___default.a,
                         { className: 'info-box' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(InfoBoxImage, { info: this.state.info }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(InfoBoxImage, { info: this.state.info, title: this.props.infoBox.title, url: this.props.infoBox.url }),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'div',
                             { className: 'jumbotron-contents' },
@@ -75352,6 +75378,8 @@ module.exports = exports['default'];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_bootstrap_lib_Col___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_react_bootstrap_lib_Col__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Utilites__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Animations__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__actions_infoboxActions__ = __webpack_require__(236);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__store__ = __webpack_require__(84);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -75365,6 +75393,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  */
 
 //noinspection JSUnresolvedVariable
+
+
+
 
 
 
@@ -75392,6 +75423,7 @@ var KnowledgeGraph = function (_Component) {
 
         _this.fetchItems = _this.fetchItems.bind(_this);
         _this.renderKnowledgeItems = _this.renderKnowledgeItems.bind(_this);
+        _this.itemClick = _this.itemClick.bind(_this);
         return _this;
     }
 
@@ -75402,6 +75434,12 @@ var KnowledgeGraph = function (_Component) {
                 this.setState({ query: nextProps.query, fetched: false });
                 this.fetchItems(nextProps.query);
             }
+        }
+    }, {
+        key: 'itemClick',
+        value: function itemClick(title) {
+            this.props.resetInfoBox();
+            __WEBPACK_IMPORTED_MODULE_8__store__["b" /* history */].push("/search?q=" + encodeURIComponent(title));
         }
     }, {
         key: 'fetchItems',
@@ -75424,6 +75462,8 @@ var KnowledgeGraph = function (_Component) {
     }, {
         key: 'renderKnowledgeItems',
         value: function renderKnowledgeItems() {
+            var _this3 = this;
+
             var items = this.state.items;
 
 
@@ -75435,7 +75475,7 @@ var KnowledgeGraph = function (_Component) {
                             { sm: 3, xs: 4, style: { paddingRight: '0' }, key: index },
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 __WEBPACK_IMPORTED_MODULE_5__components_Utilites__["c" /* KnowledgeThumb */],
-                                { src: item.image, alt: 'No Image Found' },
+                                { src: item.image, alt: 'No Image Found', onClick: _this3.itemClick, title: item.title },
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     'p',
                                     { style: { marginBottom: '0px' } },
@@ -75480,7 +75520,15 @@ function mapStateToProps(store) {
     };
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_redux__["b" /* connect */])(mapStateToProps)(KnowledgeGraph));
+function mapDispatchToProps(dispatch) {
+    return {
+        resetInfoBox: function resetInfoBox() {
+            dispatch(Object(__WEBPACK_IMPORTED_MODULE_7__actions_infoboxActions__["b" /* resetInfoBox */])());
+        }
+    };
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(KnowledgeGraph));
 
 /***/ }),
 /* 529 */,
@@ -75676,14 +75724,6 @@ var ResultItem = function (_Component) {
             });
         }
     }, {
-        key: 'truncateContent',
-        value: function truncateContent(content) {
-            if (content.length > 350) {
-                return content.substring(0, 347) + '...';
-            }
-            return content;
-        }
-    }, {
         key: 'render',
         value: function render() {
             var result = this.props.result;
@@ -75697,14 +75737,18 @@ var ResultItem = function (_Component) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'h4',
                         null,
-                        result.title
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'a',
+                            { href: result.url, target: '_blank' },
+                            result.title
+                        )
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'p',
                         { className: 'result-url' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'a',
-                            { href: '#' },
+                            { href: result.url, target: '_blank' },
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'glyphicon glyphicon-globe' }),
                             ' ',
                             decodeURIComponent(result.url)
@@ -75713,7 +75757,7 @@ var ResultItem = function (_Component) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'p',
                         { style: styles.resultDescription },
-                        this.truncateContent(result.content)
+                        ResultItem.truncateContent(result.content)
                     )
                 )
             );
@@ -75722,6 +75766,13 @@ var ResultItem = function (_Component) {
 
     return ResultItem;
 }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+ResultItem.truncateContent = function (content) {
+    if (content.length > 350) {
+        return content.substring(0, 347) + '...';
+    }
+    return content;
+};
 
 var Results = function (_Component2) {
     _inherits(Results, _Component2);
@@ -75747,8 +75798,36 @@ var Results = function (_Component2) {
                     null,
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'h4',
-                        { style: styles.resultHeader },
-                        'No Result Found..'
+                        { style: styles.noResultText },
+                        ' \u0986\u09AA\u09A8\u09BE\u09B0 \u0985\u09A8\u09C1\u09B8\u09A8\u09CD\u09A7\u09BE\u09A8\u0995\u09C3\u09A4  ',
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'b',
+                            null,
+                            '"',
+                            this.props.query,
+                            '"'
+                        ),
+                        ' \u0995\u09CB\u09A8 \u09A4\u09A5\u09CD\u09AF\u09BE\u09A6\u09BF\u09B0 \u09B8\u09BE\u09A5\u09C7 \u09AE\u09C7\u09B2\u09C7\u09A8\u09BF\u0964 \u0985\u09A8\u09C1\u0997\u09CD\u09B0\u09B9 \u0995\u09B0\u09C7 \u0986\u09AC\u09BE\u09B0 \u099A\u09C7\u09B7\u09CD\u099F\u09BE \u0995\u09B0\u09C1\u09A8\u0964'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'h4',
+                        { style: styles.noResultText },
+                        ' \u09AA\u09B0\u09BE\u09AE\u09B0\u09CD\u09B6: '
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'ul',
+                        { className: 'media-list' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'li',
+                            null,
+                            '\u09B8\u09AE\u09B8\u09CD\u09A4 \u09B6\u09AC\u09CD\u09A6\u09C7\u09B0 \u09AC\u09BE\u09A8\u09BE\u09A8 \u09B8\u09A0\u09BF\u0995 \u0995\u09BF\u09A8\u09BE \u09A4\u09BE \u09AF\u09BE\u099A\u09BE\u0987 \u0995\u09B0\u09C1\u09A8\u0964'
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'li',
+                            null,
+                            '\u09AD\u09BF\u09A8\u09CD\u09A8 \u0995\u09BF\u0993\u09AF\u09BC\u09BE\u09B0\u09CD\u09A1 \u09A6\u09BF\u09DF\u09C7 \u0985\u09A8\u09C1\u09B8\u09A8\u09CD\u09A7\u09BE\u09A8\u09C7\u09B0 \u099A\u09C7\u09B7\u09CD\u099F\u09BE \u0995\u09B0\u09C1\u09A8\u0964 '
+                        )
                     )
                 );
             }
@@ -75795,6 +75874,14 @@ var styles = {
         lineHeight: '1.4em',
         marginBottom: '8px',
         color: 'rgba(0,0,0,0.75)'
+    },
+    noResultText: {
+        fontWeight: 'normal',
+        fontSize: '17px',
+        lineHeight: '1.4em',
+        marginBottom: '8px',
+        color: 'rgba(0,0,0,0.55)',
+        whiteSpace: 'normal'
     },
     resultDescription: {
         fontSize: '12px',

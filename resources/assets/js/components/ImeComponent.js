@@ -56,15 +56,27 @@ export class ImeInput extends Component{
             this.ime.setIM( 'bn-avro' );
             this.ime.enable();
             this.setState({
+                value: this.props.query,
                 suggestions: this.props.suggestions
-            });
+            }, () => {this.props.onChange(this.state.value)});
         }, 500);
     }
 
     componentWillReceiveProps(nextProps){
-        if(this.props.value == '' && nextProps.value != ''){
-            this.$node.get(0).value = nextProps.value;
+
+        /*if(this.props.initValue != this.state.initValue) {
+            this.setState({
+                value: nextProps.initValue,
+                initValue: nextProps.initValue
+            });
+        }*/
+
+        if(nextProps.query !== this.props.query){
+            this.setState({
+                value: nextProps.query
+            });
         }
+
         if(nextProps.suggestions.length > 1){
             this.setState({
                 suggestions: nextProps.suggestions
@@ -96,8 +108,9 @@ export class ImeInput extends Component{
         },500);
     }
 
-    changeOnFocus(){
+    changeOnFocus(e){
         this.setState({
+            value: event.target.value,
             onFocus: true,
             cursor: -1
         });
@@ -149,7 +162,9 @@ export class ImeInput extends Component{
                 }else{
                     this.setState({
                         onFocus: false,
+                        value: '',
                     });
+                    this.props.onSubmit(e);
                 }
             }
         }
@@ -157,6 +172,9 @@ export class ImeInput extends Component{
 
     componentWillUnmount() {
         this.ime.destroy();
+        this.setState({
+            value: ''
+        });
         this.mounted = false;
     }
 
@@ -209,12 +227,12 @@ export class ImeInput extends Component{
         return (
             <div style={styles.inputGroupHolder}>
                 <InputGroup className={_props.className} bsSize={this.props.size}>
-                    <input type="text" placeholder={_props.placeholder}
-                           defaultValue={_props.value}
-                           onKeyDown={ this.handleKeyDown }
-                           onChange={this.handleChange}
-                           onFocus={this.changeOnFocus}
-                           onBlur={this.changeOnBlur}
+                    {/*<input type="text" placeholder={_props.placeholder} value={this.state.value}*/}
+                           {/*onKeyDown={ this.handleKeyDown } onChange={this.handleChange}*/}
+                           {/*onFocus={this.changeOnFocus} onBlur={this.changeOnBlur}*/}
+                           {/*className="ime-input form-control" autoComplete="off" name="q" ref="imeInput"/>*/}
+                    <input type="text" placeholder={_props.placeholder} value={this.state.value}
+                           onKeyDown={ this.handleKeyDown } onChange={this.handleChange}
                            className="ime-input form-control" autoComplete="off" name="q" ref="imeInput"/>
                     <div style={styles.toggleButtonStyle}>
                         <ToggleButton
@@ -234,14 +252,14 @@ export class ImeInput extends Component{
 
 }
 
-ImeInput.defaultProps = { icon: 'search', size: 'lg', placeholder: 'search', value: '', className: '', autoSuggestion: false, suggestions: [], fetching: false};
+ImeInput.defaultProps = { icon: 'search', size: 'lg', placeholder: 'search', query: '', className: '', autoSuggestion: false, suggestions: [], fetching: false};
 
 ImeInput.propTypes = {
     icon: PropTypes.string,
     size: PropTypes.string,
     autoSuggestion: PropTypes.bool,
     placeholder: PropTypes.string,
-    value: PropTypes.string,
+    query: PropTypes.string,
     className: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,

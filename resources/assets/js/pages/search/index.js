@@ -31,7 +31,13 @@ class Search extends Component{
         if(total && total > 0){
             return(
                 <Col sm={12}>
-                    <p style={{color: '#949494', marginBottom: '25px'}}> সর্বমোট {convertNumberToBengali(this.props.total)} টি ফলাফল পাওয়া গিয়েছে( সময়: {convertNumberToBengali(queryTime/1000)} সেকেন্ড)</p>
+                    <p style={{color: '#949494', marginBottom: '25px'}}> সর্বমোট {convertNumberToBengali(this.props.total)} টি ফলাফল পাওয়া গিয়েছে (সময়: {convertNumberToBengali(queryTime/1000)} সেকেন্ড)</p>
+                </Col>
+            );
+        }else{
+            return(
+                <Col sm={12}>
+                    <p style={{color: '#949494', marginBottom: '25px'}}> কোন ফলাফল পাওয়া যায়নি। (সময়: {convertNumberToBengali(queryTime/1000)} সেকেন্ড)</p>
                 </Col>
             );
         }
@@ -45,7 +51,7 @@ class Search extends Component{
         let page = this.props.page ? this.props.page: 1;
         let {total, fetched} = this.props;
 
-        if(fetched && total > 0){
+        if(fetched && total > 20){
             return (
                 <Pagination total={total} page={Number(page)} onClick={this.updatePagination}/>
             );
@@ -67,7 +73,7 @@ class Search extends Component{
                                 </Col>
                                 <Col sm={12} mdPull={5} md={7}>
                                     <Results error={this.props.error} fetching = {this.props.fetching} fetched={this.props.fetched}
-                                             total={this.props.total} results={this.props.results} />
+                                             query={this.props.query} total={this.props.total} results={this.props.results} />
                                     {this.renderPagination()}
                                 </Col>
                             </Row>

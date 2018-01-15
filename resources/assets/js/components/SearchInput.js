@@ -37,11 +37,6 @@ class SearchInput extends Component {
         this.mounted = false;
     }
 
-    componentWillReceiveProps(nextProps){
-        if(typeof nextProps.query !== 'undefined' && this.mounted){
-            this.setState({ value: nextProps.query });
-        }
-    }
 
     fetchSuggestions(query){
         this.setState({fetchingSuggestions: true});
@@ -66,15 +61,12 @@ class SearchInput extends Component {
 
     handleChange(eventValue) {
         if(this.mounted) this.setState({value: eventValue});
-        // if(!this.state.fetchingSuggestions && eventValue.length > 1){
-        //     this.fetchSuggestions(eventValue);
-        // }
     }
 
     handleSubmit(event = null){
         if(event)  event.preventDefault();
         if(this.mounted) this.setState({suggestions: []});
-        history.push("/search?q=" + this.state.value);
+        history.push("/search?q=" + encodeURIComponent(this.state.value));
         this.props.resetInfoBox();
     }
 
@@ -87,7 +79,7 @@ class SearchInput extends Component {
                         icon='search'
                         size={this.props.size}
                         placeholder='সার্চ করুন...'
-                        value = {this.props.query}
+                        query = {this.props.query}
                         onChange={this.handleChange}
                         onSubmit={this.handleSubmit}
                         className="home-search"

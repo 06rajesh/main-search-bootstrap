@@ -11686,6 +11686,14 @@ body {
   line-height: 1.5em;
 }
 
+.list-group.basic .list-group-item h4 a {
+  color: #636b6f;
+}
+
+.list-group.basic .list-group-item h4 a:hover {
+  text-decoration: underline;
+}
+
 body {
   background-color: white;
   margin: 0;
@@ -11872,6 +11880,7 @@ body {
 .knowledge-thumb {
   overflow: hidden;
   padding: 0;
+  cursor: pointer;
 }
 
 .knowledge-thumb .img-container {
@@ -11904,14 +11913,15 @@ body {
 }
 
 .pagination-group .btn {
-  border-color: #37BC9B !important;
-  color: #37BC9B;
+  border-color: #0b5816 !important;
+  color: #0b5816;
   padding: 6px 18px;
 }
 
 .pagination-group .btn.active,
 .pagination-group .btn:hover {
-  background: #37BC9B;
+  background: #009688;
+  color: #fff;
 }
 
 .footer {

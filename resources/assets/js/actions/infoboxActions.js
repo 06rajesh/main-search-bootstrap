@@ -20,7 +20,10 @@ export function fetchInfobox(query){
                 let results = d.results[0];
 
                 dispatch({type: "REMOVE_INFO_ERROR"});
-                dispatch({type: "FETCH_INFOBOX_FULFILLED", payload: {query: query, has_infobox: results.has_infobox, results: results.infobox} });
+                dispatch({
+                    type: "FETCH_INFOBOX_FULFILLED",
+                    payload: {query: query, has_infobox: results.has_infobox, title: results.title, url: results.url, results: results.infobox}
+                });
             })
 
             .catch((err) => {
