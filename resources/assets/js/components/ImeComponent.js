@@ -32,10 +32,10 @@ export class ImeInput extends Component{
         this.state = {
             toggle: true,
             value: '',
-            cursor: 0,
+            cursor: -1,
             suggestions: [],
             onFocus: false
-        }
+        };
         this.mounted = false;
     }
 
@@ -116,7 +116,7 @@ export class ImeInput extends Component{
 
         if(this.mounted){
             // arrow up/down button should select next/previous list element
-            console.log(this.state.cursor);
+            //console.log(this.state.cursor);
 
             if (e.keyCode == 38) {
                 if(cursor > 0){
@@ -143,9 +143,12 @@ export class ImeInput extends Component{
             }else if(e.keyCode == 13){
                 if(suggestions.length > 0 && cursor < suggestions.length && cursor > -1){
                     this.handleSelect(e, this.state.suggestions[cursor].query);
+                    this.setState({
+                        cursor: -1
+                    });
                 }else{
                     this.setState({
-                        onFocus: false
+                        onFocus: false,
                     });
                 }
             }
@@ -175,7 +178,7 @@ export class ImeInput extends Component{
     renderQuerySuggestion(){
         let suggestions = this.state.suggestions;
 
-        if(suggestions && this.state.onFocus){
+        if(this.props.autoSuggestion && suggestions && this.state.onFocus){
 
             let iterThroughSuggestion = () => {
                 if(this.props.fetching){
@@ -231,11 +234,12 @@ export class ImeInput extends Component{
 
 }
 
-ImeInput.defaultProps = { icon: 'search', size: 'lg', placeholder: 'search', value: '', className: '', suggestions: [], fetching: false};
+ImeInput.defaultProps = { icon: 'search', size: 'lg', placeholder: 'search', value: '', className: '', autoSuggestion: false, suggestions: [], fetching: false};
 
 ImeInput.propTypes = {
     icon: PropTypes.string,
     size: PropTypes.string,
+    autoSuggestion: PropTypes.bool,
     placeholder: PropTypes.string,
     value: PropTypes.string,
     className: PropTypes.string,

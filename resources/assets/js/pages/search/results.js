@@ -29,6 +29,13 @@ class ResultItem extends Component{
         });
     }
 
+    truncateContent(content){
+        if(content.length > 350){
+            return content.substring(0, 347) + '...';
+        }
+        return content;
+    }
+
     render(){
         let {result} = this.props;
         return (
@@ -36,7 +43,8 @@ class ResultItem extends Component{
                 <ListGroupItem key={result.id} style={styles.resultItem} listItem>
                     <h4>{result.title}</h4>
                     <p className="result-url"><a href="#"><span className="glyphicon glyphicon-globe"/> {decodeURIComponent(result.url)}</a></p>
-                    <p dangerouslySetInnerHTML={{__html: result.content}} style={styles.resultDescription}/>
+                    {/*<p dangerouslySetInnerHTML={{__html: result.content}} style={styles.resultDescription}/>*/}
+                    <p style={styles.resultDescription}>{this.truncateContent(result.content)}</p>
                 </ListGroupItem>
             </Fade>
         );
@@ -48,8 +56,8 @@ class Results extends Component{
         super(props);
     }
 
-    renderPostList(results){
-        if(results.length > 0){
+    renderPostList(results, total){
+        if(total > 0 && results.length > 0){
             return results.map((result, index) => {
                 if(result.doc_type == 'html') {
                     return (
@@ -79,7 +87,7 @@ class Results extends Component{
         }else{
             return(
                 <ListGroup style={styles.resultListStyle} className="basic" componentClass="ul">
-                    {this.renderPostList(this.props.results)}
+                    {this.renderPostList(this.props.results, this.props.total)}
                 </ListGroup>
             );
         }

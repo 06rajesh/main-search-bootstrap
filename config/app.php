@@ -56,6 +56,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Search API URL
+    |--------------------------------------------------------------------------
+    |
+    | This URL is used by the controller to send request to api
+    | & get results of query by the user
+    | search result, wikibox and knowledge graph would be under this api
+    |
+    */
+
+    'api_base' => env('API_BASE', 'http://103.84.159.229:9001/PipilikaMainSearchAPI-1.0/search/'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |

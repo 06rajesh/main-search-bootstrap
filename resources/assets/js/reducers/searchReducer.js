@@ -1,5 +1,8 @@
 const initialState = {
     results : [],
+    total: 0,
+    queryTime: 0,
+    page: 1,
     query: '',
     fetching: false,
     fetched: false,
@@ -10,33 +13,42 @@ export default function reducer(state = initialState, action) {
 
     switch (action.type){
         case "FETCH_RESULTS":
-            state = Object.assign(...state, {fetching: true, fetched: false, query: action.payload});
-            return state;
-            break;
-        case "FETCH_RESULTS_REJECTED":
-            state = Object.assign(...state, {fetching: false, error: action.payload});
-            return state;
-            break;
-        case "FETCH_RESULTS_FULFILLED":
-            state = Object.assign(
+            return {
                 ...state,
-                {
-                    fetching: false,
-                    fetched: true,
-                    query: action.payload.query,
-                    results: action.payload.results
-                }
-            );
-            break;
-        case "SET_QUERY":
-            state = Object.assign(...state, {query: action.payload});
-            return state;
-            break;
-        case "REMOVE_ERROR":
-            state = Object.assign(...state, {error: null});
-            return state;
-            break;
-    }
+                fetching: true, fetched: false, query: action.payload
+            };
 
-    return state;
+        case "FETCH_RESULTS_REJECTED":
+            return {
+                ...state,
+                fetching: false, error: action.payload, page: 1, total: 0, results: []
+            };
+
+        case "FETCH_RESULTS_FULFILLED":
+            return {
+                ...state,
+                fetching: false,
+                fetched: true,
+                query: action.payload.query,
+                total: action.payload.total,
+                page: action.payload.page,
+                queryTime: action.payload.queryTime,
+                results: action.payload.results
+            };
+
+        case "SET_QUERY":
+            return {
+                ...state,
+                query: action.payload
+            };
+
+        case "REMOVE_ERROR":
+            return {
+                ...state,
+                error: null
+            };
+
+        default:
+            return state
+    }
 }

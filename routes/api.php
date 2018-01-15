@@ -18,4 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/search', 'Controller@queryTOAPI');
+Route::get('/infobox', 'Controller@getWikiInfoBox');
+Route::get('/knowledge', 'Controller@getKnowledgeGraph');
 Route::get('/suggestions', 'Controller@getSuggestion');

@@ -139,6 +139,22 @@ CollapsablePanel.defaultProps = {
     expanded: true
 };
 
+export class KnowledgeThumb extends Component{
+    render(){
+        return(
+            <div className="thumbnail knowledge-thumb dark-gray">
+                <div className="img-container">
+                    <span className="helper"/>
+                    <img src={this.props.src} alt={this.props.alt}/>
+                </div>
+                <div className="caption">
+                    {this.props.children}
+                </div>
+            </div>
+        );
+    }
+}
+
 export class Loader extends Component{
     constructor(props){
         super(props);

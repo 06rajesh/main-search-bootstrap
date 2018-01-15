@@ -15,16 +15,25 @@ class Controller extends BaseController
 
     function queryTOAPI(){
 
-        $obj = $this->getDataFromAPI('Search', request()->query());
+        $obj = $this->getDataFromAPI('main', request()->query());
+        return response((array)$obj['result'], $obj['statusCode']);
+    }
+
+    function getWikiInfoBox(){
+        $obj = $this->getDataFromAPI('wiki/infobox', request()->query());
+        return response((array)$obj['result'], $obj['statusCode']);
+    }
+
+    function getKnowledgeGraph(){
+        $obj = $this->getDataFromAPI('wiki/knowledgegraph', request()->query());
         return response((array)$obj['result'], $obj['statusCode']);
     }
 
     function getDataFromAPI($api_substring, $params = null){
 
-        $base_uri = 'http://pipilika.com:7001/PipilikaA2ISearchAPI/';
+        //$base_uri = 'http://pipilika.com:7001/PipilikaA2ISearchAPI/';
+        $base_uri = config('app.api_base');
         $client = new Client(['base_uri' => $base_uri]);
-
-        if(!isset($params['doc_type'])) $params['doc_type'] = 'html';
 
         $res = $client->request('GET', $api_substring, [
             'query' => $params,

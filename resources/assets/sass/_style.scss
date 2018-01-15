@@ -274,13 +274,18 @@ body{
   color: #ffffff;
 }
 
+.dark-gray{
+  background-color: #656D78;
+  color: #FFFFFF;
+}
+
 
 //infobox-jumbotron style
 
 .jumbotron.info-box{
 
   padding: 0;
-  max-width: 420px;
+  max-width: 450px;
 
   .title-cont{
     position: absolute;
@@ -376,6 +381,50 @@ body{
     #coordinates{
       display: none;
     }
+  }
+}
+
+.knowledge-thumb {
+  overflow: hidden;
+  padding: 0;
+
+  .img-container {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    height: 100px;
+    background: #dcdcdc;
+    text-align: center;
+    color: #b1b1b1;
+    font-size: 10px;
+
+    .helper {
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+    }
+
+    img{
+      width: 100%;
+      vertical-align: middle;
+    }
+  }
+  .caption{
+    font-size: 11px;
+    line-height: 1.2em;
+    height: 50px;
+    color: #fff;
+  }
+}
+
+.pagination-group{
+  .btn{
+    border-color: $brand-info!important;
+    color: $brand-info;
+    padding: 6px 18px;
+  }
+  .btn.active, .btn:hover{
+    background: $brand-info;
   }
 }
 

@@ -9,6 +9,7 @@ import {FormGroup} from 'react-bootstrap';
 
 import { connect } from 'react-redux';
 import {history} from '../store';
+import {resetInfoBox} from '../actions/infoboxActions';
 
 class SearchInput extends Component {
 
@@ -65,22 +66,23 @@ class SearchInput extends Component {
 
     handleChange(eventValue) {
         if(this.mounted) this.setState({value: eventValue});
-        if(!this.state.fetchingSuggestions && eventValue.length > 1){
-            this.fetchSuggestions(eventValue);
-        }
+        // if(!this.state.fetchingSuggestions && eventValue.length > 1){
+        //     this.fetchSuggestions(eventValue);
+        // }
     }
 
     handleSubmit(event = null){
         if(event)  event.preventDefault();
         if(this.mounted) this.setState({suggestions: []});
         history.push("/search?q=" + this.state.value);
+        this.props.resetInfoBox();
     }
 
     render() {
 
         return (
             <form onSubmit={this.handleSubmit}>
-                <FormGroup className = "search-input" bsSize={this.props.size} style = {(this.props.size == 'large') ? styles.homeSearchInput : styles.searchInputStyle}>
+                <FormGroup className = "search-input" bsSize={this.props.size} style = {(this.props.onTop) ? styles.searchInputStyle: styles.homeSearchInput}>
                     <ImeInput
                         icon='search'
                         size={this.props.size}
@@ -98,17 +100,18 @@ class SearchInput extends Component {
     }
 }
 
-SearchInput.defaultProps = { size: '', className: ''};
+SearchInput.defaultProps = { size: '', className: '', onTop: false};
 
 SearchInput.propTypes = {
     size: React.PropTypes.string,
-    className: React.PropTypes.string
+    className: React.PropTypes.string,
+    onTop: React.PropTypes.bool
 };
 
 
 const styles = {
     searchInputStyle:{
-        maxWidth: '700px'
+        maxWidth: '670px'
     },
     homeSearchInput : {
         maxWidth: '750px',
@@ -122,5 +125,12 @@ function mapStateToProps(store) {
     };
 }
 
+function mapDispatchToProps(dispatch){
+    return{
+        resetInfoBox: () => {
+            dispatch(resetInfoBox());
+        }
+    }
+}
 
-export default connect(mapStateToProps)(SearchInput);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchInput);

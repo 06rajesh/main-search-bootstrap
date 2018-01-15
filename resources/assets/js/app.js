@@ -25,7 +25,9 @@ let pageData = store.getState().pages.items;
 
 history.listen(location => {
     if(Object.keys(location.query).length > 0){
-        store.dispatch(fetchResults(location.query.q));
+        let p = location.query.p ? location.query.p : 1;
+        window.scrollTo(0, 0);
+        store.dispatch(fetchResults(location.query.q, p));
     }
 });
 
@@ -36,7 +38,9 @@ function checkIfReloaded() {
     if(HugeObj.results.query.length == 0){
         let location = HugeObj.routing.locationBeforeTransitions;
         if(location.query.q != HugeObj.results.query){
-            store.dispatch(fetchResults(location.query.q));
+            let p = location.query.p ? location.query.p : 1;
+            window.scrollTo(0, 0);
+            store.dispatch(fetchResults(location.query.q, p));
         }
     }
 }

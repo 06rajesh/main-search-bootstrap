@@ -54,7 +54,7 @@ class Topbar extends Component{
                         <Image src="http://a2i.pipilika.com/img/logo.png" responsive style = {styles.imageClass} onClick={this.goToLink.bind(this, '/')}/>
                     </Col>
                     <Col xs={12} style={{ 'flex': '1', 'paddingTop': '5px'}}>
-                        <SearchInput size='large'/>
+                        <SearchInput size='large' onTop={true}/>
                     </Col>
                     <Col xs={12} style={{ 'flex': '0 0 30px', 'paddingLeft': '0'}}>
                         <TopDropdown/>

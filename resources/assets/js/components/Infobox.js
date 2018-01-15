@@ -4,7 +4,6 @@
 
 //noinspection JSUnresolvedVariable
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import {decode} from 'html-encoder-decoder';
 import { connect } from 'react-redux';
 import jquery from 'jquery';
@@ -13,23 +12,130 @@ import {Jumbotron, Col, Row, Panel, ListGroup, ListGroupItem} from 'react-bootst
 import {CollapsablePanel} from './Utilites';
 
 import {ParseHtmlTable} from '../libs/common';
-import {nazrulInfo, banglaInfo} from './infoHtml';
+import {fetchInfobox} from '../actions/infoboxActions';
+import {Fade} from './Animations';
+import {Loader} from './Utilites';
+
+class InfoBoxImage extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            fontSize: 25
+        };
+
+        this.updated = false;
+    }
+
+    componentDidUpdate(){
+        if(!this.updated && this.shouldUpdateFontSize()){
+            this.decreaseFontSize();
+            this.updated = true;
+        }
+    }
+
+    decreaseFontSize(){
+        let newFontSize = parseInt(this.state.fontSize) - 1;
+        this.setState({
+            fontSize: newFontSize
+        }, () => {
+            if(this.shouldUpdateFontSize()){
+                setTimeout(this.decreaseFontSize(), 10);
+            }
+        });
+    }
+
+    shouldUpdateFontSize(){
+        let padding = 10;
+        if(this.refs.titleText && this.refs.titleContainer)
+            return (this.refs.titleText.scrollWidth > this.refs.titleContainer.clientWidth - 2*padding);
+        else
+            return false;
+    }
+
+    render(){
+        let info = this.props.info;
+
+        if(info.image){
+            return(
+                <div className="jumbotron-photo table-container" >
+                    <Row className = 'table-row'>
+                        <Col xs={7} className="no-padd table-col" style={{'verticalAlign': 'middle'}}>
+                            <img src={info.image.src} alt={info.image.alt}/>
+                        </Col>
+                        <Col xs={5} className="no-padd table-col grass">
+                            <div className="title-cont" id="title-container" ref="titleContainer">
+                                <div className="title" id="title" ref="titleText" style={{'fontSize' : this.state.fontSize + 'px'}}>{info.title}</div>
+                                <div className="caption">{info.image.caption}</div>
+                            </div>
+                        </Col>
+                    </Row>
+                </div>
+            );
+        }else if(info.title){
+            return(
+                <div className="jumbotron-photo">
+                    <div className="title-cont" id="title-container">
+                        <div className="title" id="title" ref="imeInput" style={{'fontSize' : this.state.fontSize + 'px'}}>{info.title}</div>
+                    </div>
+                </div>
+            );
+        }else{
+            return(
+                <div className="jumbotron-photo">
+                    <div className="title-cont" id="title-container">
+                        <div className="title" id="title" ref="imeInput" style={{'fontSize' : '35px'}}>Loading</div>
+                    </div>
+                </div>
+            );
+        }
+    }
+}
 
 class Infobox extends Component{
 
     constructor(props){
         super(props);
-        this.tempString = banglaInfo;
         this.state = {
-            info :''
+            query: '',
+            info : {},
+            infoReady: false
         };
+
+        this.fetchInfoBox = this.fetchInfoBox.bind(this);
     }
 
     componentDidMount(){
-        let data = ParseHtmlTable(this.tempString);
-        this.setState({info: data});
+        if(this.props.infoBox.query != this.props.query){
+            this.fetchInfoBox(this.props.query);
+        }
     }
 
+    componentWillReceiveProps(nextProps){
+
+        if(nextProps.query && nextProps.query != this.state.query){
+            this.fetchInfoBox(nextProps.query);
+        }
+
+        if(nextProps.infoBox.results){
+            let data = ParseHtmlTable(nextProps.infoBox.results);
+            this.setState({
+                    info: data
+                }, () => {
+                this.setState({
+                    infoReady: true
+                });
+            });
+        }
+    }
+
+    fetchInfoBox(query){
+        this.props.getInfoBox(query);
+        this.setState({
+            query: query,
+            info: {},
+            infoReady: false
+        });
+    }
 
     renderSecondary(info){
 
@@ -112,95 +218,46 @@ class Infobox extends Component{
     }
 
     render(){
-        return(
-            <Jumbotron className="info-box">
-                <InfoBoxImage info={this.state.info}/>
-                <div className="jumbotron-contents">
-                    {this.renderSecondary(this.state.info)}
-                    {this.renderAttributes(this.state.info)}
-                </div>
-            </Jumbotron>
-            // <Jumbotron className="info-box" dangerouslySetInnerHTML={{__html: decode(banglaInfo)}}/>
-        );
+        if(Object.keys(this.state.info).length > 0){
+            return(
+                <Fade in={this.state.infoReady}>
+                    <Jumbotron className="info-box">
+                        <InfoBoxImage info={this.state.info}/>
+                        <div className="jumbotron-contents">
+                            {this.renderSecondary(this.state.info)}
+                            {this.renderAttributes(this.state.info)}
+                        </div>
+                    </Jumbotron>
+                </Fade>
+                //<Jumbotron className="info-box" dangerouslySetInnerHTML={{__html: decode(this.state.info)}}/>
+            );
+        }else if(this.props.infoBox.fetching){
+            return(
+                <Loader elementType='p' caption='ইনফো খোঁজা হচ্ছে'/>
+            );
+        }
+        else{
+            return(
+                <span/>
+            );
+        }
     }
 }
 
 function mapStateToProps(store) {
     return {
-        browser: store.browser
+        browser: store.browser,
+        query: store.results.query,
+        infoBox: store.infoBox
     };
 }
 
-class InfoBoxImage extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            fontSize: 35
-        };
-
-        this.updated = false;
-    }
-
-    componentDidUpdate(){
-        if(!this.updated && this.shouldUpdateFontSize()){
-            this.decreaseFontSize();
-            this.updated = true;
-        }
-    }
-
-    decreaseFontSize(){
-        let newFontSize = parseInt(this.state.fontSize) - 1;
-        this.setState({
-            fontSize: newFontSize
-        }, () => {
-            if(this.shouldUpdateFontSize()){
-                setTimeout(this.decreaseFontSize(), 10);
-            }
-        });
-    }
-
-    shouldUpdateFontSize(){
-        let padding = 10;
-        return (this.refs.titleText.scrollWidth > this.refs.titleContainer.clientWidth - 2*padding);
-    }
-
-    render(){
-        let info = this.props.info;
-
-        if(info.image){
-            return(
-                <div className="jumbotron-photo table-container" >
-                    <Row className = 'table-row'>
-                        <Col xs={7} className="no-padd table-col" style={{'verticalAlign': 'middle'}}>
-                            <img src={info.image.src} alt={info.image.alt}/>
-                        </Col>
-                        <Col xs={5} className="no-padd table-col grass">
-                            <div className="title-cont" id="title-container" ref="titleContainer">
-                                <div className="title" id="title" ref="titleText" style={{'fontSize' : this.state.fontSize + 'px'}}>{info.title}</div>
-                                <div className="caption">{info.image.caption}</div>
-                            </div>
-                        </Col>
-                    </Row>
-                </div>
-            );
-        }else if(info.title){
-            return(
-                <div className="jumbotron-photo">
-                    <div className="title-cont" id="title-container">
-                        <div className="title" id="title" ref="imeInput" style={{'fontSize' : this.state.fontSize + 'px'}}>{info.title}</div>
-                    </div>
-                </div>
-            );
-        }else{
-            return(
-                <div className="jumbotron-photo">
-                    <div className="title-cont" id="title-container">
-                        <div className="title" id="title" ref="imeInput" style={{'fontSize' : this.state.fontSize + 'px'}}>Loading</div>
-                    </div>
-                </div>
-            );
+function mapDispatchToProps(dispatch){
+    return{
+        getInfoBox: (query) => {
+            dispatch(fetchInfobox(query));
         }
     }
 }
 
-export default connect(mapStateToProps)(Infobox);
+export default connect(mapStateToProps, mapDispatchToProps)(Infobox);

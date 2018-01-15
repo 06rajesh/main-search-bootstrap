@@ -138,3 +138,66 @@ export function ParseHtmlTable(encodedHtml) {
     data['attributes'] = attributes;
     return data;
 }
+
+/**
+ * converts Suiteable array for pagination
+ * @param  total total result for query
+ * @param range result range in page
+ * @param current page
+ * @return {pages} array for pagination
+ */
+
+export function getPaginationArray(total, range, current=1){
+
+    let totalPageShow = 9;
+    let totalPages = Math.ceil(total/range);
+    let pages = [];
+    if(current < Math.ceil(totalPageShow/2)){
+        let end = totalPages > totalPageShow ? 9 : totalPages;
+        for(let i = 1; i <= end; i++){
+            pages.push(i);
+        }
+    }else if(current > (totalPages - Math.ceil(totalPageShow/2))){
+        let start = totalPages - totalPageShow + 1;
+        for(let i = start; i <= totalPages; i++){
+            if(i > 0)   pages.push(i);
+        }
+    }else{
+        let start = current - parseInt(Math.floor(totalPageShow/2));
+        let end = +current + +parseInt(Math.floor(totalPageShow/2));
+        for(let i = start; i <= end; i++){
+            pages.push(i);
+        }
+    }
+
+    pages.unshift(1);
+    pages.push(totalPages);
+
+    return pages;
+}
+
+const numberDict = {
+    0 : '০',
+    1 : '১',
+    2 : '২',
+    3 : '৩',
+    4 : '৪',
+    5 : '৫',
+    6 : '৬',
+    7 : '৭',
+    8 : '৮',
+    9 : '৯'
+};
+
+export function convertNumberToBengali(num) {
+    let bengaliNum = '';
+    let numString = num.toString();
+
+    for(let i=0; i < numString.length; i++){
+        if(numberDict.hasOwnProperty(numString[i])){
+            bengaliNum += numberDict[numString[i]];
+        }
+    }
+
+    return bengaliNum;
+}
