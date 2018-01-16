@@ -12,7 +12,7 @@
     <link href="{{asset('css/app.css')}}" rel="stylesheet" type="text/css">
 </head>
 <body>
-<div id="example" class="full-height"></div>
+<div id="pipilika" class="full-height"></div>
 <script src="{{asset('js/rangy/rangy-core.js')}}" ></script>
 <script src="{{asset('js/app.js')}}" ></script>
 </body>

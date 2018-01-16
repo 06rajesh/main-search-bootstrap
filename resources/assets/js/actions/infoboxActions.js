@@ -22,7 +22,13 @@ export function fetchInfobox(query){
                 dispatch({type: "REMOVE_INFO_ERROR"});
                 dispatch({
                     type: "FETCH_INFOBOX_FULFILLED",
-                    payload: {query: query, has_infobox: results.has_infobox, title: results.title, url: results.url, results: results.infobox}
+                    payload: {
+                        query: query,
+                        has_infobox: results.has_infobox,
+                        title: results.title,
+                        url: results.url,
+                        results: results.infobox
+                    }
                 });
             })
 

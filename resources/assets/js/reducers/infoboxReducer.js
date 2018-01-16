@@ -57,6 +57,7 @@ export default function reducer(state = initialState, action) {
                 has_knowledge_graph: false,
                 query: '',
                 title: '',
+                parentTitle: '',
                 url: null,
                 fetching: false,
                 fetched: false

@@ -9,6 +9,7 @@ import axios from "axios";
 
 import {Row, Col} from 'react-bootstrap';
 import {KnowledgeThumb, Loader} from '../../components/Utilites';
+import {MD5} from '../../libs/md5';
 import {Fade} from '../../components/Animations';
 import {resetInfoBox} from '../../actions/infoboxActions';
 
@@ -20,6 +21,7 @@ class KnowledgeGraph extends Component{
         super(props);
         this.state = {
             query: '',
+            url: '',
             fetching: false,
             fetched: false,
             items: []
@@ -28,12 +30,14 @@ class KnowledgeGraph extends Component{
         this.fetchItems = this.fetchItems.bind(this);
         this.renderKnowledgeItems = this.renderKnowledgeItems.bind(this);
         this.itemClick = this.itemClick.bind(this);
+
+        console.log(this.props);
     }
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.hasKnowledgeGraph && nextProps.query != this.state.query){
-            this.setState({query: nextProps.query, fetched: false});
-            this.fetchItems(nextProps.query);
+        if(nextProps.hasKnowledgeGraph && nextProps.url != this.state.url){
+            this.setState({url: nextProps.url, fetched: false});
+            this.fetchItems(nextProps.url);
         }
     }
 
@@ -43,8 +47,9 @@ class KnowledgeGraph extends Component{
     }
 
     fetchItems(query){
+
         this.setState({fetching: true});
-        axios.get(`/api/knowledge?title=${query}`)
+        axios.get(`/api/knowledge?url_md5=${MD5(query)}`)
             .then((response) => {
                 this.setState({
                     items: response.data.results,
@@ -100,6 +105,7 @@ class KnowledgeGraph extends Component{
 function mapStateToProps(store) {
     return {
         query: store.results.query,
+        url: store.infoBox.url,
         hasKnowledgeGraph: store.infoBox.has_knowledge_graph
     };
 }

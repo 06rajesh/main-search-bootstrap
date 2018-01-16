@@ -396,6 +396,11 @@ body{
   overflow: hidden;
   padding: 0;
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover{
+    box-shadow: 2px 3px 5px 2px rgba(0, 0, 0, 0.3);
+  }
 
   .img-container {
     width: 100%;
@@ -428,13 +433,14 @@ body{
 
 .pagination-group{
   .btn{
-    border-color: #0b5816!important;
-    color: #0b5816;
     padding: 6px 18px;
+    background: #f3f4f5;
+    border-color: #dedede !important;
   }
   .btn.active, .btn:hover{
     background: #009688;
     color: #fff;
+    border-color: #009688 !important;
   }
 }
 
