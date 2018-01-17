@@ -27,6 +27,7 @@ history.listen(location => {
     if(Object.keys(location.query).length > 0){
         let p = location.query.p ? location.query.p : 1;
         window.scrollTo(0, 0);
+        //store.dispatch(resetInfoBox());
         store.dispatch(fetchResults(location.query.q, p));
     }
 });
@@ -60,7 +61,7 @@ render(
                     })
                 }
                 <Route path='feedback' component={Feedback}/>
-                <Route path='*' exact={true} component={() => <Single title="404 Error" subtitle="Sorry, The page you requested, Not Found" content="<h5 class='text-center'>Thanks For Using Pipilika</h5>"/>} />
+                <Route path='*' exact={true} component={() => <Single title="404 Error" subtitle="দুঃখিত, আপনার অনুরোধকৃত পৃষ্ঠাটি পাওয়া যায়নি" content="<h5 class='text-center'>Pipilika ব্যবহার করার জন্য ধন্যবাদ</h5>"/>} />
             </Route>
         </Router>
     </Provider>,

@@ -23,7 +23,10 @@ class TopDropdown extends Component{
                     <li><Link to="/what" activeClassName="active">পিপীলিকা কি?</Link></li>
                     <li><Link to="/feedback" activeClassName="active">মতামত</Link></li>
                     <MenuItem divider />
-                    <li><Link to="/404" activeClassName="active">404</Link></li>
+                    <li><Link to="https://product.pipilika.com" target="_blank">প্রোডাক্ট সার্চ</Link></li>
+                    <li><Link to="https://jobs.pipilika.com" target="_blank">জব সার্চ</Link></li>
+                    <li><Link to="https://library.pipilika.com" target="_blank">লাইব্রেরী সার্চ</Link></li>
+                    <li><Link to="https://news.pipilika.com" target="_blank">সর্বশেষ সংবাদ</Link></li>
                 </Dropdown.Menu>
             </Dropdown>
         );
@@ -51,7 +54,7 @@ class Topbar extends Component{
             <Segment secondary className="no-border-radius top-bar">
                 <Row className="flexify">
                     <Col md={12} className="hidden-sm hidden-xs" style={{ 'flex': '0 0 150px'}}>
-                        <Image src="http://a2i.pipilika.com/img/logo.png" responsive style = {styles.imageClass} onClick={this.goToLink.bind(this, '/')}/>
+                        <Image src="/img/logo.png" responsive style = {styles.imageClass} onClick={this.goToLink.bind(this, '/')}/>
                     </Col>
                     <Col xs={12} style={{ 'flex': '1', 'paddingTop': '5px'}}>
                         <SearchInput size='large' onTop={true}/>

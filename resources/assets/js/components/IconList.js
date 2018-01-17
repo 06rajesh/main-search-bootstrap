@@ -17,7 +17,7 @@ const services = [
         name: 'Pipilika Job Search',
         icon: 'suitcase',
         url: 'https://jobs.pipilika.com',
-        caption: 'খুঁজে নিন আপনার প্রয়োজনীয় সকল পণ্য এক সাইটেই'
+        caption: 'দেশের এবং বিদেশের হাজার চাকরি এর মাঝে খুঁজে নিন আপনারটি'
     },
     {
         name: 'Pipilika Latest News',

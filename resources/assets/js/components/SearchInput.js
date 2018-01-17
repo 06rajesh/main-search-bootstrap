@@ -37,6 +37,14 @@ class SearchInput extends Component {
         this.mounted = false;
     }
 
+    componentWillReceiveProps(nextProps){
+        if(nextProps.query !== this.props.query){
+            this.setState({
+                value: nextProps.query
+            });
+        }
+    }
+
 
     fetchSuggestions(query){
         this.setState({fetchingSuggestions: true});
@@ -66,8 +74,8 @@ class SearchInput extends Component {
     handleSubmit(event = null){
         if(event)  event.preventDefault();
         if(this.mounted) this.setState({suggestions: []});
+        if(this.props.query !== this.state.value) this.props.resetInfoBox();
         history.push("/search?q=" + encodeURIComponent(this.state.value));
-        this.props.resetInfoBox();
     }
 
     render() {
@@ -113,7 +121,8 @@ const styles = {
 
 function mapStateToProps(store) {
     return {
-        query: store.results.query
+        query: store.results.query,
+        infoBox: store.infoBox
     };
 }
 

@@ -160,11 +160,12 @@ export class ImeInput extends Component{
                         cursor: -1
                     });
                 }else{
-                    this.setState({
-                        onFocus: false,
-                        value: '',
-                    });
-                    this.props.onSubmit(e);
+                    if(this.state.value.length > 0){
+                        this.setState({
+                            onFocus: false
+                        });
+                        this.props.onSubmit(e);
+                    }
                 }
             }
         }

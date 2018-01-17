@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {Row, Col} from 'react-bootstrap';
 
-import {convertNumberToBengali} from '../../libs/common';
+import {convertNumberToBengali, numberWithCommas} from '../../libs/common';
 
 import {Segment} from '../../components/Utilites';
 import InfoBox from '../../components/Infobox';
@@ -31,7 +31,9 @@ class Search extends Component{
         if(total && total > 0){
             return(
                 <Col sm={12}>
-                    <p style={{color: '#949494', marginBottom: '25px'}}> সর্বমোট {convertNumberToBengali(this.props.total)} টি ফলাফল পাওয়া গিয়েছে (সময়: {convertNumberToBengali(queryTime/1000)} সেকেন্ড)</p>
+                    <p style={{color: '#949494', marginBottom: '25px'}}>
+                        সর্বমোট {convertNumberToBengali(numberWithCommas(this.props.total))} টি ফলাফল পাওয়া গিয়েছে (সময়: {convertNumberToBengali(queryTime/1000)} সেকেন্ড)
+                    </p>
                 </Col>
             );
         }else{

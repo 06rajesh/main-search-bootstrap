@@ -15,7 +15,7 @@ body{
 .vertical-center {
   //min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
   //min-height: 100vh; /* These two lines are counted as one :-)       */
-  margin-top: 15%;
+  margin-top: 13%;
   display: flex;
   align-items: center;
 }
@@ -321,6 +321,7 @@ body{
     width: 100%;
     border-radius: 6px 6px 0 0;
     max-height: 350px;
+    margin-bottom: 15px;
 
     img{
       border-radius: 0;
@@ -330,6 +331,32 @@ body{
   .jumbotron-contents{
     padding: 0;
     font-size: 12px;
+
+    table.pipilika-info{
+      width: 100%;
+
+      td, th{
+        padding: 3px 10px;
+      }
+
+      th.text-center{
+        padding: 8px 10px;
+        color: #3c763d;
+        background-color: #dff0d8;
+
+        a{
+          color: #3c763d;
+        }
+      }
+
+      td.label{
+        background: none;
+        text-align: left;
+        font-size: 100%;
+        line-height: normal;
+        color: #434A54;
+      }
+    }
 
     ul{padding-left: 10px; margin-bottom: 0;}
 
@@ -352,6 +379,12 @@ body{
     .panel{
       box-shadow: none;
       margin-bottom: 0;
+
+      .panel-body{
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 0;
+      }
     }
 
     .panel-success > .panel-heading{
@@ -384,6 +417,10 @@ body{
       margin-bottom: 10px;
     }
 
+
+    .load-more{
+      border-radius: 0 0 5px 5px;
+    }
     //Wiki InfoBox Custom Class Styles
 
     #coordinates{
@@ -399,7 +436,7 @@ body{
   transition: all 0.2s ease-in-out;
 
   &:hover{
-    box-shadow: 2px 3px 5px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 1px 3px 5px 3px rgba(0, 0, 0, 0.25);
   }
 
   .img-container {
@@ -432,10 +469,12 @@ body{
 }
 
 .pagination-group{
+  margin-bottom: 25px;
+
   .btn{
     padding: 6px 18px;
     background: #f3f4f5;
-    border-color: #dedede !important;
+    border-color: #e6e6e6 !important;
   }
   .btn.active, .btn:hover{
     background: #009688;

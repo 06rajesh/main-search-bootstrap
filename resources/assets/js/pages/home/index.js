@@ -33,7 +33,7 @@ export default class Home extends Component {
                     <Row className="vertical-center">
                         <Col md={8} mdOffset={2} className="center-align">
                             <Fade in={this.state.logoLoaded}>
-                                <Image src="http://a2i.pipilika.com/img/logo.png" style={styles.centerLogo} height="82.5" onLoad={() => this.setState({logoLoaded: true})}/>
+                                <Image src="/img/logo.png" style={styles.centerLogo} height="82.5" onLoad={() => this.setState({logoLoaded: true})}/>
                             </Fade>
                             <Fade in={this.state.mounted}>
                                 <SearchInput size='large'/>

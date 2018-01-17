@@ -8,10 +8,10 @@ import {decode} from 'html-encoder-decoder';
 import { connect } from 'react-redux';
 import jquery from 'jquery';
 window.$ = window.jQuery = jquery;
-import {Jumbotron, Col, Row, Panel, ListGroup, ListGroupItem} from 'react-bootstrap';
+import {Jumbotron, Col, Row, Panel, ListGroup, ListGroupItem, Button} from 'react-bootstrap';
 import {CollapsablePanel} from './Utilites';
 
-import {ParseHtmlTable} from '../libs/common';
+import {ProcessInfoBox} from '../libs/common';
 import {fetchInfobox} from '../actions/infoboxActions';
 import {Fade} from './Animations';
 import {Loader} from './Utilites';
@@ -70,15 +70,15 @@ class InfoBoxImage extends Component{
                                 <a href={this.props.url} target="_blank">
                                     <div className="title" id="title" ref="titleText" style={{'fontSize' : this.state.fontSize + 'px'}}>{title}</div>
                                 </a>
-                                {/*<div className="caption">{info.image.caption}</div>*/}
+                                <div className="caption">{info.image.caption}</div>
                             </div>
                         </Col>
                     </Row>
                 </div>
             );
-        }else if(info.title){
+        }else if(title){
             return(
-                <div className="jumbotron-photo" style={{minHeight: '70px'}}>
+                <div className="jumbotron-photo" style={{minHeight: '70px', backgroundColor: '#8CC152'}}>
                     <div className="title-cont" id="title-container">
                         <a href={this.props.url} target="_blank">
                             <div className="title" id="title" ref="imeInput" style={{'fontSize' : this.state.fontSize + 'px'}}>{title}</div>
@@ -86,6 +86,8 @@ class InfoBoxImage extends Component{
                     </div>
                 </div>
             );
+        }else{
+            return(<span/>)
         }
     }
 }
@@ -96,11 +98,13 @@ class Infobox extends Component{
         super(props);
         this.state = {
             query: '',
+            expanded: false,
             info : {},
             infoReady: false
         };
 
         this.fetchInfoBox = this.fetchInfoBox.bind(this);
+        this.renderSecondary = this.renderSecondary.bind(this);
     }
 
     componentDidMount(){
@@ -111,12 +115,13 @@ class Infobox extends Component{
 
     componentWillReceiveProps(nextProps){
 
-        if(nextProps.query && nextProps.query != this.state.query){
+        if(nextProps.query && nextProps.query != this.state.query && !nextProps.infoBox.fetching){
             this.fetchInfoBox(nextProps.query);
         }
 
         if(nextProps.infoBox.results){
-            let data = ParseHtmlTable(nextProps.infoBox.results);
+            let data = ProcessInfoBox(nextProps.infoBox.results);
+
             this.setState({
                     info: data
                 }, () => {
@@ -136,31 +141,17 @@ class Infobox extends Component{
         });
     }
 
-    renderSecondary(info){
-
-        let iterSecondaryItem = (secondary) => {
-            return secondary.map((item, index) => {
-                if(item && typeof item === 'string'){
-                    let htmlCode;
-
-                    try{
-                        htmlCode = decode(item);
-                    }catch(e){
-                        htmlCode = item;
-                    }
-
-                    return(
-                        <ListGroupItem key={index}><div className="panel-title" dangerouslySetInnerHTML={{__html: htmlCode}}/></ListGroupItem>
-                    );
-                }
-            })
-        };
-
-        if(info.secondary && info.secondary.length > 0){
+    renderSecondary(){
+        if(this.state.info.hasSecondary){
             return(
-                <ListGroup>
-                    {iterSecondaryItem(info.secondary)}
-                </ListGroup>
+                <div>
+                    <Panel collapsible expanded={this.state.expanded}>
+                        <div dangerouslySetInnerHTML={{__html: decode(this.state.info.secondary)}}/>
+                    </Panel>
+                    <Button bsStyle="success" className="load-more" block onClick={() => {this.setState({expanded: !this.state.expanded})}}>
+                        {this.state.expanded ? 'কম দেখুন' : 'আরও দেখুন'}
+                    </Button>
+                </div>
             );
         }
     }
@@ -223,12 +214,11 @@ class Infobox extends Component{
                     <Jumbotron className="info-box">
                         <InfoBoxImage info={this.state.info} title={this.props.infoBox.title} url={this.props.infoBox.url}/>
                         <div className="jumbotron-contents">
-                            {this.renderSecondary(this.state.info)}
-                            {this.renderAttributes(this.state.info)}
+                            <div dangerouslySetInnerHTML={{__html: decode(this.state.info.table)}}/>
+                            {this.renderSecondary()}
                         </div>
                     </Jumbotron>
                 </Fade>
-                //<Jumbotron className="info-box" dangerouslySetInnerHTML={{__html: decode(this.state.info)}}/>
             );
         }else if(this.props.infoBox.fetching){
             return(

@@ -48,6 +48,99 @@ function getProcessedText(cells, formatImage = false){
     return encode(modifiedCells.innerHTML);
 }
 
+function rowMiddleware(row) {
+    let modifiedRow = removeElementByTag(row, 'sup');
+
+    if(checkIfHasElementByTag(modifiedRow, 'a')){
+        let targetElements = modifiedRow.getElementsByTagName('a');
+        if(targetElements.length > 0){
+            for (let index = targetElements.length - 1; index >= 0; index--) {
+                targetElements[index].setAttribute('target', '_blank');
+            }
+        }
+    }
+    return modifiedRow;
+}
+
+/**
+ * converts Wikipedia Infobox to JsonObject Divided into Images, titles and two different tables
+ * @param  encodedHtml Encoded String of Wikipedia Infobox from JSon
+ * @return {data} JSON Object of infobox table
+ */
+
+
+export function ProcessInfoBox(encodedHtml) {
+    let data = {};
+
+    let htmlString = decode(encodedHtml);
+    let trimmed = htmlString.replace(/(\r\n|\n|\r)/gm,"");
+    const parser = new DOMParser();
+    let doc = parser.parseFromString(trimmed, "text/html");
+
+    let table = doc.getElementsByTagName('table')[0];
+
+    if(table.getElementsByTagName('caption').length > 0){
+        data['title'] = table.getElementsByTagName('caption')[0].innerText;
+    }
+
+    if(table.rows.length == 0)
+        return data;
+
+    let tempTable = document.createElement('table');
+    let secondaryTable = document.createElement('table');
+
+    tempTable.classList.add('pipilika-info');
+    secondaryTable.classList.add('pipilika-info');
+
+    let hideFrom = 8;
+    let hideNumUpdated = false;
+    let hasSecondary = false;
+
+    arrayFy(table.rows).map((row, index) => {
+        if(row.cells.length == 1){
+
+            if(row.cells[0].tagName.toUpperCase() == 'TH' && !data['title']){
+                data['title'] = row.cells[0].innerText;
+            }else if(row.cells[0].getElementsByTagName('img').length > 0 && !data['image']) {
+                let imageObject = row.cells[0].getElementsByTagName('img')[0];
+
+                let image = {};
+                image['src'] = imageObject.src;
+                image['alt'] = imageObject.alt;
+                image['caption'] = row.cells[0].innerText;
+                data['image'] = image;
+            }else{
+                if(row.cells[0].innerHTML.length > 0){
+                    row.cells[0].classList.add('text-center');
+                    if(row.cells[0].tagName.toUpperCase() == 'TH' && !hideNumUpdated){
+                        if(hideFrom - index < 2){
+                            hideFrom = index-1;
+                            hideNumUpdated = true;
+                        }
+                    }
+                    tempTable.append(rowMiddleware(row));
+                }
+            }
+        } else{
+            tempTable.append(rowMiddleware(row));
+        }
+    });
+    hideFrom = hideFrom - 2;
+
+
+    arrayFy(tempTable.rows).map((row, index) => {
+        if(index > hideFrom){
+            secondaryTable.append(row);
+        }
+    });
+
+    data['table'] = tempTable.outerHTML;
+    data['secondary'] = secondaryTable.outerHTML;
+    data['hasSecondary'] = (secondaryTable.rows.length > 0);
+
+    return data;
+}
+
 
 
 /**
@@ -196,8 +289,14 @@ export function convertNumberToBengali(num) {
     for(let i=0; i < numString.length; i++){
         if(numberDict.hasOwnProperty(numString[i])){
             bengaliNum += numberDict[numString[i]];
+        }else{
+            bengaliNum += numString[i];
         }
     }
 
     return bengaliNum;
+}
+
+export function numberWithCommas(x){
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

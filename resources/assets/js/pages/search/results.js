@@ -60,11 +60,9 @@ class Results extends Component{
     renderPostList(results, total){
         if(total > 0 && results.length > 0){
             return results.map((result, index) => {
-                if(result.doc_type == 'html') {
-                    return (
-                        <ResultItem result={result} key={result.id} delay={index}/>
-                    );
-                }
+                return (
+                    <ResultItem result={result} key={index} delay={index}/>
+                );
             });
         }else{
             return(

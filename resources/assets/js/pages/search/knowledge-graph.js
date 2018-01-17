@@ -30,11 +30,10 @@ class KnowledgeGraph extends Component{
         this.fetchItems = this.fetchItems.bind(this);
         this.renderKnowledgeItems = this.renderKnowledgeItems.bind(this);
         this.itemClick = this.itemClick.bind(this);
-
-        console.log(this.props);
     }
 
     componentWillReceiveProps(nextProps){
+
         if(nextProps.hasKnowledgeGraph && nextProps.url != this.state.url){
             this.setState({url: nextProps.url, fetched: false});
             this.fetchItems(nextProps.url);
