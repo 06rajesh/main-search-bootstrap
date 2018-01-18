@@ -12,12 +12,12 @@
      বিশ্লেষণ ও অনুসন্ধানের উপর গুরুত্ব দেয়ার চেষ্টা করেছি।" />
     <meta name="keywords" content="pipilika, পিপীলিকা, search, অনুসন্ধান, bangladesh, বাংলাদেশ, dhaka, ঢাকা,  business, ব্যবসা ও বাণিজ্য, politics, sports, খেলাধূলা, technology, তথ্য ও
     প্রযুক্তি,  health, national infokosh, bangla, ই-তথ্যকোষ,  news, সংবাদ, bengali, companies, bangla spell check, bangla search engine, বাংলা সার্চ ইঞ্জিন" />
-    <link href="{{asset('css/app.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet" type="text/css">
 
 </head>
 <body>
 <div id="pipilika" class="full-height"></div>
-<script src="{{asset('js/rangy/rangy-core.js')}}" ></script>
-<script src="{{asset('js/app.js')}}" ></script>
+<script src="{{ asset('js/rangy/rangy-core.js')}}" ></script>
+<script src="{{ mix('js/app.js')}}" ></script>
 </body>
 </html>
