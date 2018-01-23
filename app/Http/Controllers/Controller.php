@@ -63,5 +63,20 @@ class Controller extends BaseController
         return (array)json_decode($obj);
     }
 
+    public function getUserIP(){
+
+
+        $geo_ip = geoip()->getClientIP();
+        $geo_loc = geoip()->getLocation($geo_ip);
+
+        $ip = array(
+            'ip' => $geo_ip,
+            "iso_code" => $geo_loc->iso_code,
+            "country" => $geo_loc->country,
+            "city" => $geo_loc->city
+        );
+        return $ip;
+    }
+
 
 }

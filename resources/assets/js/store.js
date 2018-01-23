@@ -12,7 +12,11 @@ import promise from 'redux-promise-middleware';
 import {responsiveStoreEnhancer} from 'redux-responsive';
 import reducer from './reducers';
 
-const middleware = applyMiddleware(promise(), thunk, /*logger()*/);
+const middleware = applyMiddleware(
+                    promise(),
+                    thunk,
+                    //logger()
+                );
 
 const store = createStore(reducer, middleware, responsiveStoreEnhancer);
 

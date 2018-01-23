@@ -23,19 +23,19 @@ const services = [
         name: 'Pipilika Latest News',
         icon: 'news',
         url: 'https://news.pipilika.com',
-        caption: 'খুঁজে নিন আপনার প্রয়োজনীয় সকল পণ্য এক সাইটেই'
+        caption: ''
     },
     {
         name: 'Pipilika Library Search',
         icon: 'library',
-        url: 'https://product.pipilika.com',
-        caption: 'খুঁজে নিন আপনার প্রয়োজনীয় সকল পণ্য এক সাইটেই'
+        url: 'https://library.pipilika.com',
+        caption: ''
     },
     {
         name: 'Pipilika A2I Search',
         icon: 'check-list',
         url: 'https://a2i.pipilika.com',
-        caption: 'খুঁজে নিন আপনার প্রয়োজনীয় সকল পণ্য এক সাইটেই'
+        caption: ''
     }
 ];
 

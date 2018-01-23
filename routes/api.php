@@ -21,3 +21,4 @@ Route::get('/search', 'Controller@queryTOAPI');
 Route::get('/infobox', 'Controller@getWikiInfoBox');
 Route::get('/knowledge', 'Controller@getKnowledgeGraph');
 Route::get('/suggestions', 'Controller@getSuggestion');
+Route::get('/client-ip', 'Controller@getUserIP');

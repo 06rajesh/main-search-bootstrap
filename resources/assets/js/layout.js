@@ -3,9 +3,11 @@
  */
 
 import React, { Component } from 'react';
+
+import RootComponent from './components/analytics/RootComponent';
 import Topbar from './components/Topbar';
 
-export default class Layout extends Component {
+export default class Layout extends RootComponent {
 
     constructor(){
         super();
