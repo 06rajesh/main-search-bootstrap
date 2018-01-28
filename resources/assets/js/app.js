@@ -9,6 +9,7 @@ require('./bootstrap');
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
+import ReactGA from 'react-ga';
 
 import {Router, Route, IndexRoute} from 'react-router';
 
@@ -22,12 +23,21 @@ import Feedback from './pages/feedback';
 import Contact from './pages/contact';
 import {fetchResults} from './actions/searchActions';
 
+ReactGA.initialize('UA-79715104-2');
 let pageData = store.getState().pages.items;
 
 history.listen(location => {
+    ReactGA.pageview(location.pathname);
+
     if(Object.keys(location.query).length > 0){
         let p = location.query.p ? location.query.p : 1;
         window.scrollTo(0, 0);
+
+        ReactGA.event({
+            category: 'Search',
+            action: 'User Search',
+        });
+
         //store.dispatch(resetInfoBox());
         store.dispatch(fetchResults(location.query.q, p));
     }
