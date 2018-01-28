@@ -1,18 +1,17 @@
 /**
- * Created by Rajesh on 1/9/18.
+ * Created by Rajesh on 1/28/18.
  */
 
 import React, { Component } from 'react';
 import {Panel, FormGroup, Form, Row, Col, Button, Alert} from 'react-bootstrap';
-import ReactStars from 'react-stars'
 
-import {sendUserFeedback} from '../../actions/analyticsActions';
+import {sendUserContact} from '../../actions/analyticsActions';
 
 import {Segment, PageHeader, Container} from '../../components/Utilites';
 import {Fade} from '../../components/Animations';
 import Footer from '../../components/Footer';
 
-class Feedback extends Component{
+class Contact extends Component{
 
     constructor(props){
         super(props);
@@ -38,7 +37,7 @@ class Feedback extends Component{
         return(
             <div className="result-page page">
                 <Fade in={this.state.mounted}>
-                    <PageHeader title='মতামত' subtitle=' পিপীলিকা সম্পর্কে আপনার মূল্যবান মতামত জানান'/>
+                    <PageHeader title='যোগাযোগ' subtitle='পিপীলিকা সম্পর্কিত যেকোনো তথ্যের জন্য যোগাযোগ করুন'/>
                     <Segment basic>
                         <Container text>
                             <p>পিঁপড়া বা পিঁপড়ে বা পিপীলিকা হল ফর্মিসিডি (Formicidae) গোত্রের অন্তর্গত সামাজিক কীট বা পোকা। পিঁপড়া এদের ঘনিষ্ঠ প্রজাতি বোলতা ও মৌমাছির মত একই বর্গ হাইমেনপ্টেরার (Hymenoptera) অন্তর্গত। এরা মধ্য-ক্রেটাশাস
@@ -46,7 +45,7 @@ class Feedback extends Component{
                                 [২][৩] কনুই-সদৃশ শুঙ্গ এবং গ্রন্থির মত যে কাঠামো দিয়ে তার সরু কোমড় গঠিত হয় তার মাধ্যমে
                             </p>
                             <br/>
-                            <FeedbackForm/>
+                            <ContactForm/>
                         </Container>
                     </Segment>
                 </Fade>
@@ -56,7 +55,7 @@ class Feedback extends Component{
     }
 }
 
-class FeedbackForm extends Component{
+class ContactForm extends Component{
 
     constructor(props){
         super(props);
@@ -64,12 +63,11 @@ class FeedbackForm extends Component{
         this.state = {
             name: '',
             email: '',
+            site: '',
             message: '',
             alertMessage: null,
             submitting: false,
-            alertType: 'danger',
-            site_star: 0,
-            search_star: 0
+            alertType: 'danger'
         };
 
         this.renderErrorMessage = this.renderErrorMessage.bind(this);
@@ -87,18 +85,6 @@ class FeedbackForm extends Component{
         });
     }
 
-    handleSiteRating(newRating){
-        this.setState({
-            site_star: newRating
-        });
-    }
-
-    handleSearchRating(newRating){
-        this.setState({
-            search_star: newRating
-        });
-    }
-
     clearAlert(){
         this.setState({
             alertMessage: null
@@ -108,7 +94,7 @@ class FeedbackForm extends Component{
     handleSubmit(event){
         event.preventDefault();
         if(!this.state.submitting){
-            let validation = FeedbackForm.validateUserInput(this.state);
+            let validation = ContactForm.validateUserInput(this.state);
             if(!validation.valid){
                 this.setState({
                     alertMessage: validation.message,
@@ -120,17 +106,16 @@ class FeedbackForm extends Component{
                     submitting: true
                 });
 
-                sendUserFeedback(this.state).then((response) => {
+                sendUserContact(this.state).then((response) => {
                     if(response.success){
                         this.setState({
                             name: '',
                             email: '',
                             message: '',
+                            site: '',
                             alertMessage: response.message,
                             alertType: 'success',
-                            submitting: false,
-                            site_star: 0,
-                            search_star: 0
+                            submitting: false
                         });
                     }else{
                         this.setState({
@@ -183,7 +168,7 @@ class FeedbackForm extends Component{
 
     render(){
         return(
-            <Panel header="আপনার মতামত" bsStyle="success">
+            <Panel header="যোগাযোগ করুন" bsStyle="success">
 
                 {this.renderErrorMessage()}
                 <Form onSubmit={this.handleSubmit}>
@@ -203,16 +188,10 @@ class FeedbackForm extends Component{
                     </Row>
 
                     <Row>
-                        <Col sm={6}>
+                        <Col sm={12}>
                             <FormGroup>
-                                <label>Website Rating</label>
-                                <ReactStars count={5} size={36} color2={'#ffd700'} name='site_star' value={this.state.site_star} onChange={this.handleSiteRating.bind(this)}/>
-                            </FormGroup>
-                        </Col>
-                        <Col sm={6}>
-                            <FormGroup>
-                                <label>Search Result Rating</label>
-                                <ReactStars count={5} size={36} color2={'#ffd700'} name="search_star" value={this.state.search_star} onChange={this.handleSearchRating.bind(this)}/>
+                                <label>Domain</label>
+                                <input className="form-control" name="site" value={this.state.site} onChange={this.handleInputChange} placeholder="Enter your Site"/>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -222,7 +201,7 @@ class FeedbackForm extends Component{
                             <FormGroup>
                                 <label>Message</label>
                                 <textarea className="form-control" name = "message" rows='8'
-                                          placeholder="Write Your Opinion Here"
+                                          placeholder="Write Additional Information"
                                           onChange={this.handleInputChange} value={this.state.message}/>
                             </FormGroup>
                         </Col>
@@ -239,7 +218,8 @@ class FeedbackForm extends Component{
     }
 }
 
-export default Feedback;
+export default Contact;
+
 
 
 

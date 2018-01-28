@@ -11,6 +11,7 @@ import {Row, Col} from 'react-bootstrap';
 import {KnowledgeThumb, Loader} from '../../components/Utilites';
 import {MD5} from '../../libs/md5';
 import {Fade} from '../../components/Animations';
+import {sendUserSearch} from '../../actions/analyticsActions';
 import {resetInfoBox} from '../../actions/infoboxActions';
 
 import {history} from '../../store';
@@ -22,7 +23,9 @@ class KnowledgeGraph extends Component{
         this.state = {
             query: '',
             url: '',
+            previousQuery: '',
             fetching: false,
+            itemClicked: false,
             fetched: false,
             items: []
         };
@@ -38,10 +41,30 @@ class KnowledgeGraph extends Component{
             this.setState({url: nextProps.url, fetched: false});
             this.fetchItems(nextProps.url);
         }
+
+        if(this.state.itemClicked && nextProps.total !== this.props.total){
+            let searchAnalytics = {
+                query   : this.props.query,
+                total   : nextProps.total,
+                type    : 'knowledge_graph',
+                previous: this.state.previousQuery
+            };
+
+            sendUserSearch(searchAnalytics);
+
+            this.setState({
+                itemClicked: false
+            });
+        }
     }
 
     itemClick(title){
         this.props.resetInfoBox();
+        this.setState({
+            previousQuery: this.props.query,
+            itemClicked: true
+        });
+
         history.push("/search?q=" + encodeURIComponent(title));
     }
 
@@ -104,6 +127,7 @@ class KnowledgeGraph extends Component{
 function mapStateToProps(store) {
     return {
         query: store.results.query,
+        total: store.results.total,
         url: store.infoBox.url,
         hasKnowledgeGraph: store.infoBox.has_knowledge_graph
     };

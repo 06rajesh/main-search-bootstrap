@@ -12,7 +12,8 @@
      বিশ্লেষণ ও অনুসন্ধানের উপর গুরুত্ব দেয়ার চেষ্টা করেছি।" />
     <meta name="keywords" content="pipilika, পিপীলিকা, search, অনুসন্ধান, bangladesh, বাংলাদেশ, dhaka, ঢাকা,  business, ব্যবসা ও বাণিজ্য, politics, sports, খেলাধূলা, technology, তথ্য ও
     প্রযুক্তি,  health, national infokosh, bangla, ই-তথ্যকোষ,  news, সংবাদ, bengali, companies, bangla spell check, bangla search engine, বাংলা সার্চ ইঞ্জিন" />
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('fonts/fonts.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet" type="text/css"/>
 
 </head>
 <body>

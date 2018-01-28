@@ -22,3 +22,12 @@ Route::get('/infobox', 'Controller@getWikiInfoBox');
 Route::get('/knowledge', 'Controller@getKnowledgeGraph');
 Route::get('/suggestions', 'Controller@getSuggestion');
 Route::get('/client-ip', 'Controller@getUserIP');
+
+//Analytics API
+Route::get('/analytics', 'AnalyticsController@testConnection');
+Route::post('/create-user', 'AnalyticsController@createUser');
+Route::post('/create-session', 'AnalyticsController@createSession');
+Route::post('/send-search', 'AnalyticsController@sendSearchQuery');
+Route::post('/send-activity', 'AnalyticsController@sendUserActivity');
+Route::post('/send-feedback', 'AnalyticsController@sendUserFeedback');
+Route::post('/send-contact', 'AnalyticsController@sendUserContact');

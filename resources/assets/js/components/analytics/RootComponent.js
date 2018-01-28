@@ -5,60 +5,61 @@
 import React, { Component } from 'react';
 import axios from "axios";
 import {MD5} from '../../libs/md5';
-
+import UserInstance from './UserInstance';
+import {startNewSession, addNewUser} from '../../actions/analyticsActions';
 
 export default class RootComponent extends Component {
 
     componentDidMount(){
         let thisUser = localStorage.getItem('userID');
 
+        console.log('Mounted From Root Component');
+
         if(!thisUser){
             RootComponent.getUserData().then(user => {
                 if(user.id){
-                    localStorage.setItem('userID', user.id);
-                    localStorage.setItem('clientIP', user.ip);
+                    UserInstance.setUser(user.id);
                     //API request to save user data
-                    this.setSessions(user.id);
+                    addNewUser(user);
+                    RootComponent.setSession();
                 }
             })
         }else{
-            this.setSessions(thisUser);
+            UserInstance.setUser(thisUser);
+            RootComponent.setSession();
         }
     }
 
-    setSessions(userID){
+    static setSession() {
         let thisSession = sessionStorage.getItem('sessionID');
-
         if(!thisSession){
-            let sessionID = userID + new Date().getTime();
-            sessionStorage.setItem('sessionID', sessionID);
-            console.log("From Session:" +  sessionID);
+            startNewSession();
         }else{
             console.log(thisSession);
+            UserInstance.setSession(thisSession);
         }
+    }
 
+    static getUserData() {
+
+        return axios.get('/api/client-ip')
+            .then((response) =>{
+
+                let userID = MD5(response.data.ip + "_" + response.data.iso_code + "_" + RootComponent.browser() + "_" + RootComponent.detectMob());
+
+                return {
+                    id:   userID,
+                    isMobile: RootComponent.detectMob(),
+                    browser: RootComponent.browser(),
+                    platform: navigator.platform,
+                    ip: response.data.ip,
+                    iso_code: response.data.iso_code,
+                    country: response.data.country,
+                    city: response.data.city
+                };
+            })
     }
 }
-
-RootComponent.getUserData = function () {
-
-    return axios.get('/api/client-ip')
-        .then((response) =>{
-
-            let userID = MD5(response.data.ip + "_" + response.data.iso_code + "_" + RootComponent.browser() + "_" + RootComponent.detectMob());
-
-            return {
-                id:   userID,
-                isMobile: RootComponent.detectMob(),
-                browser: RootComponent.browser(),
-                platform: navigator.platform,
-                ip: response.data.ip,
-                iso_code: response.data.iso_code,
-                country: response.data.country,
-                city: response.data.city
-            };
-        })
-};
 
 RootComponent.detectMob = function () {
     if( navigator.userAgent.match(/Android/i)

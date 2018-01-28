@@ -8,13 +8,17 @@ import { ListGroup, ListGroupItem } from 'react-bootstrap';
 import {Fade} from '../../components/Animations';
 import {Loader} from '../../components/Utilites';
 
+import {sendUserActivity} from  '../../actions/analyticsActions';
+
 class ResultItem extends Component{
 
     constructor(props){
         super(props);
         this.state = {
             mounted: false
-        }
+        };
+
+        this.onResultClick = this.onResultClick.bind(this);
     }
 
     componentDidMount(){
@@ -29,13 +33,30 @@ class ResultItem extends Component{
         });
     }
 
+    onResultClick(resultItem){
+
+        let userActivity = {
+            query    : this.props.query,
+            domain   : resultItem.domain,
+            result_id: resultItem.id,
+            position : resultItem.position,
+            title    : resultItem.title,
+            link     : resultItem.url
+        };
+
+        sendUserActivity(userActivity);
+    }
+
     render(){
         let {result} = this.props;
         return (
             <Fade in={this.state.mounted} delay={this.props.delay * 20}>
                 <ListGroupItem key={result.id} style={styles.resultItem} listItem>
-                    <h4><a href={result.url} target="_blank">{result.title}</a></h4>
-                    <p className="result-url"><a href={result.url} target="_blank"><span className="glyphicon glyphicon-globe"/> {decodeURIComponent(result.url)}</a></p>
+                    <h4><a href={result.url} target="_blank" onClick={() => this.onResultClick(result)}>{result.title}</a></h4>
+                    <p className="result-url">
+                        <a href={result.url} target="_blank" onClick={() => this.onResultClick(result)}>
+                            <span className="glyphicon glyphicon-globe"/> {decodeURIComponent(result.url)}</a>
+                    </p>
                     {/*<p dangerouslySetInnerHTML={{__html: result.content}} style={styles.resultDescription}/>*/}
                     <p style={styles.resultDescription}>{ResultItem.truncateContent(result.content)}</p>
                 </ListGroupItem>
@@ -61,7 +82,7 @@ class Results extends Component{
         if(total > 0 && results.length > 0){
             return results.map((result, index) => {
                 return (
-                    <ResultItem result={result} key={index} delay={index}/>
+                    <ResultItem result={result} key={index} delay={index} query={this.props.query}/>
                 );
             });
         }else{

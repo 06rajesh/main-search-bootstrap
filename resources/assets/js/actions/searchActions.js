@@ -31,3 +31,9 @@ export function setQuery(query) {
         dispatch({type: "SET_QUERY", payload: query});
     }
 }
+
+export function setPreviousQuery(query) {
+    return function(dispatch) {
+        dispatch({type: "SET_PREV_QUERY", payload: query});
+    }
+}

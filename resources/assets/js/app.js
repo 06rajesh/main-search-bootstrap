@@ -19,6 +19,7 @@ import Home from './pages/home';
 import Search from './pages/search';
 import Single from './pages/single';
 import Feedback from './pages/feedback';
+import Contact from './pages/contact';
 import {fetchResults} from './actions/searchActions';
 
 let pageData = store.getState().pages.items;
@@ -38,7 +39,7 @@ function checkIfReloaded() {
     let HugeObj = store.getState();
     if(HugeObj.results.query.length == 0){
         let location = HugeObj.routing.locationBeforeTransitions;
-        if(location.query.q != HugeObj.results.query){
+        if(location.query.q && location.query.q != HugeObj.results.query){
             let p = location.query.p ? location.query.p : 1;
             window.scrollTo(0, 0);
             store.dispatch(fetchResults(location.query.q, p));
@@ -61,6 +62,7 @@ render(
                     })
                 }
                 <Route path='feedback' component={Feedback}/>
+                <Route path='contact' component={Contact}/>
                 <Route path='*' exact={true} component={() => <Single title="404 Error" subtitle="দুঃখিত, আপনার অনুরোধকৃত পৃষ্ঠাটি পাওয়া যায়নি" content="<h5 class='text-center'>Pipilika ব্যবহার করার জন্য ধন্যবাদ</h5>"/>} />
             </Route>
         </Router>

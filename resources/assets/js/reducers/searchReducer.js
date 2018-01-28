@@ -4,6 +4,7 @@ const initialState = {
     queryTime: 0,
     page: 1,
     query: '',
+    prevQuery: '',
     fetching: false,
     fetched: false,
     error: null
@@ -40,6 +41,12 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 query: action.payload
+            };
+
+        case "SET_PREV_QUERY":
+            return{
+                ...state,
+                prevQuery: action.payload
             };
 
         case "REMOVE_ERROR":

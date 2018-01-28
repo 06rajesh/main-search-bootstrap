@@ -9,6 +9,7 @@ import {FormGroup} from 'react-bootstrap';
 
 import { connect } from 'react-redux';
 import {history} from '../store';
+import {sendUserSearch} from '../actions/analyticsActions';
 import {resetInfoBox} from '../actions/infoboxActions';
 
 class SearchInput extends Component {
@@ -18,7 +19,9 @@ class SearchInput extends Component {
 
         this.state = {
             value       : '',
+            previousQuery: '',
             suggestions : [],
+            manualInput: false,
             fetchedSuggestion: false,
             fetchingSuggestions: false
         };
@@ -41,6 +44,19 @@ class SearchInput extends Component {
         if(nextProps.query !== this.props.query){
             this.setState({
                 value: nextProps.query
+            });
+        }
+        if(this.state.manualInput && nextProps.total !== this.props.total){
+            let searchAnalytics = {
+                query   : this.props.query,
+                total   : nextProps.total,
+                type    : 'user_input',
+                previous: this.state.previousQuery
+            };
+
+            sendUserSearch(searchAnalytics);
+            this.setState({
+                manualInput: false
             });
         }
     }
@@ -74,7 +90,13 @@ class SearchInput extends Component {
     handleSubmit(event = null){
         if(event)  event.preventDefault();
         if(this.mounted) this.setState({suggestions: []});
-        if(this.props.query !== this.state.value) this.props.resetInfoBox();
+        if(this.props.query !== this.state.value){
+            this.props.resetInfoBox();
+            this.setState({
+                previousQuery: this.props.query,
+                manualInput: true
+            });
+        }
         history.push("/search?q=" + encodeURIComponent(this.state.value));
     }
 
@@ -122,6 +144,7 @@ const styles = {
 function mapStateToProps(store) {
     return {
         query: store.results.query,
+        total: store.results.total,
         infoBox: store.infoBox
     };
 }
