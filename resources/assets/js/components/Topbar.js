@@ -53,6 +53,11 @@ class Topbar extends Component{
     renderSearchHeader(){
         return(
             <Segment secondary className="no-border-radius top-bar">
+                <Row className="visible-xs visible-sm">
+                    <Col md={12}>
+                        <Image src="/img/logo.png" responsive style = {styles.topImage} onClick={this.goToLink.bind(this, '/')}/>
+                    </Col>
+                </Row>
                 <Row className="flexify">
                     <Col md={12} className="hidden-sm hidden-xs" style={{ 'flex': '0 0 150px'}}>
                         <Image src="/img/logo.png" responsive style = {styles.imageClass} onClick={this.goToLink.bind(this, '/')}/>
@@ -91,6 +96,15 @@ const styles = {
     imageClass: {
         position: 'relative',
         top: '0px'
+    },
+    topImage:{
+        position: 'relative',
+        top: '0px',
+        left: '-20px',
+        height: '50px',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginBottom: '10px'
     },
     dropDownStyle: {
         margin: '5px'

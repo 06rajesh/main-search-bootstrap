@@ -61,6 +61,13 @@ class AnalyticsController extends Controller
         return response((array)$obj['result'], $obj['statusCode']);
     }
 
+    function stopSession(){
+        //return request()->query();
+        error_log('Some message here.');
+        //$obj = $this->queryToAnalytics('session', request()->query(), request()->header('api-key'));
+        //return response((array)$obj['result'], $obj['statusCode']);
+    }
+
     function sendSearchQuery(){
         $obj = $this->queryToAnalytics('query', request()->query(), request()->header('api-key'));
         $this->updateSession(request()->query(), 'user_input');

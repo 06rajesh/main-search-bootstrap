@@ -45,6 +45,24 @@ export function startNewSession() {
     });
 }
 
+export function stopCurrentSession() {
+    let userActivity = {};
+
+    if(UserInstance.hasSession) {
+        userActivity.user = UserInstance.getUser();
+        userActivity.session = UserInstance.getSessoin();
+
+        console.log("Session Will Stop");
+
+        sendToApi('/api/stop-session', userActivity).then((response) => {
+            if(response.data.success){
+                //console.log(response.data);
+            }
+        });
+
+    }
+}
+
 export function addNewUser(userInfo) {
     sendToApi('/api/create-user', userInfo).then((response) => {
         if(response.data.success){

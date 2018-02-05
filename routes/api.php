@@ -27,6 +27,7 @@ Route::get('/client-ip', 'Controller@getUserIP');
 Route::get('/analytics', 'AnalyticsController@testConnection');
 Route::post('/create-user', 'AnalyticsController@createUser');
 Route::post('/create-session', 'AnalyticsController@createSession');
+Route::post('/stop-session', 'AnalyticsController@stopSession');
 Route::post('/send-search', 'AnalyticsController@sendSearchQuery');
 Route::post('/send-activity', 'AnalyticsController@sendUserActivity');
 Route::post('/send-feedback', 'AnalyticsController@sendUserFeedback');

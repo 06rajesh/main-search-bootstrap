@@ -23,7 +23,8 @@ class SearchInput extends Component {
             suggestions : [],
             manualInput: false,
             fetchedSuggestion: false,
-            fetchingSuggestions: false
+            fetchingSuggestions: false,
+            enableIme: true
         };
 
         this.mounted = false;
@@ -58,6 +59,15 @@ class SearchInput extends Component {
             this.setState({
                 manualInput: false
             });
+        }
+        if(nextProps.browser.is.small || nextProps.browser.lessThan.small){
+            if(this.state.enableIme){
+                this.setState({enableIme: false});
+            }
+        }else{
+            if(!this.state.enableIme){
+                this.setState({enableIme: true});
+            }
         }
     }
 
@@ -112,6 +122,7 @@ class SearchInput extends Component {
                         query = {this.props.query}
                         onChange={this.handleChange}
                         onSubmit={this.handleSubmit}
+                        enable = {this.state.enableIme}
                         className="home-search"
                         suggestions = {this.state.suggestions}
                         fetching = {this.state.fetchingSuggestions}
@@ -145,6 +156,7 @@ function mapStateToProps(store) {
     return {
         query: store.results.query,
         total: store.results.total,
+        browser: store.browser,
         infoBox: store.infoBox
     };
 }

@@ -24,19 +24,22 @@ export class ImeInput extends Component{
 
     constructor(props){
         super(props);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.changeOnBlur = this.changeOnBlur.bind(this);
-        this.changeOnFocus = this.changeOnFocus.bind(this);
-        this.toggleInputLanguage = this.toggleInputLanguage.bind(this);
         this.state = {
-            toggle: true,
+            toggle: false,
             value: '',
             cursor: -1,
             suggestions: [],
             onFocus: false
         };
         this.mounted = false;
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.changeOnBlur = this.changeOnBlur.bind(this);
+        this.changeOnFocus = this.changeOnFocus.bind(this);
+        this.toggleInputLanguage = this.toggleInputLanguage.bind(this);
+        this.renderToggleButton = this.renderToggleButton.bind(this);
+        this.enableIme = this.enableIme.bind(this);
     }
 
     componentDidMount() {
@@ -51,10 +54,9 @@ export class ImeInput extends Component{
 
         this.ime.load('bn-avro');
 
+
         setTimeout(() => {
-            this.ime.setLanguage('bn');
-            this.ime.setIM( 'bn-avro' );
-            this.ime.enable();
+            this.enableIme(this.props.enable);
             this.setState({
                 value: this.props.query,
                 suggestions: this.props.suggestions
@@ -81,6 +83,24 @@ export class ImeInput extends Component{
             this.setState({
                 suggestions: nextProps.suggestions
             });
+        }
+
+        if(nextProps.enable !== this.props.enable){
+            this.enableIme(nextProps.enable);
+        }
+    }
+
+    enableIme(enable){
+        if(enable){
+            this.setState({toggle: true});
+            this.ime.setLanguage('bn');
+            this.ime.setIM( 'bn-avro' );
+            this.ime.enable();
+        }else{
+            this.setState({toggle: false});
+            this.ime.setLanguage('en');
+            this.ime.setIM( 'en' );
+            this.ime.enable();
         }
     }
 
@@ -221,6 +241,20 @@ export class ImeInput extends Component{
         }
     }
 
+    renderToggleButton(){
+        if(this.props.enable){
+            return(
+                <div style={styles.toggleButtonStyle}>
+                    <ToggleButton
+                        inactiveLabel={'EN'}
+                        activeLabel={'BN'}
+                        value={ this.state.toggle || false }
+                        onToggle={(value) => this.toggleInputLanguage(value)}/>
+                </div>
+            );
+        }
+    }
+
     render() {
 
         let _props = this.props;
@@ -235,13 +269,7 @@ export class ImeInput extends Component{
                     <input type="text" placeholder={_props.placeholder} value={this.state.value}
                            onKeyDown={ this.handleKeyDown } onChange={this.handleChange}
                            className="ime-input form-control" autoComplete="off" name="q" ref="imeInput"/>
-                    <div style={styles.toggleButtonStyle}>
-                        <ToggleButton
-                            inactiveLabel={'EN'}
-                            activeLabel={'BN'}
-                            value={ this.state.toggle || false }
-                            onToggle={(value) => this.toggleInputLanguage(value)}/>
-                    </div>
+                    {this.renderToggleButton()}
                     <InputGroup.Button>
                         <Button onClick={this.props.onSubmit} bsStyle="success"><Glyphicon glyph="search" /></Button>
                     </InputGroup.Button>

@@ -14,7 +14,9 @@
     প্রযুক্তি,  health, national infokosh, bangla, ই-তথ্যকোষ,  news, সংবাদ, bengali, companies, bangla spell check, bangla search engine, বাংলা সার্চ ইঞ্জিন" />
     <link href="{{ asset('fonts/fonts.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ mix('css/app.css') }}" rel="stylesheet" type="text/css"/>
-
+    <script>
+        window.ga_key = '{{ env('GOOGLE_ANALYTICS_KEY') }}';
+    </script>
 </head>
 <body>
 <div id="pipilika" class="full-height"></div>

@@ -23,11 +23,12 @@ import Feedback from './pages/feedback';
 import Contact from './pages/contact';
 import {fetchResults} from './actions/searchActions';
 
-ReactGA.initialize('UA-79715104-2');
+
+ReactGA.initialize(window.ga_key);
 let pageData = store.getState().pages.items;
 
 history.listen(location => {
-    ReactGA.pageview(location.pathname);
+    ReactGA.pageview(location.pathname + window.location.search);
 
     if(Object.keys(location.query).length > 0){
         let p = location.query.p ? location.query.p : 1;

@@ -6,15 +6,12 @@ import React, { Component } from 'react';
 import axios from "axios";
 import {MD5} from '../../libs/md5';
 import UserInstance from './UserInstance';
-import {startNewSession, addNewUser} from '../../actions/analyticsActions';
+import {startNewSession, stopCurrentSession, addNewUser} from '../../actions/analyticsActions';
 
 export default class RootComponent extends Component {
 
     componentDidMount(){
         let thisUser = localStorage.getItem('userID');
-
-        console.log('Mounted From Root Component');
-
         if(!thisUser){
             RootComponent.getUserData().then(user => {
                 if(user.id){
@@ -28,14 +25,20 @@ export default class RootComponent extends Component {
             UserInstance.setUser(thisUser);
             RootComponent.setSession();
         }
+
+        //window.addEventListener('beforeunload', RootComponent.keepOnPage);
     }
+
+    // componentWillUnmount(){
+    //     window.removeEventListener('beforeunload', RootComponent.keepOnPage);
+    // }
 
     static setSession() {
         let thisSession = sessionStorage.getItem('sessionID');
         if(!thisSession){
             startNewSession();
         }else{
-            console.log(thisSession);
+            //console.log(thisSession);
             UserInstance.setSession(thisSession);
         }
     }
@@ -59,6 +62,13 @@ export default class RootComponent extends Component {
                 };
             })
     }
+
+    // static keepOnPage(e){
+    //     stopCurrentSession();
+    //     let message = 'Warning!\n\nNavigating away from this page will delete your text if you haven\'t already saved it.';
+    //     e.returnValue = message;
+    //     return message;
+    // }
 }
 
 RootComponent.detectMob = function () {
