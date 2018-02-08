@@ -22,7 +22,6 @@ class TopDropdown extends Component{
                     <li><Link to="/about" activeClassName="active">পিপীলিকা সম্পর্কে</Link></li>
                     <li><Link to="/what" activeClassName="active">পিপীলিকা কি?</Link></li>
                     <li><Link to="/feedback" activeClassName="active">মতামত</Link></li>
-                    <li><Link to="/contact" activeClassName="active">যোগাযোগ</Link></li>
                     <MenuItem divider />
                     <li><Link to="https://product.pipilika.com" target="_blank">প্রোডাক্ট সার্চ</Link></li>
                     <li><Link to="https://jobs.pipilika.com" target="_blank">জব সার্চ</Link></li>
