@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta http-equiv="Expires" content="30" />
     <title>পিপীলিকা (সার্চ ইঞ্জিন)</title>
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('img/favicon.ico')}}"/>
     <meta name="description" content="পিপীলিকা বাংলাদেশের প্রথম এবং একমাত্র সার্চ ইঞ্জিন যা বাংলা ও ইংরেজী দুই ভাষাতেই কাজ করতে সক্ষম। এই উন্মুক্ত ওয়েব সার্ভিসটি সারা দেশের সাম্প্রতিক গ্রহণসাধ্য তথ্য অনুসন্ধান করতে সহায়তা করে।
@@ -29,7 +30,7 @@
     </div>
 </div>
 
-<script src="{{ asset('js/rangy/rangy-core.js')}}" ></script>
+<script src="{{ asset('js/rangy/rangy-core.min.js')}}"></script>
 <script src="{{ mix('js/app.js')}}" ></script>
 </body>
 </html>

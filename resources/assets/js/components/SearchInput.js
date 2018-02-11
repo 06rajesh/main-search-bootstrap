@@ -21,7 +21,7 @@ class SearchInput extends Component {
             value       : '',
             previousQuery: '',
             suggestions : [],
-            manualInput: false,
+            manualInput: true,
             fetchedSuggestion: false,
             fetchingSuggestions: false,
             enableIme: true
@@ -63,6 +63,7 @@ class SearchInput extends Component {
                 previous: this.state.previousQuery
             };
 
+            //console.log('search analytics send');
             sendUserSearch(searchAnalytics);
             this.setState({
                 manualInput: false

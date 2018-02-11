@@ -216,7 +216,7 @@ class FeedbackForm extends Component{
                     <Row>
                         <Col xs={12}>
                             <FormGroup>
-                                <label>ম্যাসেজ</label>
+                                <label>মতামত</label>
                                 <textarea className="form-control" name = "message" rows='8'
                                           placeholder="আপনার মূল্যবান মতামত জানান"
                                           onChange={this.handleInputChange} value={this.state.message}/>

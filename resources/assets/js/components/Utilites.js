@@ -33,7 +33,7 @@ export class Container extends Component{
     render(){
         if(this.props.fluid){
             return(
-                <div className={`container-fluid ${this.props.center ? 'text-center' : ''}`}>{this.props.children}</div>
+                <div className={`container-fluid ${this.props.center ? 'text-center' : ''} no-padding`}>{this.props.children}</div>
             );
         }else{
             return(
