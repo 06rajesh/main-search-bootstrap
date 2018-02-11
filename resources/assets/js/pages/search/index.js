@@ -26,22 +26,24 @@ class Search extends Component{
     }
 
     renderTotalResult(){
-        let {total, queryTime} = this.props;
+        let {fetched, total, queryTime} = this.props;
 
-        if(total && total > 0){
-            return(
-                <Col sm={12}>
-                    <p style={{color: '#949494', marginBottom: '25px'}}>
-                        সর্বমোট {convertNumberToBengali(numberWithCommas(this.props.total))} টি ফলাফল পাওয়া গিয়েছে (সময়: {convertNumberToBengali(queryTime/1000)} সেকেন্ড)
-                    </p>
-                </Col>
-            );
-        }else{
-            return(
-                <Col sm={12}>
-                    <p style={{color: '#949494', marginBottom: '25px'}}> কোন ফলাফল পাওয়া যায়নি। (সময়: {convertNumberToBengali(queryTime/1000)} সেকেন্ড)</p>
-                </Col>
-            );
+        if(fetched){
+            if(total && total > 0){
+                return(
+                    <Col sm={12}>
+                        <p style={{color: '#949494', marginBottom: '25px'}}>
+                            সর্বমোট {convertNumberToBengali(numberWithCommas(this.props.total))} টি ফলাফল পাওয়া গিয়েছে (সময়: {convertNumberToBengali(queryTime/1000)} সেকেন্ড)
+                        </p>
+                    </Col>
+                );
+            }else{
+                return(
+                    <Col sm={12}>
+                        <p style={{color: '#949494', marginBottom: '25px'}}> কোন ফলাফল পাওয়া যায়নি। (সময়: {convertNumberToBengali(queryTime/1000)} সেকেন্ড)</p>
+                    </Col>
+                );
+            }
         }
     }
 

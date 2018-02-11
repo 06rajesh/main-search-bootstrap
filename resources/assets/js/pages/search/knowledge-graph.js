@@ -35,9 +35,16 @@ class KnowledgeGraph extends Component{
         this.itemClick = this.itemClick.bind(this);
     }
 
+    componentDidMount(){
+        if(this.state.query == '' && this.props.hasKnowledgeGraph){
+            this.setState({url: this.props.url, fetched: false});
+            this.fetchItems(this.props.url);
+        }
+    }
+
     componentWillReceiveProps(nextProps){
 
-        if(nextProps.hasKnowledgeGraph && nextProps.url != this.state.url){
+        if(nextProps.hasKnowledgeGraph && this.state.url != nextProps.url){
             this.setState({url: nextProps.url, fetched: false});
             this.fetchItems(nextProps.url);
         }
@@ -69,7 +76,6 @@ class KnowledgeGraph extends Component{
     }
 
     fetchItems(query){
-
         this.setState({fetching: true});
         axios.get(`/api/knowledge?url_md5=${MD5(query)}`)
             .then((response) => {

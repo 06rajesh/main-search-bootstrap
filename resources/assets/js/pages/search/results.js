@@ -57,8 +57,7 @@ class ResultItem extends Component{
                         <a href={result.url} target="_blank" onClick={() => this.onResultClick(result)}>
                             <span className="glyphicon glyphicon-globe"/> {decodeURIComponent(result.url)}</a>
                     </p>
-                    {/*<p dangerouslySetInnerHTML={{__html: result.content}} style={styles.resultDescription}/>*/}
-                    <p style={styles.resultDescription}>{ResultItem.truncateContent(result.content)}</p>
+                    <p style={styles.resultDescription} dangerouslySetInnerHTML={{__html: ResultItem.truncateContent(result.content)}}/>
                 </ListGroupItem>
             </Fade>
         );
@@ -66,10 +65,14 @@ class ResultItem extends Component{
 }
 
 ResultItem.truncateContent = function (content) {
-    if(content.length > 350){
-        return content.substring(0, 347) + '...';
+    try {
+        if(content.length > 350){
+            return content.substring(0, 347) + '...';
+        }
+        return content;
+    }catch (err){
+        return '';
     }
-    return content;
 };
 
 

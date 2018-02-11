@@ -35,6 +35,12 @@ class SearchInput extends Component {
 
     componentDidMount(){
         this.mounted = true;
+
+        if(!this.props.onHome){
+            this.setState({
+                value: this.props.query
+            });
+        }
     }
 
     componentWillUnmount(){
@@ -42,11 +48,13 @@ class SearchInput extends Component {
     }
 
     componentWillReceiveProps(nextProps){
+
         if(nextProps.query !== this.props.query){
             this.setState({
                 value: nextProps.query
             });
         }
+
         if(this.state.manualInput && nextProps.total !== this.props.total){
             let searchAnalytics = {
                 query   : this.props.query,
@@ -99,15 +107,21 @@ class SearchInput extends Component {
 
     handleSubmit(event = null){
         if(event)  event.preventDefault();
-        if(this.mounted) this.setState({suggestions: []});
-        if(this.props.query !== this.state.value){
-            this.props.resetInfoBox();
-            this.setState({
-                previousQuery: this.props.query,
-                manualInput: true
-            });
+
+        if(this.state.value.length > 0){
+
+            if(this.mounted) this.setState({suggestions: []});
+
+            if(this.props.query !== this.state.value){
+                this.props.resetInfoBox();
+                this.setState({
+                    previousQuery: this.props.query,
+                    manualInput: true
+                });
+            }
+
+            history.push("/search?q=" + encodeURIComponent(this.state.value));
         }
-        history.push("/search?q=" + encodeURIComponent(this.state.value));
     }
 
     render() {
@@ -119,7 +133,7 @@ class SearchInput extends Component {
                         icon='search'
                         size={this.props.size}
                         placeholder='সার্চ করুন...'
-                        query = {this.props.query}
+                        query = {this.state.value}
                         onChange={this.handleChange}
                         onSubmit={this.handleSubmit}
                         enable = {this.state.enableIme}
@@ -133,12 +147,13 @@ class SearchInput extends Component {
     }
 }
 
-SearchInput.defaultProps = { size: '', className: '', onTop: false};
+SearchInput.defaultProps = { size: '', className: '', onTop: false, onHome: false};
 
 SearchInput.propTypes = {
     size: React.PropTypes.string,
     className: React.PropTypes.string,
-    onTop: React.PropTypes.bool
+    onTop: React.PropTypes.bool,
+    onHome: React.PropTypes.bool
 };
 
 

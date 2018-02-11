@@ -19,7 +19,16 @@
     </script>
 </head>
 <body>
-<div id="pipilika" class="full-height"></div>
+
+<div id="pipilika" class="full-height">
+    <div class="container">
+        <div class="center-align" style="margin-top: calc(14% + 90px)">
+            <img src="/img/ripple.gif" alt="লোড করা হচ্ছে"/>
+            <p class="text-center">লোড করা হচ্ছে ...</p>
+        </div>
+    </div>
+</div>
+
 <script src="{{ asset('js/rangy/rangy-core.js')}}" ></script>
 <script src="{{ mix('js/app.js')}}" ></script>
 </body>

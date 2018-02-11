@@ -108,9 +108,7 @@ class Infobox extends Component{
     }
 
     componentDidMount(){
-        if(this.props.infoBox.query != this.props.query){
-            this.fetchInfoBox(this.props.query);
-        }
+        this.fetchInfoBox(this.props.query);
     }
 
     componentWillReceiveProps(nextProps){

@@ -19,7 +19,7 @@ class TopDropdown extends Component{
                     <Glyphicon glyph="align-justify" />
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="super-colors">
-                    <li><Link to="/about" activeClassName="active">পিপীলিকা সম্পর্কে</Link></li>
+                    {/*<li><Link to="/about" activeClassName="active">পিপীলিকা সম্পর্কে</Link></li>*/}
                     <li><Link to="/what" activeClassName="active">পিপীলিকা কি?</Link></li>
                     <li><Link to="/feedback" activeClassName="active">মতামত</Link></li>
                     <MenuItem divider />

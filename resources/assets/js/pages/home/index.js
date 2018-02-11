@@ -3,13 +3,15 @@
  */
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import {Row, Col, Image} from 'react-bootstrap';
 import SearchInput from '../../components/SearchInput';
 import {Container} from '../../components/Utilites';
 import IconList from '../../components/IconList';
 import {Fade} from '../../components/Animations';
 
-export default class Home extends Component {
+class Home extends Component {
 
     constructor(props){
         super(props);
@@ -36,7 +38,7 @@ export default class Home extends Component {
                                 <Image src="/img/logo.png" style={styles.centerLogo} height="82.5" onLoad={() => this.setState({logoLoaded: true})}/>
                             </Fade>
                             <Fade in={this.state.mounted}>
-                                <SearchInput size='large'/>
+                                <SearchInput size='large' onHome={true}/>
                             </Fade>
                             <IconList/>
                         </Col>
@@ -65,3 +67,11 @@ const styles = {
         top: '-80px'
     }
 };
+
+function mapStateToProps(store) {
+    return {
+        query: store.results.query
+    };
+}
+
+export default connect(mapStateToProps)(Home);
