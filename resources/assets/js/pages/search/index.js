@@ -53,11 +53,11 @@ class Search extends Component{
 
     renderPagination(){
         let page = this.props.page ? this.props.page: 1;
-        let {total, fetched} = this.props;
+        let {total, fetched, browser} = this.props;
 
         if(fetched && total > 20){
             return (
-                <Pagination total={total} page={Number(page)} onClick={this.updatePagination}/>
+                <Pagination total={total} page={Number(page)} onClick={this.updatePagination} onMobile={browser.lessThan.medium}/>
             );
         }
     }
@@ -99,7 +99,8 @@ function mapStateToProps(store) {
         results: store.results.results,
         fetched: store.results.fetched,
         fetching: store.results.fetching,
-        error: store.results.error
+        error: store.results.error,
+        browser: store.browser
     };
 }
 

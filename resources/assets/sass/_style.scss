@@ -9,7 +9,7 @@ body{
 }
 
 .full-height{
-  height: 99%;
+  height: 100%;
 }
 
 .vertical-center {
@@ -559,6 +559,10 @@ ul.footer-nav{
   .home-image{
     background: none;
     display: none;
+  }
+
+  .main-content{
+    min-height: calc(100% - 171px);
   }
 }
 

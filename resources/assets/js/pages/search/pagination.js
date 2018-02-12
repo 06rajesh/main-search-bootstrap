@@ -27,7 +27,8 @@ class Pagination extends Component{
     }
 
     updatePagination(propsVal){
-        let pages = getPaginationArray(propsVal.total, propsVal.range, propsVal.page);
+        let paginationTotal = propsVal.onMobile ? 5 : 9;
+        let pages = getPaginationArray(propsVal.total, propsVal.range, propsVal.page, paginationTotal);
         this.setState({pageArray: pages});
     }
 
@@ -64,12 +65,13 @@ class Pagination extends Component{
     }
 }
 
-Pagination.defaultProps = {total: 0, range: 20, page: 1};
+Pagination.defaultProps = {total: 0, range: 20, page: 1, onMobile: false};
 
 Pagination.propTypes = {
     total: PropTypes.number,
     range: PropTypes.number,
-    page: PropTypes.number
+    page: PropTypes.number,
+    onMobile: PropTypes.boolean
 };
 
 export default Pagination;

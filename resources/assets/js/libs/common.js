@@ -237,16 +237,17 @@ export function ParseHtmlTable(encodedHtml) {
  * @param  total total result for query
  * @param range result range in page
  * @param current page
+ * @param totalPageShow is how many number of page you want to get in your array
  * @return {pages} array for pagination
  */
 
-export function getPaginationArray(total, range, current=1){
+export function getPaginationArray(total, range, current=1, totalPageShow=9){
 
-    let totalPageShow = 9;
     let totalPages = Math.ceil(total/range);
     let pages = [];
+
     if(current < Math.ceil(totalPageShow/2)){
-        let end = totalPages > totalPageShow ? 9 : totalPages;
+        let end = totalPages > totalPageShow ? totalPageShow : totalPages;
         for(let i = 1; i <= end; i++){
             pages.push(i);
         }

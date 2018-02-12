@@ -20,7 +20,7 @@ class TopDropdown extends Component{
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="super-colors">
                     {/*<li><Link to="/about" activeClassName="active">পিপীলিকা সম্পর্কে</Link></li>*/}
-                    <li><Link to="/what" activeClassName="active">পিপীলিকা কি?</Link></li>
+                    <li><Link to="/what" activeClassName="active">পিপীলিকা কী?</Link></li>
                     <li><Link to="/feedback" activeClassName="active">মতামত</Link></li>
                     <MenuItem divider />
                     <li><Link to="https://product.pipilika.com" target="_blank">প্রোডাক্ট সার্চ</Link></li>
