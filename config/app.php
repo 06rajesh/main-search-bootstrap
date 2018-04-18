@@ -67,6 +67,7 @@ return [
 
     'api_base'       => env('API_BASE', 'http://103.84.159.229:9001/PipilikaMainSearchAPI-1.0/search/'),
     'analytics_base' => env('ANALYTICS_BASE', 'http://localhost:3000/'),
+    'query_suggestion_base' => env('QUERY_SUGGESTION_BASE', 'http://pipilika.com:7001/PipilikaA2ISearchAPI/'),
 
     /*
     |--------------------------------------------------------------------------

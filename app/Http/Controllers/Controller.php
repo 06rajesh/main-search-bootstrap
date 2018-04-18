@@ -31,7 +31,6 @@ class Controller extends BaseController
 
     function getDataFromAPI($api_substring, $params = null){
 
-        //$base_uri = 'http://pipilika.com:7001/PipilikaA2ISearchAPI/';
         $base_uri = config('app.api_base');
         $client = new Client(['base_uri' => $base_uri]);
 
@@ -49,7 +48,8 @@ class Controller extends BaseController
 
     public function getSuggestion(){
 
-        $client = new Client(['base_uri' => 'http://pipilika.com:7001/PipilikaA2ISearchAPI/']);
+        $base_url = config('app.query_suggestion_base');
+        $client = new Client(['base_uri' => $base_url]);
 
         $res = $client->get('QuerySuggestion', [
             'query' => [
